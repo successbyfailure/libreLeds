@@ -136,6 +136,11 @@ public:
 
     ledGadGetServer& server()    {return m_server;}
 
+    void initAnimation()
+    {
+        m_ledHardware->initAnimation();
+    }
+
     void sendPeak(float bpm = 0)
     {
         ledGadgetProtocolPacket p;
@@ -170,6 +175,8 @@ public:
             lgc->sendLedGadgetProtocolPacket(p);
         }
     }
+
+
 
 protected:
     ledHardWare*            m_ledHardware;

@@ -70,12 +70,18 @@ void timerCallback(void *pArg)
 }
 
 
+
 EEPROMStorage myEEPROM;
 basicSettings* settingsBasic;
 extraSettings* settingsExtra;
 
 ledController myLedController(&myEEPROM);
 
+void initAnimation(void *pArg)
+{
+    timerCallback(pArg);
+    myLedController.initAnimation();
+}
 
 //Artnet
 ArtnetWifi artnet;
@@ -91,7 +97,9 @@ void onPeak(float bpm)
     myLedController.sendPeak(bpm);
 }
 
-void timer_init() {
+uint16_t intTimer = 0;
+
+void timer_init(uint16_t interval ,void (*fptr)()) {
  /*
   os_timer_setfn - Define a function to be called when the timer fires
 
@@ -109,8 +117,8 @@ void (*functionName)(void *pArg)
 
 The pArg parameter is the value registered with the callback function.
 */
-
-      os_timer_setfn(&myTimer, timerCallback, NULL);
+      intTimer = interval;
+      os_timer_setfn(&myTimer, fptr, NULL);
 
 /*
       os_timer_arm -  Enable a millisecond granularity timer.
@@ -127,7 +135,7 @@ The milliseconds parameter is the duration of the timer measured in milliseconds
 
 */
 
-      os_timer_arm(&myTimer, 1, true);
+      os_timer_arm(&myTimer, interval, true);
 }
 
 void imAlive()
@@ -186,7 +194,7 @@ void manageTimers()
 void setup()
 {
     //    Serial.begin(115200);
-    timer_init();
+    timer_init(50,initAnimation);
     Serial.println("\n\ninit...");
 
     if(myEEPROM.hasBasicSettings())
@@ -220,7 +228,7 @@ void setup()
 
     //myLedController.getledGadget()->setAnimation(animationVUMeter);
     //myLedController.getledGadget()->strobe(50);
-
+    timer_init(50,timerCallback);
     Serial.print("\ninit done! took :");Serial.print(thisCycleMS);Serial.println("ms\n");
     thisCycleMS = 0;
     imAlive();

@@ -124,6 +124,19 @@ public:
       refresh();
     }
 
+    virtual void initAnimation()
+    {
+        uint16_t index = rand() % m_ledArray.size();
+        for(uint i = 0 ; i < m_ledArray.size() ; i++)
+        {
+            if(i == index)
+                getLed(i).white();
+            else
+                getLed(i).dimm();
+        }
+    }
+
+
 protected:
     bool                m_isMatrix = false;
     extraSettings*      m_settings;
