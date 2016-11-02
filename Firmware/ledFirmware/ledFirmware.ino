@@ -2,6 +2,8 @@
 
 #define FASTLED_ESP8266_RAW_PIN_ORDER
 
+#include "hacked_neopixel.h"
+
 #include <gamma.h>
 #include "FastLED.h"
 #include <EEPROM.h>
