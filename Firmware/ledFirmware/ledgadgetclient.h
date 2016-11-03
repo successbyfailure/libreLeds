@@ -87,6 +87,8 @@ public:
     ledGadGetServer(settingsStorage* e) :
         protocolServer(e)
     {
+        if(e->getBasicSettings().serialClient)
+        addSerialClient();
     }
 
     void setLedGadget(ledGadget* l)

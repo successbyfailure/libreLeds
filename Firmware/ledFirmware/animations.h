@@ -7,6 +7,29 @@ extern uint16_t timeSinceLastFrameMS;
 extern uint16_t thisCycleMS;
 
 
+struct bmp_file_header_t {
+  uint16_t signature;
+  uint32_t file_size;
+  uint16_t reserved[2];
+  uint32_t image_offset;
+};
+
+struct bmp_image_header_t {
+  uint32_t header_size;
+  uint32_t image_width;
+  uint32_t image_height;
+  uint16_t color_planes;
+  uint16_t bits_per_pixel;
+  uint32_t compression_method;
+  uint32_t image_size;
+  uint32_t horizontal_resolution;
+  uint32_t vertical_resolution;
+  uint32_t colors_in_palette;
+  uint32_t important_colors;
+};
+
+
+
 static ledGadgetAnimations name2animation(String name)
 {
     if     (name == "Fade")
@@ -19,6 +42,8 @@ static ledGadgetAnimations name2animation(String name)
         return animationStrobe;
     else if(name == "FlashOnPeak")
         return animationFlashOnPeak;
+    else if(name == "Sparks")
+        return animationSparks;
     else if(name == "Cylon")
         return animationCylon;
     else if(name == "ChaoticLight")
@@ -59,6 +84,8 @@ static String animation2name(ledGadgetAnimations a)
         return "Strobe";
     else if(a == animationFlashOnPeak)
         return "FlashOnPeak";
+    else if(a == animationSparks)
+        return "Sparks";
     else if(a == animationCylon)
         return "Cylon";
     else if(a == animationChaoticLight)
@@ -282,7 +309,7 @@ static void paintEQHist(std::vector<CRGB*>& array , uint16_t w, uint16_t h,std::
                 uint16_t index = col+c+(r*w);
                 row.push_back(array[index]);
             }
-            paintVuMeterCentralBar(row,spectrumHist[band][spectrumHist[band].size()-r]);
+            paintVuMeterCentralBar(row,spectrumHist[band][spectrumHist[band].size()-1-r]);
         }
         col+= colcount;
     }
@@ -376,5 +403,28 @@ static void paintRainbow(std::vector<CRGB*>& array, uint16_t& c0)
         c0 += 1;
 }
 
+static void paintSparks(std::vector<CRGB*>& array)
+{
+    uint16_t index0 = rand() % array.size();
+    uint16_t index1 = rand() % array.size();
+    uint16_t index2 = rand() % array.size();
+    uint16_t index3 = rand() % array.size();
+
+    for(uint i = 0 ; i < array.size() ; i++)
+    {
+        if( (i == index0) ||
+            (i == index1) ||
+            (i == index2) ||
+            (i == index3) )
+
+            *array[i] = CRGB(240,240,240);
+        else
+        {
+            array[i]->r *= (rand()%80+40)/100.0f;
+            array[i]->g *= (rand()%80+40)/100.0f;
+            array[i]->b *= (rand()%80+40)/100.0f;
+        }
+    }
+}
 #endif // ANIMATIONS_H
 

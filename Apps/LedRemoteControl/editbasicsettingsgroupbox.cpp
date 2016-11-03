@@ -22,7 +22,8 @@ void editBasicSettingsGroupBox::setClient(protocolClient* c)
             this,SLOT  (loadSettings(basicSettings)));
 
     loadSettings();
-    connect(c,SIGNAL(connectionState(bool))  ,this,SLOT(setEnabled(bool)));
+    connect(c,SIGNAL(connected(bool))   ,this,SLOT(setEnabled(bool)));
+    connect(c,SIGNAL(disconnected(bool)),this,SLOT(setDisabled(bool)));
     connect(ui->btnSave,SIGNAL(clicked(bool)),c,SLOT(saveSettings()));
     connect(ui->btnSend,SIGNAL(clicked(bool)),this,SLOT(sendSettings()));
 }

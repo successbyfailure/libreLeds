@@ -5,6 +5,9 @@
 #include <QTcpSocket>
 #include <QTime>
 #include <QTimer>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
+
 
 #include "../../Firmware/ledFirmware/settings.h"
 #include "../../Firmware/ledFirmware/protocol.h"
@@ -19,9 +22,9 @@ public:
     void close()
     {
         if      (m_serialEnabled)
-            return;//implementame!
+            m_serial.close();
         else if (m_socketEnabled)
-            return m_socket->close();
+            m_socket->close();
     }
 
     bool isOpen()
@@ -43,6 +46,7 @@ protected:
     bool                            m_settingsReceived = false;
     QByteArray                      m_buffer;
     QTcpSocket*                     m_socket;
+    QSerialPort                     m_serial;
     bool                            m_deleteSocket;
     bool                            m_socketEnabled;
     bool                            m_serialEnabled;
@@ -79,11 +83,10 @@ protected:
 
 signals:
     void connecting();
-    void connected();
+    void connected(bool b = true);
     void ready();
-    void disconnected();
+    void disconnected(bool b = true);
     void error();
-    void connectionState(bool);
 
     void tx();
     void rx();
@@ -104,7 +107,7 @@ protected slots:
     void tcpDisconnected();
     void tcpError(QAbstractSocket::SocketError e);
     void serialClosed();
-    void serialError(QAbstractSocket::SocketError e);
+    void serialError(QSerialPort::SerialPortError);
     void socketDied();
 
     void ping();
@@ -116,7 +119,7 @@ protected slots:
 public slots:
     void setTcpSocket(QTcpSocket* s, bool deleteSocket = true);
     void connectToHost(QString host, quint16 port);
-    void OpenSerial(QString device, quint16 bauds);
+    void OpenSerial(QSerialPortInfo device, quint32 bauds);
     void sendSimpleMsg(simpleProtocolMessage msg);
     void sendSimpleMsg(quint16 msgID);
     void sendBasicSettings(basicSettings s);

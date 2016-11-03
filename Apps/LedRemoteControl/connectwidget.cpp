@@ -6,11 +6,16 @@ connectWidget::connectWidget(QWidget *parent) :
     ui(new Ui::connectWidget)
 {
     ui->setupUi(this);
+
+    populateSerialPorts();
+
     clientDisconnected();
 
     connect(ui->btnConnect    ,SIGNAL(clicked(bool)),this,SLOT(connectClient()));
     connect(ui->btnDisconnect ,SIGNAL(clicked(bool)),this,SLOT(disconnectClient()));
     connect(ui->btnShowCommands,SIGNAL(toggled(bool)),ui->basicCommandsgb,SLOT(setVisible(bool)));
+
+    connect(ui->btnRefreshSerial,SIGNAL(clicked(bool)),this,SLOT(populateSerialPorts()));
     ui->basicCommandsgb->hide();
     ui->btnShowCommands->hide();
 }
@@ -80,13 +85,20 @@ void connectWidget::clientError()
 
 void connectWidget::connectClient()
 {
-    if(ui->tabWifi->isActiveWindow())
+    if(ui->tabWifi->isVisible())
     {
         m_client->connectToHost(ui->editIP->text(),ui->editPort->text().toInt());
     }
-    else if(ui->tabSerial->isActiveWindow())
+    else if(ui->tabSerial->isVisible())
     {
-        //m_client->OpenSerial();
+        QString port = ui->comboDevice->currentText();
+        QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();
+        for(int i = 0 ; i < ports.size() ; i++)
+            if(port == ports[i].portName())
+            {
+                m_client->OpenSerial(ports[i],ui->comboSpeed->currentText().toInt());
+                return;
+            }
     }
 
 }
@@ -101,4 +113,13 @@ void connectWidget::socketError(QAbstractSocket::SocketError e)
     qDebug() << "Socket Error" << e;
     m_client->close();
     clientDisconnected();
+}
+
+
+void connectWidget::populateSerialPorts()
+{
+    ui->comboDevice->clear();
+    QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();
+    for(int i = 0 ; i < ports.size() ; i++)
+        ui->comboDevice->addItem(ports[i].portName());
 }

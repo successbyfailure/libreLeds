@@ -151,9 +151,28 @@ public:
         c = 0;
         for(int i = pStart.length() + count ; i < totalBytes  ; i++)
             result[i] = pEnd.charAt(c++);
+        result[totalBytes+1] = 0;
 
+        yield();
         if(m_serialClient && isOpen())
-            Serial.write(result,totalBytes);
+        {
+            int ships = totalBytes/128;
+            int left  = totalBytes%128;
+            for(int i = 0 ; i < ships ; i++)
+            {
+                char* d;
+                d = &result[i*128];
+                Serial.write(d,128);
+                yield();
+            }
+            if(left > 0)
+            {
+                char* d;
+                d = &result[ships*128];
+                Serial.write(d,left);
+                yield();
+            }
+        }
         else if(m_socketClient && isOpen())
             m_socketClient.write(result,totalBytes);
     }
@@ -307,8 +326,8 @@ public:
         m_tcpEnabled(e->getBasicSettings().localPortEnabled),
         TCPserver(e->getBasicSettings().localPort)
     {
-        if(e->getBasicSettings().serialClient)
-            addSerialClient();
+//        if(e->getBasicSettings().serialClient)
+//            addSerialClient();
     }
 
     void addSerialClient()

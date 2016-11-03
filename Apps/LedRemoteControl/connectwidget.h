@@ -3,6 +3,7 @@
 
 #include <QGroupBox>
 #include "protocolclient.h"
+#include <QSerialPortInfo>
 
 namespace Ui {
 class connectWidget;
@@ -21,6 +22,7 @@ private:
     Ui::connectWidget*  ui;
     protocolClient*     m_client;
 
+
 signals:
     void ready();
     void disconnected();
@@ -35,6 +37,8 @@ protected slots:
     void connectClient();
     void disconnectClient();
     void socketError(QAbstractSocket::SocketError);
+    void populateSerialPorts();
+
 };
 
 #endif // CONNECTWIDGET_H

@@ -4,13 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LedRemoteControl
 TEMPLATE = app
-#INCLUDEPATH += ../../Firmware/ledFirmware/
+#INCLUDEPATH += ../depend/qtzeroconf/
 
 SOURCES += main.cpp\
         mainviewwindow.cpp \
@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     animationselectgroupbox.cpp \
     animationframe.cpp \
     spectrumwidget.cpp \
-    gblinkwidget.cpp
+    gblinkwidget.cpp \
+
 
 HEADERS  += mainviewwindow.h \
     sensorswidget.h \
@@ -44,7 +45,8 @@ HEADERS  += mainviewwindow.h \
     animationselectgroupbox.h \
     animationframe.h \
     spectrumwidget.h \
-    gblinkwidget.h
+    gblinkwidget.h \
+
 
 FORMS    += mainviewwindow.ui \
     sensorswidget.ui \

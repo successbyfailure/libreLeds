@@ -1,8 +1,15 @@
 #include "qtcompat.h"
 
+//FASTLED
+#define LED_PIN   D4
+#define LED_CLOCK D3
 #define FASTLED_ESP8266_RAW_PIN_ORDER
 
-#include "hacked_neopixel.h"
+
+#define HIGHFREQCYCLE   1
+#define MEDFREQCYCLE    30
+#define LOWFREQCYCLE    250
+
 
 #include <gamma.h>
 #include "FastLED.h"
@@ -12,9 +19,6 @@
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
 
-//FASTLED
-#define LED_PIN   D4
-#define LED_CLOCK D3
 
 #ifdef ESP8266
 extern "C" {
@@ -40,6 +44,8 @@ extern "C" {
 
 //Interrupcion para contar tiempo
 os_timer_t  myTimer;
+uint16_t    timerInterval      = 0;
+
 uint16_t lastCycleMS           = 0;
 uint16_t thisCycleMS           = 0;
 uint16_t timeSinceLastFrameMS  = 0;
@@ -60,30 +66,25 @@ uint16_t lfLoops = 0;
 uint16_t tcpPackets     = 0;
 uint16_t artnetPackets  = 0;
 
-#define HIGHFREQCYCLE   1
-#define MEDFREQCYCLE    30
-#define LOWFREQCYCLE    250
-
-void timerCallback(void *pArg)
-{
-      thisCycleMS ++;
-      lastFreeMem     = system_get_free_heap_size();
-      if(lastFreeMem < memoryShortageThreshold) memoryShortageHappend = true;
-}
-
-
-
 EEPROMStorage myEEPROM;
 basicSettings* settingsBasic;
 extraSettings* settingsExtra;
 
 ledController myLedController(&myEEPROM);
 
-void initAnimation(void *pArg)
+void timerCallback(void *pArg)
 {
-    timerCallback(pArg);
-    myLedController.initAnimation();
+      thisCycleMS +=timerInterval;
+      lastFreeMem     = system_get_free_heap_size();
+      if(lastFreeMem < memoryShortageThreshold) memoryShortageHappend = true;
 }
+
+void initAnimationCallback(void *pArgs)
+{
+    myLedController.initAnimation();
+    timerCallback(pArgs);
+}
+
 
 //Artnet
 ArtnetWifi artnet;
@@ -99,9 +100,7 @@ void onPeak(float bpm)
     myLedController.sendPeak(bpm);
 }
 
-uint16_t intTimer = 0;
-
-void timer_init(uint16_t interval ,void (*fptr)()) {
+void timer_init(uint16_t interval ,void (*fptr)(void *pArg)) {
  /*
   os_timer_setfn - Define a function to be called when the timer fires
 
@@ -119,7 +118,8 @@ void (*functionName)(void *pArg)
 
 The pArg parameter is the value registered with the callback function.
 */
-      intTimer = interval;
+    os_timer_disarm(&myTimer);
+    timerInterval = interval;
       os_timer_setfn(&myTimer, fptr, NULL);
 
 /*
@@ -148,6 +148,7 @@ void imAlive()
 
     Serial.print("ImAlive! - ");Serial.print(aliveTimer); Serial.print("ms");
     aliveTimer = 0;
+    Serial.print("\tWifiStatus:");Serial.print(WiFi.status());
     Serial.print("\t IPaddr: ");
     if(wifiAPMode)
         Serial.print(WiFi.softAPIP());
@@ -195,8 +196,6 @@ void manageTimers()
 
 void setup()
 {
-    //    Serial.begin(115200);
-    timer_init(50,initAnimation);
     Serial.println("\n\ninit...");
 
     if(myEEPROM.hasBasicSettings())
@@ -214,6 +213,8 @@ void setup()
     myLedController.setup();
     yield();
 
+    timer_init(50,initAnimationCallback);
+
     Serial.println("Init wifi...");
     wifi_init(&myEEPROM);
 
@@ -230,9 +231,19 @@ void setup()
 
     //myLedController.getledGadget()->setAnimation(animationVUMeter);
     //myLedController.getledGadget()->strobe(50);
-    timer_init(50,timerCallback);
+    timer_init(1,timerCallback);
     Serial.print("\ninit done! took :");Serial.print(thisCycleMS);Serial.println("ms\n");
     thisCycleMS = 0;
+
+    if      (WiFi.status() == 3)
+        myLedController.getledGadget()->green(100);
+    else if (WiFi.status() == 0)
+        myLedController.getledGadget()->blue(100);
+    else
+        myLedController.getledGadget()->red(100);
+    myLedController.getledGadget()->fadeToNext();
+
+    myLedController.update();
     imAlive();
 }
 
@@ -244,6 +255,7 @@ void loop()
         myLedController.lfUpdate();
         if(myEEPROM.getBasicSettings().httpUpdaterEnabled)
             updateServer.handleClient();
+        fileServer.handleClient();
         lfLoops++;
         lfCounter = 0;
     }

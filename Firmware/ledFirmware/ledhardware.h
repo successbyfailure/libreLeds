@@ -134,6 +134,7 @@ public:
             else
                 getLed(i).dimm();
         }
+        refresh();
     }
 
 

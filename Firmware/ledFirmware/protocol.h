@@ -27,6 +27,7 @@ enum ledGadgetAnimations
     animationFlash,
     animationStrobe,
     animationFlashOnPeak,
+    animationSparks,
     animationCylon,
     animationChaoticLight,
     animationRainbow,

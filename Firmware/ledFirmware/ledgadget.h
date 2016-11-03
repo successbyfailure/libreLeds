@@ -22,9 +22,9 @@ public:
                 if((i<leds.size()) && (i>= 0)) m_leds.push_back(leds.at(i));
 
         m_animations.push_back(animationNone)           ;m_animations.push_back(animationFade);
-        //m_animations.push_back(animationGlow)           ;m_animations.push_back(animationFlash);
-        m_animations.push_back(animationFlash);
-        m_animations.push_back(animationStrobe)         ;m_animations.push_back(animationCylon);
+        m_animations.push_back(animationFlash)          ;m_animations.push_back(animationStrobe);
+        m_animations.push_back(animationSparks);
+        m_animations.push_back(animationCylon);
         m_animations.push_back(animationChaoticLight)   ;m_animations.push_back(animationRainbow);
         m_settings = s;
         m_peakCallBack = 0;
@@ -122,6 +122,8 @@ public:
             animateFlash();
         else if(m_currentAnimation == animationStrobe)
             animateStrobe();
+        else if(m_currentAnimation == animationSparks)
+            animateSparks();
         else if(m_currentAnimation == animationCylon)
             animateCylon();
         else if(m_currentAnimation == animationChaoticLight)
@@ -268,6 +270,11 @@ protected:
             m_c2 = 1;
             m_c1 = 0;
         }
+    }
+
+    virtual void animateSparks()
+    {
+        paintSparks(m_leds);
     }
 
     virtual void animateCylon()
@@ -438,7 +445,7 @@ public:
         Serial.print("Setting up matrix: w:");Serial.print(m_sizeX);
         Serial.print(" h:");Serial.println(m_sizeY);
         m_matrix = matrix;
-        setAnimation(animationVUMeterHist);
+        m_nextAnimation = animationVUMeterHist;
     }
 
 protected:
@@ -489,11 +496,11 @@ protected:
     void animateVUMeterHist()
     {
         clearLedArray(m_leds);
-        for(int i = 0 ; ( (i < m_matrix->width()) && (i < m_eq.vuHistory().size()) ) ; i++)
+        int i;
+        for(i = 0 ; ( (i < m_matrix->width()) && (i < m_eq.vuHistory().size()) ) ; i++)
         {
             std::vector<CRGB*> col = m_matrix->getCol(i);
-            col = invertLedOrder(col);
-            paintVuMeterCentralBar(col,m_eq.vuHistory()[m_eq.vuHistory().size()-i]);
+            paintVuMeterCentralBar(col,m_eq.vuHistory()[m_eq.vuHistory().size()-1-i]);
         }
     }
 
@@ -531,7 +538,7 @@ protected:
         else
             m_c0++;
 
-        m_matrix->drawText("OSLC V0.1",(60-m_c0),0);
+        m_matrix->drawText("LibreLeds V0.1",(60-m_c0),0);
     }
 
     virtual void animateShowBPM()

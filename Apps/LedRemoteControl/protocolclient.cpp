@@ -14,6 +14,9 @@ protocolClient::protocolClient(QTcpSocket *socket) : QObject(socket)
     connect(&m_pingTimeoutTimer ,SIGNAL(timeout()),SLOT(pingTimeout()));
     connect(this,SIGNAL(connected()),this,SLOT(startPing()));
     connect(this,SIGNAL(disconnected()),this,SLOT(stopPing()));
+
+    connect(&m_serial,SIGNAL(readyRead()),this,SLOT(readSerialData()));
+    connect(&m_serial,SIGNAL(error(QSerialPort::SerialPortError)),this,SLOT(serialError(QSerialPort::SerialPortError)));
 }
 
 protocolClient::~protocolClient()
@@ -23,27 +26,21 @@ protocolClient::~protocolClient()
 
 void protocolClient::connectToHost(QString host, quint16 port)
 {
-    if(m_serialEnabled)
+    if(isOpen())
     {
-        qDebug() << "Client is already in Serial mode, cannot set tcp";
+        qDebug() << "Already open, Close First!";
         return;
     }
+    m_serialEnabled = false;
+    m_socketEnabled = true;
     emit connecting();
-    if(!m_socketEnabled)
-    {
-        deleteSocketIfNecessary();
-        setTcpSocket(new QTcpSocket(),true);
-    }
+    deleteSocketIfNecessary();
+    setTcpSocket(new QTcpSocket(),true);
     m_socket->connectToHost(host,port);
 }
 
 void protocolClient::setTcpSocket(QTcpSocket *s, bool deleteSocket)
 {
-    if(m_serialEnabled)
-    {
-        qDebug() << "Client is already in Serial mode, cannot set tcp";
-        return;
-    }
     deleteSocketIfNecessary();
     m_deleteSocket = deleteSocket;
     m_socket = s;
@@ -55,16 +52,26 @@ void protocolClient::setTcpSocket(QTcpSocket *s, bool deleteSocket)
     connect(s,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(tcpError(QAbstractSocket::SocketError)));
 }
 
-void protocolClient::OpenSerial(QString device, quint16 bauds)
+void protocolClient::OpenSerial(QSerialPortInfo device, quint32 bauds)
 {
-    emit connecting();
-    if(m_socketEnabled)
+    if(isOpen())
     {
-        qDebug() << "Client is already in TCP mode, cannot set Serial";
+        qDebug() << "Already open, Close First!";
         return;
     }
-    emit disconnected();
-    emit connectionState(false);
+    m_serialEnabled = true;
+    m_socketEnabled = false;
+    emit connecting();
+    m_serial.setBaudRate(bauds);
+    m_serial.setPort(device);
+    if(m_serial.open(QIODevice::ReadWrite))
+    {
+        deviceOpened();
+    }
+    else
+    {
+        emit disconnected();
+    }
 }
 
 void protocolClient::deviceOpened()
@@ -82,7 +89,7 @@ void protocolClient::readTcpData()
 
 void protocolClient::readSerialData()
 {
-    //....
+    m_buffer.append(m_serial.readAll());
     emit rx();
     parseBuffer();
 }
@@ -90,13 +97,11 @@ void protocolClient::readSerialData()
 void protocolClient::tcpDisconnected()
 {
     emit disconnected();
-    emit connectionState(true);
 }
 
 void protocolClient::serialClosed()
 {
     emit disconnected();
-    emit connectionState(true);
 }
 
 void protocolClient::tcpError(QAbstractSocket::SocketError e)
@@ -104,15 +109,15 @@ void protocolClient::tcpError(QAbstractSocket::SocketError e)
     qDebug() << "tcp error : " << e;
     m_socket->close();
     emit disconnected();
-    emit connectionState(true);
     emit error();
 }
 
-void protocolClient::serialError(QAbstractSocket::SocketError e)
+void protocolClient::serialError(QSerialPort::SerialPortError e)
 {
+    if(e == QSerialPort::SerialPortError::NoError)
+        return;
     qDebug() << "serial error : " << e;
     emit disconnected();
-    emit connectionState(true);
     emit error();
 }
 
@@ -150,9 +155,10 @@ void protocolClient::writeData(QByteArray& data)
     {
         m_socket->write(data);
     }
-    else if (m_serialEnabled && true)
+    //else if (m_serialEnabled && m_serial.isOpen())
+    else if (m_serialEnabled && m_serial.isOpen())
     {
-        //
+        m_serial.write(data);
     }
     else
     {
@@ -254,7 +260,6 @@ void protocolClient::parseBasicSettings(QByteArray& data)
         emit basicSettingsReceived(result);
         m_basicSettings = result;
         emit ready();
-        emit connectionState(true);
         m_settingsReceived = true;
     }
     else
@@ -362,10 +367,7 @@ void protocolClient::pingTimeout()
 {
     stopPing();
     qDebug() << "ping timeout!";
-    if(m_serialEnabled)
-        serialError(QAbstractSocket::SocketError());
-    else if(m_socketEnabled)
-        tcpError(QAbstractSocket::SocketError());
+    emit disconnected();
     close();
 }
 

@@ -17,7 +17,8 @@ animationSelectGroupbox::~animationSelectGroupbox()
 void animationSelectGroupbox::setClient(ledController *c)
 {
     m_client = c;
-    connect(c,SIGNAL(connectionState(bool))  ,this,SLOT(setEnabled(bool)));
+    connect(c,SIGNAL(connected(bool))   ,this,SLOT(setEnabled(bool)));
+    connect(c,SIGNAL(disconnected(bool)),this,SLOT(setDisabled(bool)));
     connect(c,SIGNAL(ready()),this,SLOT(populate()));
     connect(c,   SIGNAL(animationList(ledGadgetAnimationListPacket)),
             this,SLOT(populate(ledGadgetAnimationListPacket)));
