@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>174</width>
-    <height>341</height>
+    <width>301</width>
+    <height>418</height>
    </rect>
   </property>
   <property name="font">
@@ -20,6 +20,9 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
     <property name="leftMargin">
      <number>0</number>
     </property>
@@ -33,90 +36,10 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QScrollArea" name="scrollArea">
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+     <widget class="ledGadgetServerGB" name="groupBox">
+      <property name="title">
+       <string>GroupBox</string>
       </property>
-      <property name="lineWidth">
-       <number>2</number>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAsNeeded</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAsNeeded</enum>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustToContents</enum>
-      </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_4">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>172</width>
-         <height>300</height>
-        </rect>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,5,6,6,15">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="connectWidget" name="connectW">
-          <property name="title">
-           <string>Connect Tools</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="spectrumWidget" name="gbVuLevels">
-          <property name="title">
-           <string>Audio</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="editBasicSettingsGroupBox" name="gbBasicSettings">
-          <property name="title">
-           <string>Basic Settings</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="editExtraSettingsGroupBox" name="gbExtraSettings">
-          <property name="title">
-           <string>Extra Settings</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="animationSelectGroupbox" name="gbEffects">
-          <property name="title">
-           <string>Effects</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -139,33 +62,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>connectWidget</class>
+   <class>ledGadgetServerGB</class>
    <extends>QGroupBox</extends>
-   <header location="global">connectwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>editBasicSettingsGroupBox</class>
-   <extends>QGroupBox</extends>
-   <header location="global">editbasicsettingsgroupbox.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>editExtraSettingsGroupBox</class>
-   <extends>QGroupBox</extends>
-   <header location="global">editextrasettingsgroupbox.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>animationSelectGroupbox</class>
-   <extends>QGroupBox</extends>
-   <header location="global">animationselectgroupbox.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>spectrumWidget</class>
-   <extends>QGroupBox</extends>
-   <header location="global">spectrumwidget.h</header>
+   <header>ledgadgetservergb.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

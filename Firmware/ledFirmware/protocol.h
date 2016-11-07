@@ -81,6 +81,7 @@ enum ledGadgetProtocol
     cmdSetAnimation,
     rspCurrentAnimation,
     cmdOff,
+    cmdSetColor,
     cmdSetBrigth,
     cmdDimm,
     msgPeak,

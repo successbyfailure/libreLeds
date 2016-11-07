@@ -3,5 +3,9 @@
         <file>icons/connected-icon.png</file>
         <file>icons/connect-icon.png</file>
         <file>icons/connect-error.png</file>
+        <file>icons/lamp.png</file>
+        <file>icons/effects.png</file>
+        <file>icons/wifi.png</file>
+        <file>icons/settings.png</file>
     </qresource>
 </RCC>

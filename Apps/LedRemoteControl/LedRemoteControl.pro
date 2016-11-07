@@ -27,6 +27,10 @@ SOURCES += main.cpp\
     animationframe.cpp \
     spectrumwidget.cpp \
     gblinkwidget.cpp \
+    ledgadgetgroupbox.cpp \
+    lampwidget.cpp \
+    ledgadgetservergb.cpp \
+    ledgadgetclientwidget.cpp
 
 
 HEADERS  += mainviewwindow.h \
@@ -46,6 +50,10 @@ HEADERS  += mainviewwindow.h \
     animationframe.h \
     spectrumwidget.h \
     gblinkwidget.h \
+    ledgadgetgroupbox.h \
+    lampwidget.h \
+    ledgadgetservergb.h \
+    ledgadgetclientwidget.h
 
 
 FORMS    += mainviewwindow.ui \
@@ -58,7 +66,11 @@ FORMS    += mainviewwindow.ui \
     animationselectgroupbox.ui \
     animationframe.ui \
     spectrumwidget.ui \
-    gblinkwidget.ui
+    gblinkwidget.ui \
+    ledgadgetgroupbox.ui \
+    lampwidget.ui \
+    ledgadgetservergb.ui \
+    ledgadgetclientwidget.ui
 
 RESOURCES += \
     resources.qrc

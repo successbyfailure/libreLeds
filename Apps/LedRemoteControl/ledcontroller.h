@@ -3,6 +3,7 @@
 
 #include <QTimer>
 #include <QTime>
+#include <QColor>
 
 #include "protocolclient.h"
 
@@ -27,6 +28,24 @@ void animationList(ledGadgetAnimationListPacket);
 public slots:
     void getAnimations();
     void sendLedGadgetProtocol(ledGadgetProtocolPacket p);
+
+    void flash()
+    {
+        ledGadgetProtocolPacket p;
+        p.cmd = cmdSetAnimation;
+        p.intVal0 = animationFlash;
+        sendLedGadgetProtocol(p);
+    }
+
+    void setColor(QColor c)
+    {
+        ledGadgetProtocolPacket p;
+        p.cmd = cmdSetColor;
+        p.intVal0 = c.red();
+        p.intVal1 = c.green();
+        p.intVal2 = c.blue();
+        sendLedGadgetProtocol(p);
+    }
 };
 
 #endif // LEDCONTROLLER_H
