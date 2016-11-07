@@ -114,8 +114,8 @@ void protocolClient::tcpError(QAbstractSocket::SocketError e)
 
 void protocolClient::serialError(QSerialPort::SerialPortError e)
 {
-    if(e == QSerialPort::SerialPortError::NoError)
-        return;
+//    if(e == QSerialPort::SerialPortError::NoError)
+//        return;
     qDebug() << "serial error : " << e;
     emit disconnected();
     emit error();
