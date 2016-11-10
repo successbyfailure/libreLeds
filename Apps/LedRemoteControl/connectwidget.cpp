@@ -31,6 +31,8 @@ void connectWidget::setClient(protocolClient *c)
     connect(c,SIGNAL(connecting())  ,this,SLOT(clientConnecting()));
     connect(c,SIGNAL(ready())       ,this,SLOT(clientReady()));
     connect(c,SIGNAL(error()),this  ,SLOT(clientError()));
+    if(c->isOpen())
+        clientConnected();
 }
 
 connectWidget::~connectWidget()

@@ -94,6 +94,11 @@ public:
         m_currentAnimation = a;
     }
 
+    virtual void setNextAnimation(ledGadgetAnimations a)
+    {
+        m_nextAnimation = a;
+    }
+
     ledGadgetAnimations currentAnimation() {return m_currentAnimation;}
 
     virtual void resetAnimation()

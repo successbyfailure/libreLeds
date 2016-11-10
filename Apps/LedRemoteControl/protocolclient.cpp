@@ -47,6 +47,8 @@ void protocolClient::setTcpSocket(QTcpSocket *s, bool deleteSocket)
     connect(s,SIGNAL(connected()),this,SLOT(deviceOpened()));
     connect(s,SIGNAL(disconnected()),this,SLOT(tcpDisconnected()));
     connect(s,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(tcpError(QAbstractSocket::SocketError)));
+    if(s->isOpen())
+        deviceOpened();
 }
 
 void protocolClient::OpenSerial(QSerialPortInfo device, quint32 bauds)

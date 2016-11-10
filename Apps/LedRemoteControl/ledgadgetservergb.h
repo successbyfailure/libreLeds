@@ -3,6 +3,7 @@
 
 #include <QGroupBox>
 #include "ledgadgetclientwidget.h"
+#include "ledcontrolerserver.h"
 
 namespace Ui {
 class ledGadgetServerGB;
@@ -19,9 +20,11 @@ public:
 private:
     Ui::ledGadgetServerGB *ui;
     ledGadgetGroupBox*     m_displayedWidget;
+    ledControlerServer     m_server;
 
 protected slots:
     void addWidget(ledGadgetClientWidget *c = 0);
+    void addClient(ledController* lc);
     void showClientWidget(ledGadgetGroupBox* w);
     void hideClientWidget();
     void shownWidgetDestroyed();

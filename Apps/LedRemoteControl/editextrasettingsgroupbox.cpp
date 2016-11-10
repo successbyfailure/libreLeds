@@ -60,16 +60,16 @@ void editExtraSettingsGroupBox::loadSettings(extraSettings s)
     else
         ui->gbMatrix->hide();
 
-    ui->comboLedGadgetType->setCurrentIndex (s.gadgetType);
-    ui->comboLedGadgetType->setCurrentIndex (s.defaultAnimation);
-    ui->spinLedCount->setValue              (s.ledCount);
-    ui->spinBrightness->setValue            (s.ledMaxBright);
-    ui->checkLedReverseOrder->setChecked    (s.ledReversedOrder);
-    ui->checkMatrixZigZag->setChecked       (s.ledMatrixZigZag);
-    ui->spinMatrixX->setValue               (s.ledMatrixXSize);
-    ui->spinMatrixY->setValue               (s.ledMatrixYSize);
-    ui->spinMatrixTX->setValue              (s.ledMatrixXTiles);
-    ui->spinMatrixTY->setValue              (s.ledMatrixYTiles);
+    ui->comboLedGadgetType->setCurrentIndex    (s.gadgetType);
+    ui->comboDefaultAnimation->setCurrentIndex (s.defaultAnimation);
+    ui->spinLedCount->setValue                 (s.ledCount);
+    ui->spinBrightness->setValue               (s.ledMaxBright);
+    ui->checkLedReverseOrder->setChecked       (s.ledReversedOrder);
+    ui->checkMatrixZigZag->setChecked          (s.ledMatrixZigZag);
+    ui->spinMatrixX->setValue                  (s.ledMatrixXSize);
+    ui->spinMatrixY->setValue                  (s.ledMatrixYSize);
+    ui->spinMatrixTX->setValue                 (s.ledMatrixXTiles);
+    ui->spinMatrixTY->setValue                 (s.ledMatrixYTiles);
 
     ui->checkArtnetEnabled->setChecked      (s.artNetEnabled);
     ui->spinStartUniverse->setValue         (s.startUniverse);
@@ -139,11 +139,11 @@ void editExtraSettingsGroupBox::populateComboBoxes()
     ui->comboLedGadgetType->addItems(ledGadgetypes);
 
     QStringList Animations;
-    ledGadgetypes << "animationNone" << "animationDMX" << "animationFade" << "animationGlow" << "animationFlash" << "animationStrobe"
+    Animations    << "animationNone" << "animationDMX" << "animationFade" << "animationGlow" << "animationFlash" << "animationStrobe"
                   << "animationFlashOnPeak" << "animationSparks" << "animationCylon" << "animationChaoticLight"  << "animationRainbow"
                   << "animationVUMeter" << "animationVUMeterCentral" << "animationVUMeterHist" << "animationEQ"  << "animationEQCenter"
                   << "animationEQHist" << "animationScrollText" << "animationShowBPM";
-    ui->comboDefaultAnimation->addItems(ledGadgetypes);
+    ui->comboDefaultAnimation->addItems(Animations);
 }
 
 

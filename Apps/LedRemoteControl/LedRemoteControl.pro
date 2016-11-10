@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     ledgadgetgroupbox.cpp \
     lampwidget.cpp \
     ledgadgetservergb.cpp \
-    ledgadgetclientwidget.cpp
+    ledgadgetclientwidget.cpp \
+    ledcontrolerserver.cpp
 
 
 HEADERS  += mainviewwindow.h \
@@ -53,7 +54,8 @@ HEADERS  += mainviewwindow.h \
     ledgadgetgroupbox.h \
     lampwidget.h \
     ledgadgetservergb.h \
-    ledgadgetclientwidget.h
+    ledgadgetclientwidget.h \
+    ledcontrolerserver.h
 
 
 FORMS    += mainviewwindow.ui \
@@ -74,4 +76,8 @@ FORMS    += mainviewwindow.ui \
 
 RESOURCES += \
     resources.qrc
+
+DISTFILES += \
+    TestForm.ui.qml \
+    Test.qml
 

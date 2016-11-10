@@ -231,11 +231,15 @@ void setup()
     thisCycleMS = 0;
 
     if      (WiFi.status() == 3)
+    {
+        myLedController.server().connectMaster();
         myLedController.getledGadget()->green(100);
+    }
     else if (WiFi.status() == 0)
         myLedController.getledGadget()->blue(100);
     else
         myLedController.getledGadget()->red(100);
+    myLedController.getledGadget()->setNextAnimation(settingsExtra->defaultAnimation);
     myLedController.getledGadget()->fadeToNext();
 
     myLedController.update();

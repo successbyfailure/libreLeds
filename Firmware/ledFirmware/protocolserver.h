@@ -9,6 +9,9 @@
 
 extern uint16_t lastCycleMS;
 extern uint16_t tcpPackets;
+extern uint16_t timeSinceLastFrameMS;
+
+
 extern wMode currentWifiMode;
 
 static std::vector<String> splitStr(String& str,String sep)
@@ -364,7 +367,30 @@ public:
     {
         return m_clients;
     }
+    void connectMaster()
+    {
+        char* remote;
+        uint16_t port;
 
+        if((currentWifiMode == wifiClient  ) && (m_settingsStorage->getBasicSettings().autoConnectRemote))
+        {
+            remote = m_settingsStorage->getBasicSettings().remoteHost;
+            port   = m_settingsStorage->getBasicSettings().remotePort;
+        }else if((currentWifiMode == wifiOverride) && (m_settingsStorage->getBasicSettings().overrideAutoConnectRemote))
+        {
+            remote = m_settingsStorage->getBasicSettings().overrideRemoteHost;
+            port   = m_settingsStorage->getBasicSettings().overrideRemotePort;
+        }
+
+        Serial.print("Connecting to ");Serial.print(remote);
+        Serial.print(":");Serial.print(port);
+        Serial.print("... ");
+        addClient();
+        if(m_clients.at(m_clients.size()-1)->connectToHost(remote,port))
+            Serial.println(" OK!");
+        else
+            Serial.println(" FAIL!");
+    }
 protected:
     std::vector<protocolClient*> m_clients;
 
@@ -376,6 +402,7 @@ protected:
     virtual void addClient(bool serial = false, WiFiClient c = WiFiClient()) = 0;
     virtual void removeClient(uint8_t index)                                 = 0;
 
+
     void checkServerConnection()
     {
         bool tcpConnFound = false;
@@ -386,30 +413,11 @@ protected:
             m_offlineTime = 0;
         else
         {
-            m_offlineTime += lastCycleMS;
-            if(m_offlineTime > 30000)
+            m_offlineTime += timeSinceLastFrameMS;
+            if(m_offlineTime > 15000)
             {
                 m_offlineTime = 0;
-                char* remote;
-                uint16_t port;
-                if(currentWifiMode == wifiClient)
-                {
-                    remote = m_settingsStorage->getBasicSettings().remoteHost;
-                    port   = m_settingsStorage->getBasicSettings().remotePort;
-                }else if(currentWifiMode == wifiOverride)
-                {
-                    remote = m_settingsStorage->getBasicSettings().overrideRemoteHost;
-                    port   = m_settingsStorage->getBasicSettings().overrideRemotePort;
-                }
-
-                Serial.print("Connecting to ");Serial.print(remote);
-                Serial.print(":");Serial.print(port);
-                Serial.print("... ");
-                addClient();
-                if(m_clients.at(m_clients.size()-1)->connectToHost(remote,port))
-                    Serial.println(" OK!");
-                else
-                    Serial.println(" FAIL!");
+                connectMaster();
             }
         }
     }

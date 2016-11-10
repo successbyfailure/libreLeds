@@ -113,7 +113,7 @@ struct ledGadgetAnimationListPacket
 {
     uint8_t              usedEntries                         = 0;
     ledGadgetAnimations  animationID[ANIMATIONLIST_MAXITEMS] = {animationNone};
-    char                 animationName[ANIMATIONLIST_MAXITEMS][ANIMATIONLIST_MAXSTR] = {{NULL}};
+    char                 animationName[ANIMATIONLIST_MAXITEMS][ANIMATIONLIST_MAXSTR] = {{0}};
     uint16_t             magicNumer                          = 626;
 };
 
