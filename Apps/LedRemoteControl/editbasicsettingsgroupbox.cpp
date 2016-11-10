@@ -38,24 +38,34 @@ void editBasicSettingsGroupBox::loadSettings(basicSettings s)
     ui->editID->setText                     (s.id);
     ui->spinDelayTime->setValue             (s.delayTime);
     ui->spinWatchdog->setValue              (s.watchdogTime);
+    ui->spinHfTimer->setValue               (s.highFreqCycleMs);
+    ui->spinMfTimer->setValue               (s.medFreqCycleMs);
+    ui->spinLfTimer->setValue               (s.lowFreqCycleMs);
+
     ui->spinLocalPort->setValue             (s.localPort);
     ui->spinHttpUpdaterPort->setValue       (s.httpUpdatePort);
+    ui->spinHttpPort->setValue              (s.httpPort);
 
     ui->checkHttpUpdateEnabled->setChecked  (s.httpUpdaterEnabled);
+    ui->checkHttpServerEnabled->setChecked  (s.httpServerEnabled);
     ui->checkMdnsEnabled->setChecked        (s.MdnsEnabled);
     ui->checkSerialClient->setChecked       (s.serialClient);
     ui->checkTCPCLientEnabled->setChecked   (s.localPortEnabled);
 
+    ui->comboWifiMode->setCurrentIndex      (s.wifiMode);
+
+    ui->editEssid->setText                  (s.wifiESSID);
+    ui->editPasswd->setText                 (s.wifiPasswd);
     ui->checkremoteEnabled->setChecked      (s.autoConnectRemote);
     ui->editRemoteHost->setText             (QString(s.remoteHost));
     ui->spinRemotePort->setValue            (s.remotePort);
 
-    ui->editEssid->setText                  (s.wifiESSID);
-    ui->editPasswd->setText                 (s.wifiPasswd);
+    ui->checkAllowOverride->setChecked      (s.allowWifiOverride);
     ui->editOEssid->setText                 (s.wifiOverrideESSID);
     ui->editOPasswd->setText                (s.wifiOverridePasswd);
-    ui->comboWifiMode->setCurrentIndex      (s.wifiMode);
-    ui->checkAllowOverride->setChecked      (s.allowWifiOverride);
+    ui->checkOremoteEnabled->setChecked     (s.overrideAutoConnectRemote);
+    ui->editORemoteHost->setText            (QString(s.overrideRemoteHost));
+    ui->spinORemotePort->setValue           (s.overrideRemotePort);
 
     ui->checkStaticIP->setChecked           (s.staticIP);
     ui->spinIP0->setValue                   (s.IP[0]);
@@ -79,27 +89,22 @@ void editBasicSettingsGroupBox::sendSettings()
         else
             s.id[i] = 0;
 
-    s.delayTime      = ui->spinDelayTime->value() ;
-    s.watchdogTime   = ui->spinWatchdog->value() ;
+    s.delayTime       = ui->spinDelayTime->value() ;
+    s.watchdogTime    = ui->spinWatchdog->value() ;
+    s.highFreqCycleMs = ui->spinHfTimer->value();
+    s.medFreqCycleMs  = ui->spinMfTimer->value();
+    s.lowFreqCycleMs  = ui->spinLfTimer->value();
+    s.localPort       = ui->spinLocalPort->value();
+    s.httpUpdatePort  = ui->spinHttpUpdaterPort->value();
+    s.httpPort        = ui->spinHttpPort->value();
 
-    s.localPort      = ui->spinLocalPort->value();
-    s.httpUpdatePort = ui->spinHttpUpdaterPort->value();
-
+    s.httpServerEnabled  = ui->checkHttpServerEnabled->isChecked();
     s.httpUpdaterEnabled = ui->checkHttpUpdateEnabled->isChecked();
     s.MdnsEnabled        = ui->checkMdnsEnabled->isChecked();
     s.serialClient       = ui->checkSerialClient->isChecked();
     s.localPortEnabled   = ui->checkTCPCLientEnabled->isChecked();
 
-    s.autoConnectRemote  = ui->checkremoteEnabled->isChecked();
-
-    for(int i = 0 ; i < 20 ; i++)
-        if(i < ui->editRemoteHost->text().trimmed().toLatin1().count())
-            s.remoteHost[i] = ui->editRemoteHost->text().trimmed().toLatin1().data()[i];
-        else
-            s.remoteHost[i] = 0;
-
-    s.remotePort         = ui->spinRemotePort->value();
-
+    s.wifiMode          = (wMode)ui->comboWifiMode->currentIndex();
 
     for(int i = 0 ; i < 20 ; i++)
         if(i < ui->editEssid->text().count())
@@ -113,6 +118,16 @@ void editBasicSettingsGroupBox::sendSettings()
         else
             s.wifiPasswd[i] = 0;
 
+    s.autoConnectRemote  = ui->checkremoteEnabled->isChecked();
+
+    for(int i = 0 ; i < 20 ; i++)
+        if(i < ui->editRemoteHost->text().trimmed().toLatin1().count())
+            s.remoteHost[i] = ui->editRemoteHost->text().trimmed().toLatin1().data()[i];
+        else
+            s.remoteHost[i] = 0;
+    s.remotePort         = ui->spinRemotePort->value();
+
+    s.allowWifiOverride = ui->checkAllowOverride->isChecked();
     for(int i = 0 ; i < 20 ; i++)
         if(i < ui->editOEssid->text().count())
             s.wifiOverrideESSID[i] = ui->editOEssid->text().trimmed().toLatin1().data()[i];
@@ -125,8 +140,16 @@ void editBasicSettingsGroupBox::sendSettings()
         else
             s.wifiOverridePasswd[i] = 0;
 
-    s.wifiMode          = (wMode)ui->comboWifiMode->currentIndex();
-    s.allowWifiOverride = ui->checkAllowOverride->isChecked();
+    s.overrideAutoConnectRemote  = ui->checkOremoteEnabled->isChecked();
+
+    for(int i = 0 ; i < 20 ; i++)
+        if(i < ui->editORemoteHost->text().trimmed().toLatin1().count())
+            s.overrideRemoteHost[i] = ui->editORemoteHost->text().trimmed().toLatin1().data()[i];
+        else
+            s.overrideRemoteHost[i] = 0;
+
+    s.overrideRemotePort         = ui->spinORemotePort->value();
+
 
     s.staticIP  = ui->checkStaticIP->isChecked();
     s.IP[0]     = ui->spinIP0->value();

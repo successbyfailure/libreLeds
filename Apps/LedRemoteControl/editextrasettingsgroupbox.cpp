@@ -61,6 +61,7 @@ void editExtraSettingsGroupBox::loadSettings(extraSettings s)
         ui->gbMatrix->hide();
 
     ui->comboLedGadgetType->setCurrentIndex (s.gadgetType);
+    ui->comboLedGadgetType->setCurrentIndex (s.defaultAnimation);
     ui->spinLedCount->setValue              (s.ledCount);
     ui->spinBrightness->setValue            (s.ledMaxBright);
     ui->checkLedReverseOrder->setChecked    (s.ledReversedOrder);
@@ -93,6 +94,7 @@ void editExtraSettingsGroupBox::sendSettings()
 
     s.ledhwType          = (ledHardwareType)ui->comboLedHWType->currentIndex();
     s.gadgetType         = (ledGadgetType)ui->comboLedGadgetType->currentIndex();
+    s.defaultAnimation   = (ledGadgetAnimations)ui->comboDefaultAnimation->currentIndex();
     s.ledCount           = ui->spinLedCount->value();
     s.ledMaxBright       = ui->spinBrightness->value();
     s.ledReversedOrder   = ui->checkLedReverseOrder->isChecked();
@@ -131,9 +133,17 @@ void editExtraSettingsGroupBox::populateComboBoxes()
     QStringList hwtypes;
     hwtypes << "hwWS2812Strip" << "hwWS2812Matrix" << "hwAPA102Strip" << "hwAPA102Matrix" ;
     ui->comboLedHWType->addItems(hwtypes);
+
     QStringList ledGadgetypes;
     ledGadgetypes << "gadgetNone" << "gadgetDMX" << "gadgetSpotLed" << "gadgetLedBar" << "gadgetLedCircle" << "gadgetLedWheel" << "gadgetledMatrix";
     ui->comboLedGadgetType->addItems(ledGadgetypes);
+
+    QStringList Animations;
+    ledGadgetypes << "animationNone" << "animationDMX" << "animationFade" << "animationGlow" << "animationFlash" << "animationStrobe"
+                  << "animationFlashOnPeak" << "animationSparks" << "animationCylon" << "animationChaoticLight"  << "animationRainbow"
+                  << "animationVUMeter" << "animationVUMeterCentral" << "animationVUMeterHist" << "animationEQ"  << "animationEQCenter"
+                  << "animationEQHist" << "animationScrollText" << "animationShowBPM";
+    ui->comboDefaultAnimation->addItems(ledGadgetypes);
 }
 
 

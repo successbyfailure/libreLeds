@@ -2,6 +2,7 @@
 #define SETTINGS
 
 #include "qtcompat.h"
+#include "protocol.h"
 
 #define MAXSTRLENGTH 20
 #define ML MAXSTRLENGTH
@@ -30,7 +31,8 @@ enum wMode
 {
     wifiAP,
     wifiClient,
-    wifiMesh
+    wifiMesh,
+    wifiOverride
 };
 
 struct basicSettings
@@ -40,29 +42,40 @@ struct basicSettings
     //Watchdog
     uint16_t watchdogTime           = 2500;
     uint16_t delayTime              = 5;
+    uint16_t highFreqCycleMs        = 1;
+    uint16_t medFreqCycleMs         = 30;
+    uint16_t lowFreqCycleMs         = 250;
+
 
     //Wireless
-    wMode    wifiMode               = wifiAP;
+    wMode    wifiMode               =  wifiAP;
     char     wifiESSID         [ML] = "LedGadget";
     char     wifiPasswd        [ML] = "clubmate";
+    char     remoteHost        [ML] = "ledmaster.local";
+    uint16_t remotePort             =  31416;
+
     char     wifiOverrideESSID [ML] = "AndroidAP"; //Si este ssid esta presente en el arranque se conectara con el.
     char     wifiOverridePasswd[ML] = "clubmate";
-    char     remoteHost        [ML] = "192.168.43.1";
-    uint16_t remotePort             = 31416;
+    char     overrideRemoteHost[ML] = "192.168.43.1";
+    uint16_t overrideRemotePort     =  31416;
+
     uint16_t localPort              = 31416;
     uint16_t httpUpdatePort         = 8080;
+    uint16_t httpPort               = 80;
     uint8_t  IP[4]                  = {2,44,97,150};
     uint8_t  subnet[4]              = {255,255,0,0};
 
-    bool     staticIP               = true;
-    bool     allowWifiOverride      = true;
-    bool     autoConnectRemote      = true;
-    bool     localPortEnabled       = true;
-    bool     httpUpdaterEnabled     = true;
-    bool     MdnsEnabled            = true;
-    bool     serialClient           = false;
+    bool     staticIP                  = false;
+    bool     allowWifiOverride         = true;
+    bool     autoConnectRemote         = false;
+    bool     overrideAutoConnectRemote = true;
+    bool     localPortEnabled          = true;
+    bool     httpUpdaterEnabled        = true;
+    bool     httpServerEnabled         = true;
+    bool     MdnsEnabled               = true;
+    bool     serialClient              = false;
 
-    uint16_t magicNumber            = 31415;//numero de comprobacion para saber que los settings se han leido/transmitido bien.
+    uint16_t magicNumber               = 31415; //numero de comprobacion para saber que los settings se han leido/transmitido bien.
 };
 
 struct extraSettings
@@ -89,6 +102,8 @@ struct extraSettings
     //LedConfig
     ledHardwareType ledhwType   = hwWS2812Strip;
     ledGadgetType   gadgetType  = gadgetLedBar;
+    ledGadgetAnimations
+               defaultAnimation = animationCylon;
     uint16_t ledCount           = 84;
     float    ledMaxBright       = 0.15;
     bool     ledReversedOrder   = false;
@@ -108,4 +123,3 @@ struct extraSettings
 };
 
 #endif // SETTINGS
-

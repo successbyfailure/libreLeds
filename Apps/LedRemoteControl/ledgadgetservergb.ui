@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>454</width>
-    <height>268</height>
+    <width>678</width>
+    <height>408</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,6 +73,13 @@
         </item>
         <item>
          <widget class="QToolButton" name="btnAdd">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Add</string>
           </property>
@@ -106,8 +113,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>436</width>
-           <height>176</height>
+           <width>660</width>
+           <height>304</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -164,6 +171,13 @@
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
         </property>
         <property name="text">
          <string>&lt;--Back</string>

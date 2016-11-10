@@ -5,8 +5,11 @@
 #include "settings.h"
 #include "eepromstorage.h"
 
+
+
 extern uint16_t lastCycleMS;
 extern uint16_t tcpPackets;
+extern wMode currentWifiMode;
 
 static std::vector<String> splitStr(String& str,String sep)
 {
@@ -328,6 +331,7 @@ public:
     {
 //        if(e->getBasicSettings().serialClient)
 //            addSerialClient();
+//esto hay que hacerlo en el heredado!
     }
 
     void addSerialClient()
@@ -347,8 +351,11 @@ public:
     {
         if(m_tcpEnabled)
             manageSocketClients();
-        if(m_settingsStorage->getBasicSettings().autoConnectRemote)
+        if( ((currentWifiMode == wifiClient  ) && (m_settingsStorage->getBasicSettings().autoConnectRemote))
+            ||
+            ((currentWifiMode == wifiOverride) && (m_settingsStorage->getBasicSettings().overrideAutoConnectRemote)) )
             checkServerConnection();
+
         for(int i = 0 ; i < m_clients.size() ; i++)
             m_clients[i]->update();
     }
@@ -383,17 +390,28 @@ protected:
             if(m_offlineTime > 30000)
             {
                 m_offlineTime = 0;
-                addClient();
-                Serial.print("Connecting to ");Serial.print(m_settingsStorage->getBasicSettings().remoteHost);
-                Serial.print(":");Serial.print(m_settingsStorage->getBasicSettings().remotePort);
+                char* remote;
+                uint16_t port;
+                if(currentWifiMode == wifiClient)
+                {
+                    remote = m_settingsStorage->getBasicSettings().remoteHost;
+                    port   = m_settingsStorage->getBasicSettings().remotePort;
+                }else if(currentWifiMode == wifiOverride)
+                {
+                    remote = m_settingsStorage->getBasicSettings().overrideRemoteHost;
+                    port   = m_settingsStorage->getBasicSettings().overrideRemotePort;
+                }
+
+                Serial.print("Connecting to ");Serial.print(remote);
+                Serial.print(":");Serial.print(port);
                 Serial.print("... ");
-                if(m_clients.at(m_clients.size()-1)->connectToHost(m_settingsStorage->getBasicSettings().remoteHost,m_settingsStorage->getBasicSettings().remotePort))
+                addClient();
+                if(m_clients.at(m_clients.size()-1)->connectToHost(remote,port))
                     Serial.println(" OK!");
                 else
                     Serial.println(" FAIL!");
             }
         }
-
     }
 
     void manageSocketClients()

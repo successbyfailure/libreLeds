@@ -14,9 +14,6 @@ protocolClient::protocolClient(QTcpSocket *socket) : QObject(socket)
     connect(&m_pingTimeoutTimer ,SIGNAL(timeout()),SLOT(pingTimeout()));
     connect(this,SIGNAL(connected()),this,SLOT(startPing()));
     connect(this,SIGNAL(disconnected()),this,SLOT(stopPing()));
-
-    connect(&m_serial,SIGNAL(readyRead()),this,SLOT(readSerialData()));
-    connect(&m_serial,SIGNAL(error(QSerialPort::SerialPortError)),this,SLOT(serialError(QSerialPort::SerialPortError)));
 }
 
 protocolClient::~protocolClient()
@@ -66,6 +63,10 @@ void protocolClient::OpenSerial(QSerialPortInfo device, quint32 bauds)
     m_serial.setPort(device);
     if(m_serial.open(QIODevice::ReadWrite))
     {
+        disconnect(&m_serial,SIGNAL(readyRead()),this,SLOT(readSerialData()));
+        disconnect(&m_serial,SIGNAL(error(QSerialPort::SerialPortError)),this,SLOT(serialError(QSerialPort::SerialPortError)));
+        connect(&m_serial,SIGNAL(readyRead()),this,SLOT(readSerialData()));
+        connect(&m_serial,SIGNAL(error(QSerialPort::SerialPortError)),this,SLOT(serialError(QSerialPort::SerialPortError)));
         deviceOpened();
     }
     else

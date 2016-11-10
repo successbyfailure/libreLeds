@@ -4,6 +4,8 @@
 #include "eepromstorage.h"
 #include "qtcompat.h"
 
+wMode currentWifiMode;
+
 ESP8266WebServer updateServer(8080);
 const char* serverIndex = "<form method='POST' action='/update' enctype='multipart/form-data'><input type='file' name='update'><input type='submit' value='Update'></form>";
 bool wifiAPMode = false;
@@ -226,20 +228,24 @@ void startHttpUpdater(uint16_t port)
 
 void wifi_init(settingsStorage* e)
 {
+    Serial.println("Init wifi module...");
     basicSettings s = e->getBasicSettings();
 //    WiFi.mode(WIFI_STA);
 //    WiFi.disconnect();
     bool overmindFound = false;
+    currentWifiMode = s.wifiMode;
     if(s.allowWifiOverride)
     {
+        Serial.print("Searching override network... ");
         int n = WiFi.scanNetworks();
         Serial.print(n);
-        Serial.println(" networks found");
+        Serial.println(" networks found.");
         for (int i = 0; i < n; i++)
         {
             if(WiFi.SSID(i) == s.wifiOverrideESSID)
             {
-                Serial.print("Overmind found, joining..");
+                currentWifiMode = wifiOverride;
+                Serial.print("Overmind found! joining : ");
                 Serial.print(WiFi.SSID(i));
                 Serial.print(" - ");
                 Serial.println(s.wifiOverridePasswd);
@@ -273,7 +279,7 @@ void wifi_init(settingsStorage* e)
       yield();
       WiFi.softAP(s.wifiESSID, s.wifiPasswd);
       wifiAPMode = true;
-      yield();
+      delay(2000);
   } else if(s.wifiMode == wifiClient) {
       Serial.print("WIFI_CLIENT_MODE:");
       Serial.print(s.wifiESSID);
@@ -346,10 +352,15 @@ void wifi_init(settingsStorage* e)
         Serial.println(" to upload hex");
     }
 
-    startHttpFileServer(80);
-    MDNS.addService("http", "tcp", 80);
-
+    if(e->getBasicSettings().httpServerEnabled)
+    {
+        MDNS.addService("http", "tcp", e->getBasicSettings().httpPort);
+        startHttpFileServer(e->getBasicSettings().httpPort);
+        Serial.print("HttpServer ready, Open http://");
+        Serial.print(localIP);
+        Serial.print(":");
+        Serial.println(e->getBasicSettings().httpPort);
+    }
 }
-
 
 #endif // ESPWIFI

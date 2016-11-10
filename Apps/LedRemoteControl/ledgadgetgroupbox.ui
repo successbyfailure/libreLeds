@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
-    <height>403</height>
+    <width>640</width>
+    <height>420</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -246,6 +246,18 @@
       </property>
       <item>
        <widget class="QScrollArea" name="scrollArea_2">
+        <property name="minimumSize">
+         <size>
+          <width>500</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="sizeAdjustPolicy">
+         <enum>QAbstractScrollArea::AdjustToContents</enum>
+        </property>
         <property name="widgetResizable">
          <bool>true</bool>
         </property>
@@ -254,13 +266,19 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>316</width>
-           <height>381</height>
+           <width>498</width>
+           <height>398</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
            <widget class="connectWidget" name="connectW">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="title">
              <string>Connect Tools</string>
             </property>
@@ -294,27 +312,12 @@
             </property>
            </widget>
           </item>
-          <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
-         <zorder>scrollArea</zorder>
          <zorder>gbExtraSettings</zorder>
          <zorder>gbEffects</zorder>
          <zorder>connectW</zorder>
          <zorder>gbBasicSettings</zorder>
          <zorder>gbLamp</zorder>
-         <zorder>verticalSpacer</zorder>
         </widget>
        </widget>
       </item>

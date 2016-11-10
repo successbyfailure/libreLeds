@@ -6,11 +6,6 @@
 #define FASTLED_ESP8266_RAW_PIN_ORDER
 
 
-#define HIGHFREQCYCLE   1
-#define MEDFREQCYCLE    30
-#define LOWFREQCYCLE    250
-
-
 #include <gamma.h>
 #include "FastLED.h"
 #include <EEPROM.h>
@@ -250,24 +245,25 @@ void setup()
 void loop()
 {
 
-    if(lfCounter > LOWFREQCYCLE)
+    if(lfCounter > settingsBasic->lowFreqCycleMs)
     {//Bucle de baja frecuencia
         myLedController.lfUpdate();
         if(myEEPROM.getBasicSettings().httpUpdaterEnabled)
             updateServer.handleClient();
-        fileServer.handleClient();
+        if(myEEPROM.getBasicSettings().httpServerEnabled)
+            fileServer.handleClient();
         lfLoops++;
         lfCounter = 0;
     }
 
-    if(mfCounter > MEDFREQCYCLE)
+    if(mfCounter > settingsBasic->medFreqCycleMs)
     {//Bucle de media frecuencia
         myLedController.mfUpdate();
         mfLoops++;
         mfCounter = 0;
     }
 
-    if(hfCounter > HIGHFREQCYCLE)
+    if(hfCounter > settingsBasic->highFreqCycleMs)
     {//Bucle de alta frecuencia
         if(myEEPROM.getExtraSettings().artNetEnabled)
             artnet.read();
