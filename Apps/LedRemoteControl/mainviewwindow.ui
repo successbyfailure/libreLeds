@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>301</width>
-    <height>418</height>
+    <width>1259</width>
+    <height>563</height>
    </rect>
   </property>
   <property name="font">
    <font>
-    <pointsize>10</pointsize>
+    <pointsize>15</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
     <item>
      <widget class="ledGadgetServerGB" name="groupBox">
       <property name="title">
-       <string>GroupBox</string>
+       <string>Led Server:</string>
       </property>
      </widget>
     </item>

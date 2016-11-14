@@ -6,13 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>819</width>
-    <height>683</height>
+    <width>613</width>
+    <height>843</height>
    </rect>
   </property>
   <property name="font">
    <font>
-    <pointsize>12</pointsize>
+    <pointsize>14</pointsize>
+    <weight>75</weight>
+    <bold>true</bold>
    </font>
   </property>
   <property name="windowTitle">
@@ -45,15 +47,15 @@
       </font>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>813</width>
-        <height>502</height>
+        <width>607</width>
+        <height>648</height>
        </rect>
       </property>
       <attribute name="label">
@@ -111,13 +113,26 @@
            </property>
            <item>
             <widget class="QLabel" name="label">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>AlivePin</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboAlivePin"/>
+            <widget class="QComboBox" name="comboAlivePin">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -140,13 +155,26 @@
            </property>
            <item>
             <widget class="QLabel" name="label_2">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>ledPin</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboLedPin"/>
+            <widget class="QComboBox" name="comboLedPin">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -169,13 +197,26 @@
            </property>
            <item>
             <widget class="QLabel" name="label_3">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>ledClock</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboLedClock"/>
+            <widget class="QComboBox" name="comboLedClock">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -198,13 +239,26 @@
            </property>
            <item>
             <widget class="QLabel" name="label_4">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>SDA</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboSDA"/>
+            <widget class="QComboBox" name="comboSDA">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -227,13 +281,26 @@
            </property>
            <item>
             <widget class="QLabel" name="label_5">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>SCL</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="comboSCL"/>
+            <widget class="QComboBox" name="comboSCL">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -275,6 +342,12 @@
            </property>
            <item>
             <widget class="QLabel" name="label_6">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>eqOut</string>
              </property>
@@ -287,6 +360,12 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
              </property>
             </widget>
            </item>
@@ -311,6 +390,12 @@
            </property>
            <item>
             <widget class="QLabel" name="label_7">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>eqReset</string>
              </property>
@@ -323,6 +408,12 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
              </property>
             </widget>
            </item>
@@ -347,6 +438,12 @@
            </property>
            <item>
             <widget class="QLabel" name="label_8">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>eqStrobe</string>
              </property>
@@ -359,6 +456,12 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
              </property>
             </widget>
            </item>
@@ -383,6 +486,12 @@
            </property>
            <item>
             <widget class="QLabel" name="label_9">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>btn1Pin</string>
              </property>
@@ -395,6 +504,12 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
              </property>
             </widget>
            </item>
@@ -419,6 +534,12 @@
            </property>
            <item>
             <widget class="QLabel" name="label_10">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>btn2pin</string>
              </property>
@@ -431,6 +552,12 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
              </property>
             </widget>
            </item>
@@ -458,8 +585,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>813</width>
-        <height>502</height>
+        <width>607</width>
+        <height>648</height>
        </rect>
       </property>
       <attribute name="label">
@@ -483,6 +610,12 @@
        </property>
        <item>
         <widget class="QCheckBox" name="checkLedReverseOrder">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>ReverseOrder</string>
          </property>
@@ -507,6 +640,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_13">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Led Count</string>
            </property>
@@ -514,6 +653,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinLedCount">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -531,13 +676,26 @@
         <layout class="QHBoxLayout" name="horizontalLayout_18">
          <item>
           <widget class="QLabel" name="label_20">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Default Animation</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboDefaultAnimation"/>
+          <widget class="QComboBox" name="comboDefaultAnimation">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -560,6 +718,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_14">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Brightness</string>
            </property>
@@ -567,6 +731,12 @@
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="spinBrightness">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -590,13 +760,26 @@
          </property>
          <item>
           <widget class="QLabel" name="label_12">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Gadget Type</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboLedGadgetType"/>
+          <widget class="QComboBox" name="comboLedGadgetType">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -607,18 +790,37 @@
          </property>
          <item>
           <widget class="QLabel" name="label_11">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Hardware Type</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboLedHWType"/>
+          <widget class="QComboBox" name="comboLedHWType">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
        <item>
         <widget class="QGroupBox" name="gbMatrix">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="title">
           <string>MatrixConfig</string>
          </property>
@@ -811,7 +1013,7 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>40</height>
+              <height>200</height>
              </size>
             </property>
            </spacer>
@@ -826,8 +1028,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>813</width>
-        <height>502</height>
+        <width>607</width>
+        <height>648</height>
        </rect>
       </property>
       <attribute name="label">
@@ -851,6 +1053,12 @@
        </property>
        <item>
         <widget class="QCheckBox" name="checkArtnetEnabled">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Enabled</string>
          </property>
@@ -863,6 +1071,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_17">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Start Universe</string>
            </property>
@@ -870,6 +1084,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinStartUniverse">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -906,7 +1126,7 @@
       <widget class="QToolButton" name="btnSend">
        <property name="font">
         <font>
-         <pointsize>18</pointsize>
+         <pointsize>25</pointsize>
         </font>
        </property>
        <property name="text">
@@ -924,7 +1144,7 @@
       <widget class="QToolButton" name="btnSave">
        <property name="font">
         <font>
-         <pointsize>18</pointsize>
+         <pointsize>25</pointsize>
         </font>
        </property>
        <property name="text">
@@ -941,8 +1161,6 @@
     </layout>
    </item>
   </layout>
-  <zorder>toolBox</zorder>
-  <zorder>label_14</zorder>
  </widget>
  <resources/>
  <connections/>

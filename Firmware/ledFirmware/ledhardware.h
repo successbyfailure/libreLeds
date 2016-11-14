@@ -69,7 +69,6 @@ public:
     void             setBrightnessF(float f)
     {
         uint8_t p = f*255;
-        Serial.print("BF: ");Serial.print(f);Serial.print(" v:");Serial.println(p);
         setBrightness(p);
     }
 
@@ -158,7 +157,8 @@ public:
             m_ledArray.push_back(&m_leds[i]);
         }
     }
-    virtual void     setBrightness(uint8_t b) {m_strip.setBrightness(b);Serial.print("Bright(i):");Serial.println(b);}
+
+    virtual void     setBrightness(uint8_t b) {m_settings->ledMaxBright = b/255.0f;}
     virtual void     setup()
     {
         m_strip.begin();
@@ -167,6 +167,7 @@ public:
 
     virtual void     refresh()
     {
+        m_strip.setBrightness(m_settings->ledMaxBright*255.0f);
         m_strip.show();
     }
 
@@ -325,7 +326,7 @@ public:
         initZigZagArray();
     }
 
-    virtual void     setBrightness(uint8_t b) {m_matrix.setBrightness(b);}
+    virtual void     setBrightness(uint8_t b) {m_settings->ledMaxBright = b/255.0f;}
 
     virtual void     setup()
     {
@@ -335,6 +336,7 @@ public:
 
     virtual void     refresh()
     {
+        m_matrix.setBrightness(m_settings->ledMaxBright*255.0f);
         m_matrix.show();
     }
 
@@ -362,12 +364,12 @@ public:
         }
     }
 
-    virtual void     refresh()                {FastLED.show();}
-    virtual void     setBrightness(uint8_t b) {LEDS.setBrightness(b);}
-    virtual void     setup()
+    virtual void     setBrightness(uint8_t b) {m_settings->ledMaxBright = b/255.0f;}
+
+    virtual void     refresh()
     {
-        LEDS.addLeds<APA102, LED_PIN,LED_CLOCK,BGR>(m_leds, m_ledCount);
-        setBrightnessF(m_settings->ledMaxBright);
+        FastLED.setBrightness(m_settings->ledMaxBright*255);
+        FastLED.show();
     }
 };
 
@@ -380,8 +382,14 @@ public:
         initZigZagArray();
     }
 
-    virtual void     refresh()                {FastLED.show();}
-    virtual void     setBrightness(uint8_t b) {LEDS.setBrightness(b);}
+    virtual void     setBrightness(uint8_t b) {m_settings->ledMaxBright = b/255.0f;}
+
+    virtual void     refresh()
+    {
+        FastLED.setBrightness(m_settings->ledMaxBright*255);
+        FastLED.show();
+    }
+
     virtual void     setup()
     {
         LEDS.addLeds<APA102, LED_PIN,LED_CLOCK,BGR>(m_leds, m_ledCount);

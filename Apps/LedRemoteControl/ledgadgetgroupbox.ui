@@ -6,9 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>638</width>
-    <height>424</height>
+    <width>818</width>
+    <height>459</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>15</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>GroupBox</string>
@@ -55,7 +60,7 @@
         <x>0</x>
         <y>0</y>
         <width>126</width>
-        <height>398</height>
+        <height>424</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -272,8 +277,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>498</width>
-           <height>396</height>
+           <width>678</width>
+           <height>422</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -300,6 +305,12 @@
               <height>0</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="title">
              <string>Connect Tools</string>
             </property>
@@ -307,6 +318,12 @@
           </item>
           <item>
            <widget class="editBasicSettingsGroupBox" name="gbBasicSettings">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="title">
              <string>Basic Settings</string>
             </property>
@@ -314,6 +331,12 @@
           </item>
           <item>
            <widget class="LampWidget" name="gbLamp">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="title">
              <string>Lamp</string>
             </property>
@@ -321,6 +344,12 @@
           </item>
           <item>
            <widget class="editExtraSettingsGroupBox" name="gbExtraSettings">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="title">
              <string>Extra Settings</string>
             </property>
@@ -328,6 +357,12 @@
           </item>
           <item>
            <widget class="animationSelectGroupbox" name="gbEffects">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="title">
              <string>Effects</string>
             </property>

@@ -6,7 +6,7 @@ ledGadgetClientWidget::ledGadgetClientWidget(ledController* l, QWidget *parent) 
     ui(new Ui::ledGadgetClientWidget)
 {
     ui->setupUi(this);
-    if(l)
+    if(l != 0)
         setClient(l);
     else
         setClient(new ledController());
@@ -30,6 +30,8 @@ void ledGadgetClientWidget::setClient(ledController* l)
     connect(l,SIGNAL(tx()),ui->txWidget,SLOT(tx()));
     connect(l,SIGNAL(rx()),ui->txWidget,SLOT(rx()));
     connect(l,SIGNAL(destroyed(QObject*)),this,SLOT(deleteLater()));
+    connect(l,SIGNAL(ready()),this,SLOT(refreshData()));
+    refreshData();
 }
 
 void ledGadgetClientWidget::view()
@@ -46,4 +48,26 @@ void ledGadgetClientWidget::flash()
 void ledGadgetClientWidget::remove()
 {
     this->deleteLater();
+}
+
+void ledGadgetClientWidget::refreshData()
+{
+    this->setTitle(m_ledGadget->getBasicSettings().id);
+    extraSettings s = m_ledGadget->getExtraSettings();
+
+    if      (s.ledhwType == hwAPA102Strip)
+        ui->labelHwType->setPixmap(QPixmap(":/icons/icons/APA102Strip.png"));
+
+    else if (s.ledhwType == hwAPA102Matrix)
+        ui->labelHwType->setPixmap(QPixmap(":/icons/icons/APA102Matrix.png"));
+
+    else if (s.ledhwType == hwWS2812Strip)
+        ui->labelHwType->setPixmap(QPixmap(":/icons/icons/ws2812Strip.png"));
+
+    else if (s.ledhwType == hwWS2812Matrix)
+        ui->labelHwType->setPixmap(QPixmap(":/icons/icons/ws2812Matrix.png"));
+
+    else
+        ui->labelHwType->setPixmap(QPixmap(":/icons/icons/unknown.png"));
+
 }

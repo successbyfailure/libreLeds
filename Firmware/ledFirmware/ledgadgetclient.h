@@ -3,6 +3,7 @@
 
 #include "protocolserver.h"
 #include "ledgadget.h"
+#include "ledcontroller.h"
 
 class ledGadgetClient : public protocolClient
 {
@@ -53,7 +54,8 @@ public:
     }
 
 protected:
-    ledGadget*  m_ledGadget;
+    ledGadget*      m_ledGadget;
+
 
     void parseLedProtocolPacket(String& str)
     {
@@ -72,10 +74,14 @@ protected:
             m_ledGadget->setAnimation(p);
         else if (p.cmd == cmdOff)
             m_ledGadget->off();
-        else if (p.cmd == cmdSetBrigth)
-            m_ledGadget->setBrigthness(p.floatVal0);
+        else if (p.cmd == cmdSetBright)
+        {
+            m_settingsStorage->getExtraSettings().ledMaxBright = p.intVal0/255.f;
+        }
         else if (p.cmd == cmdDimm)
             m_ledGadget->dimm(p.floatVal0);
+        else if (p.cmd == cmdSetColor)
+            m_ledGadget->setColor(p.intVal0,p.intVal1,p.intVal2);
     }
 
 };

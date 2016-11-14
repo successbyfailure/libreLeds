@@ -37,7 +37,8 @@ public:
 
     virtual void setColor(CRGB ncolor)
     {
-      for(int i = 0 ; i < m_leds.size() ;i++)
+        resetAnimation();
+        for(int i = 0 ; i < m_leds.size() ;i++)
       {
         *m_leds[i] = ncolor;
       }
@@ -45,7 +46,7 @@ public:
 
     virtual void setColor(uint8_t r, uint8_t g, uint8_t b)
     {
-      setColor(CRGB(r,g,b));
+        setColor(CRGB(r,g,b));
     }
 
     virtual void dimm(uint8_t power)

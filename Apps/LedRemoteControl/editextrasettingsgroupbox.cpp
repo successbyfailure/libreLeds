@@ -108,7 +108,7 @@ void editExtraSettingsGroupBox::sendSettings()
     s.startUniverse      = ui->spinStartUniverse->value();
 
     ledGadgetProtocolPacket p;
-    p.cmd = cmdSetBrigth;
+    p.cmd = cmdSetBright;
     p.floatVal0 = s.ledMaxBright;
     m_client->sendLedGadgetProtocol(p);
 
@@ -149,6 +149,9 @@ void editExtraSettingsGroupBox::populateComboBoxes()
 
 void editExtraSettingsGroupBox::updateLedCount()
 {
+    if(!ui->gbMatrix->isVisible())
+        return;
+
     int val = ui->spinMatrixY->value() * ui->spinMatrixX->value() *
             ui->spinMatrixTX->value() * ui->spinMatrixTY->value();
 

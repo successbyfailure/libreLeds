@@ -28,6 +28,7 @@ protected slots:
     void view();
     void flash();
     void remove();
+    void refreshData();
 };
 
 #endif // LEDGADGETCLIENTWIDGET_H

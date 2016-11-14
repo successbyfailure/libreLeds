@@ -23,6 +23,7 @@ void animationSelectGroupbox::setClient(ledController *c)
     connect(c,   SIGNAL(animationList(ledGadgetAnimationListPacket)),
             this,SLOT(populate(ledGadgetAnimationListPacket)));
     connect(ui->btnReload,SIGNAL(clicked(bool)),this,SLOT(reload()));
+    ui->gbEQ->setClient(c);
 
 }
 

@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
-    <height>581</height>
+    <width>559</width>
+    <height>685</height>
    </rect>
   </property>
   <property name="font">
    <font>
-    <pointsize>12</pointsize>
+    <pointsize>14</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -48,6 +48,12 @@
    </property>
    <item>
     <widget class="QGroupBox" name="gbID">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="title">
       <string>ID</string>
      </property>
@@ -69,6 +75,12 @@
       </property>
       <item>
        <widget class="QLineEdit" name="editID">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
         <property name="text">
          <string>Not loaded!(yet)</string>
         </property>
@@ -85,6 +97,12 @@
    </item>
    <item>
     <widget class="QToolBox" name="toolBox">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -93,8 +111,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>491</width>
-        <height>341</height>
+        <width>553</width>
+        <height>387</height>
        </rect>
       </property>
       <attribute name="label">
@@ -123,6 +141,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_9">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Wifi Mode:</string>
            </property>
@@ -138,6 +162,12 @@
            </property>
            <item>
             <widget class="QLabel" name="label_20">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>Essid</string>
              </property>
@@ -159,6 +189,12 @@
            </property>
            <item>
             <widget class="QLabel" name="label_21">
+             <property name="font">
+              <font>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>Passwd</string>
              </property>
@@ -177,6 +213,12 @@
        </item>
        <item>
         <widget class="QGroupBox" name="groupBox">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="title">
           <string>StaticIP</string>
          </property>
@@ -396,6 +438,12 @@
        </item>
        <item>
         <widget class="QCheckBox" name="checkremoteEnabled">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Remote Server:</string>
          </property>
@@ -420,6 +468,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_29">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Host</string>
            </property>
@@ -427,6 +481,12 @@
          </item>
          <item>
           <widget class="QLineEdit" name="editRemoteHost">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>192.168.43.1</string>
            </property>
@@ -447,6 +507,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_30">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Port</string>
            </property>
@@ -454,6 +520,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinRemotePort">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -490,8 +562,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>505</width>
-        <height>320</height>
+        <width>553</width>
+        <height>387</height>
        </rect>
       </property>
       <attribute name="label">
@@ -515,6 +587,12 @@
        </property>
        <item>
         <widget class="QCheckBox" name="checkAllowOverride">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Allow Override Network</string>
          </property>
@@ -551,6 +629,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_22">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>O_Essid</string>
            </property>
@@ -572,6 +656,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_23">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>O_Passwd</string>
            </property>
@@ -588,6 +678,12 @@
        </item>
        <item>
         <widget class="QCheckBox" name="checkOremoteEnabled">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Remote Server</string>
          </property>
@@ -612,6 +708,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_24">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Host</string>
            </property>
@@ -619,6 +721,12 @@
          </item>
          <item>
           <widget class="QLineEdit" name="editORemoteHost">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>192.168.43.1</string>
            </property>
@@ -639,6 +747,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_25">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Port</string>
            </property>
@@ -646,6 +760,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinORemotePort">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -678,6 +798,14 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_4">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>553</width>
+        <height>387</height>
+       </rect>
+      </property>
       <attribute name="label">
        <string>Ports and Services</string>
       </attribute>
@@ -699,6 +827,12 @@
        </property>
        <item>
         <widget class="QCheckBox" name="checkTCPCLientEnabled">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>LocalTcpClient</string>
          </property>
@@ -711,6 +845,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_27">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>LocalTcp Port</string>
            </property>
@@ -742,6 +882,12 @@
        </item>
        <item>
         <widget class="QCheckBox" name="checkSerialClient">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Serial Client</string>
          </property>
@@ -749,6 +895,12 @@
        </item>
        <item>
         <widget class="QCheckBox" name="checkMdnsEnabled">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>MDNS</string>
          </property>
@@ -756,6 +908,12 @@
        </item>
        <item>
         <widget class="QCheckBox" name="checkHttpServerEnabled">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>HttpServer</string>
          </property>
@@ -768,6 +926,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_28">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Http Server Port</string>
            </property>
@@ -775,6 +939,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinHttpPort">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -799,6 +969,12 @@
        </item>
        <item>
         <widget class="QCheckBox" name="checkHttpUpdateEnabled">
+         <property name="font">
+          <font>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>HttpUpdater</string>
          </property>
@@ -811,6 +987,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_26">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>HttpUpdater Port</string>
            </property>
@@ -818,6 +1000,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinHttpUpdaterPort">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -856,6 +1044,14 @@
       </layout>
      </widget>
      <widget class="QWidget" name="page_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>553</width>
+        <height>387</height>
+       </rect>
+      </property>
       <attribute name="label">
        <string>Timers</string>
       </attribute>
@@ -882,6 +1078,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_19">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Watchdog Time</string>
            </property>
@@ -889,6 +1091,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinWatchdog">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -912,6 +1120,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_18">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>Delay Time</string>
            </property>
@@ -919,6 +1133,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinDelayTime">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -939,6 +1159,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_32">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>HfTimer</string>
            </property>
@@ -946,6 +1172,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinHfTimer">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -966,6 +1198,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_31">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>MfTimer</string>
            </property>
@@ -973,6 +1211,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinMfTimer">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -993,6 +1237,12 @@
          </property>
          <item>
           <widget class="QLabel" name="label_33">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="text">
             <string>LfTimer</string>
            </property>
@@ -1000,6 +1250,12 @@
          </item>
          <item>
           <widget class="QSpinBox" name="spinLfTimer">
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -1039,7 +1295,9 @@
       <widget class="QToolButton" name="btnReload">
        <property name="font">
         <font>
-         <pointsize>18</pointsize>
+         <pointsize>24</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -1070,7 +1328,9 @@
       <widget class="QToolButton" name="btnSend">
        <property name="font">
         <font>
-         <pointsize>18</pointsize>
+         <pointsize>24</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">
@@ -1101,7 +1361,9 @@
       <widget class="QToolButton" name="btnSave">
        <property name="font">
         <font>
-         <pointsize>18</pointsize>
+         <pointsize>24</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
         </font>
        </property>
        <property name="text">

@@ -30,7 +30,7 @@ public:
     bool isOpen()
     {
         if      (m_serialEnabled)
-            return false;
+            return m_serial.isOpen();
         else if (m_socketEnabled)
             return m_socket->isOpen();
         return false;

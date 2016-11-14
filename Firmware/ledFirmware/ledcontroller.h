@@ -66,6 +66,11 @@ public:
         m_server.begin();
     }
 
+    void setBrightness(uint8_t b)
+    {
+        m_ledHardware->setBrightness(b);
+    }
+
     void update()
     {
         hfUpdate();

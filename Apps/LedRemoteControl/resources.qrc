@@ -7,5 +7,10 @@
         <file>icons/effects.png</file>
         <file>icons/wifi.png</file>
         <file>icons/settings.png</file>
+        <file>icons/APA102Matrix.png</file>
+        <file>icons/apa102Strip.png</file>
+        <file>icons/ws2812Matrix.png</file>
+        <file>icons/ws2812Strip.png</file>
+        <file>icons/unknown.png</file>
     </qresource>
 </RCC>

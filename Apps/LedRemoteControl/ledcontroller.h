@@ -37,6 +37,14 @@ public slots:
         sendLedGadgetProtocol(p);
     }
 
+    void fade()
+    {
+        ledGadgetProtocolPacket p;
+        p.cmd = cmdSetAnimation;
+        p.intVal0 = animationFade;
+        sendLedGadgetProtocol(p);
+    }
+
     void setColor(QColor c)
     {
         ledGadgetProtocolPacket p;
@@ -44,6 +52,19 @@ public slots:
         p.intVal0 = c.red();
         p.intVal1 = c.green();
         p.intVal2 = c.blue();
+        sendLedGadgetProtocol(p);
+    }
+
+    void setBrightness(float f)
+    {
+        setBrightness(f*255);
+    }
+
+    void setBrightness(quint8 b)
+    {
+        ledGadgetProtocolPacket p;
+        p.cmd = cmdSetBright;
+        p.intVal0 = b;
         sendLedGadgetProtocol(p);
     }
 };

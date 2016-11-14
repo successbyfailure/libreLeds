@@ -6,9 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>678</width>
-    <height>408</height>
+    <width>1074</width>
+    <height>508</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>15</pointsize>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
   </property>
   <property name="windowTitle">
    <string>GroupBox</string>
@@ -113,8 +120,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>660</width>
-           <height>304</height>
+           <width>1060</width>
+           <height>365</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -174,7 +181,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>16</pointsize>
+          <pointsize>20</pointsize>
           <weight>75</weight>
           <bold>true</bold>
          </font>

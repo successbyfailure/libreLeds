@@ -2,14 +2,13 @@
 
 protocolClient::protocolClient(QTcpSocket *socket) : QObject(socket)
 {
+    m_socket = 0;
     m_serialEnabled = false;
     if(socket != 0)
         setTcpSocket(socket);
     else
-    {
         m_socketEnabled = false;
-        m_socket = 0;
-    }
+
     connect(&m_pingTimer        ,SIGNAL(timeout()),SLOT(ping()));
     connect(&m_pingTimeoutTimer ,SIGNAL(timeout()),SLOT(pingTimeout()));
     connect(this,SIGNAL(connected()),this,SLOT(startPing()));
