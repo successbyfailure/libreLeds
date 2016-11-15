@@ -2,17 +2,20 @@
 
 protocolClient::protocolClient(QTcpSocket *socket) : QObject(socket)
 {
+    qDebug() << "Creating protocol client";
     m_socket = 0;
     m_serialEnabled = false;
-    if(socket != 0)
-        setTcpSocket(socket);
-    else
-        m_socketEnabled = false;
 
     connect(&m_pingTimer        ,SIGNAL(timeout()),SLOT(ping()));
     connect(&m_pingTimeoutTimer ,SIGNAL(timeout()),SLOT(pingTimeout()));
     connect(this,SIGNAL(connected()),this,SLOT(startPing()));
     connect(this,SIGNAL(disconnected()),this,SLOT(stopPing()));
+    connect(&m_initDelayTimer,SIGNAL(timeout()),this,SLOT(deviceOpened()));
+
+    if(socket != 0)
+        setTcpSocket(socket);
+    else
+        m_socketEnabled = false;
 }
 
 protocolClient::~protocolClient()
@@ -46,8 +49,13 @@ void protocolClient::setTcpSocket(QTcpSocket *s, bool deleteSocket)
     connect(s,SIGNAL(connected()),this,SLOT(deviceOpened()));
     connect(s,SIGNAL(disconnected()),this,SLOT(tcpDisconnected()));
     connect(s,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(tcpError(QAbstractSocket::SocketError)));
+
     if(s->isOpen())
-        deviceOpened();
+    {
+        qDebug() << "Delaying init 500ms";
+        m_initDelayTimer.setSingleShot(true);
+        m_initDelayTimer.start(500);
+    }
 }
 
 void protocolClient::OpenSerial(QSerialPortInfo device, quint32 bauds)
@@ -78,6 +86,7 @@ void protocolClient::OpenSerial(QSerialPortInfo device, quint32 bauds)
 
 void protocolClient::deviceOpened()
 {
+    qDebug() << "Device Opened! emit protocolClient::connected()";
     emit connected();
     initClient();
 }
@@ -259,10 +268,11 @@ void protocolClient::parseBasicSettings(QByteArray& data)
     if(result.magicNumber == basicSettings().magicNumber)
     {
         qDebug() << "Basic Settings received";
+        m_basicSettingsReceived = true;
         emit basicSettingsReceived(result);
         m_basicSettings = result;
-        emit ready();
-        m_settingsReceived = true;
+        if(m_basicSettingsReceived && m_extraSettingsReceived)
+            emit ready();
     }
     else
     {
@@ -281,8 +291,11 @@ void protocolClient::parseExtraSettings(QByteArray& data)
     if(result.magicNumber == extraSettings().magicNumber)
     {
         qDebug() << "Extra Settings received";
+        m_extraSettingsReceived = true;
         emit extraSettingsReceived(result);
         m_extraSettings = result;
+        if(m_basicSettingsReceived && m_extraSettingsReceived)
+            emit ready();
     }
     else
     {
@@ -355,7 +368,7 @@ void protocolClient::pong()
 
     m_pingTimer.stop();
     m_pingTimer.start();
-    if(m_settingsReceived)
+    if(m_basicSettingsReceived)
     {
         m_pingTimeoutTimer.stop();
         m_pingTimeoutTimer.start();

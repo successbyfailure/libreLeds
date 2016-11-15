@@ -19,11 +19,24 @@ animationFrame::~animationFrame()
 
 void animationFrame::initUI()
 {
-    ui->btn->setText(m_animationName);
-    ui->slider->hide();
-    ui->label->hide();
-    connect(ui->btn,SIGNAL(clicked(bool)),this,SLOT(setAnimation()));
+    ui->labelName->setText(m_animationName);
 
+    ui->gbIntVal0->hide();
+    ui->gbIntVal1->hide();
+    ui->gbIntVal2->hide();
+    ui->gbIntVal3->hide();
+    ui->gbFloatVal0->hide();
+    ui->gbFloatVal1->hide();
+    ui->gbFloatVal2->hide();
+    ui->gbFloatVal3->hide();
+
+    connect(ui->btnActivate,SIGNAL(clicked(bool)),this,SLOT(setAnimation()));
+
+    if      (m_animation == animationStrobe)
+    {
+        ui->gbIntVal0->setTitle("Hz");
+        ui->gbIntVal0->show();
+    }
 }
 
 void animationFrame::setAnimation()

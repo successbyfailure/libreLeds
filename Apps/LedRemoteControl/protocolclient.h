@@ -41,16 +41,20 @@ public:
     extraSettings getExtraSettings()    {return m_extraSettings;}
 
 protected:
-    basicSettings                   m_basicSettings;
-    extraSettings                   m_extraSettings;
-    bool                            m_settingsReceived = false;
-    QByteArray                      m_buffer;
-    QTcpSocket*                     m_socket;
-    QSerialPort                     m_serial;
-    bool                            m_deleteSocket;
-    bool                            m_socketEnabled;
-    bool                            m_serialEnabled;
+    basicSettings   m_basicSettings;
+    extraSettings   m_extraSettings;
+    bool            m_settingsReceived = false;
+    QByteArray      m_buffer;
+    QTcpSocket*     m_socket;
+    QSerialPort     m_serial;
+    bool            m_deleteSocket;
+    bool            m_socketEnabled;
+    bool            m_serialEnabled;
 
+    bool            m_basicSettingsReceived;
+    bool            m_extraSettingsReceived;
+
+    QTimer      m_initDelayTimer;
     QTimer      m_pingTimer;
     QTimer      m_pingTimeoutTimer;
     QTime       m_pingElapsedTime;

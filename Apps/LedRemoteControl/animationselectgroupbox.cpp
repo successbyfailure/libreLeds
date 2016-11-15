@@ -24,7 +24,8 @@ void animationSelectGroupbox::setClient(ledController *c)
             this,SLOT(populate(ledGadgetAnimationListPacket)));
     connect(ui->btnReload,SIGNAL(clicked(bool)),this,SLOT(reload()));
     ui->gbEQ->setClient(c);
-
+    if(c->isOpen())
+        populate();
 }
 
 void animationSelectGroupbox::reload()
@@ -50,7 +51,6 @@ void animationSelectGroupbox::populate(ledGadgetAnimationListPacket p)
 {
     for(int i = 0 ; i < p.usedEntries ; i++)
     {
-        qDebug() << "Añadiendo animacion : " << QString(p.animationName[i]);
         animationFrame* f = new animationFrame(p.animationID[i],QString(p.animationName[i]),m_client);
         ui->scrollAreaWidgetContents->layout()->addWidget(f);
         m_widgets.append(f);

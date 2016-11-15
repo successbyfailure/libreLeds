@@ -22,9 +22,12 @@ private:
     ledController*  m_client;
     QColor          m_color;
 
+signals:
+    void sliderValueuint(quint8);
 protected slots:
     void showSelector();
     void setColor(QColor);
+    void sliderValue(int);
 };
 
 #endif // LAMPWIDGET_H

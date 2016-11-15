@@ -2,7 +2,7 @@
 
 ledController::ledController(QTcpSocket *tcp) : protocolClient(tcp)
 {
-
+    qDebug() << "Creating ledcontroller";
 }
 
 ledController::~ledController()
