@@ -68,6 +68,8 @@ static ledGadgetAnimations name2animation(String name)
         return animationScrollText;
     else if(name == "ShowBPM")
         return animationShowBPM;
+    else if(name ==  "Speed2Light")
+        return animationSpeed2Light;
 
     return animationNone;
 }
@@ -110,6 +112,8 @@ static String animation2name(ledGadgetAnimations a)
         return "ScrollText";
     else if(a == animationShowBPM)
         return "ShowBPM";
+    else if(a ==  animationSpeed2Light)
+        return "Speed2Light";
     return "None";
 }
 

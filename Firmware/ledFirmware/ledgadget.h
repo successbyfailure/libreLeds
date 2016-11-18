@@ -411,25 +411,29 @@ protected:
 
     virtual void animateVUMeter()
     {
-//        paintVuMeterBar(m_barQuarters[0],m_eq.readBand(1)*100/650,m_c4,m_c5);
-//       for(int b = 1 ; b < m_barQuarters.size() ; b++)
-//            copyLedArray(m_barQuarters[0],m_barQuarters[b]);
+        uint16_t val = m_eq.vuLevel();
+        for(uint16_t i = 0 ; i < m_barQuarters.size() ; i++)
+        {
+            paintVuMeterBar(m_barQuarters[i],val);
+        }
     }
 
     virtual void animateVUMeterCentral()
     {
-//        paintVuMeterCentralBar(m_barQuarters[0],m_eq.readBand(1)*100/650,m_c4,m_c5);
-//        for(int b = 1 ; b < m_barQuarters.size() ; b++)
-//            copyLedArray(m_barQuarters[0],m_barQuarters[b]);
+        uint16_t val = m_eq.vuLevel();
+        for(uint16_t i = 0 ; i < m_barQuarters.size() ; i++)
+        {
+            paintVuMeterCentralBar(m_barQuarters[i],val);
+        }
     }
 
     virtual void animateCylon()
     {
-//        paintCylon(m_barQuarters[0],m_c0,m_c1,m_c2);
-//        std::vector<ledHardWare::led*> inverted = invertLedOrder(m_barQuarters[0]);
-//        copyLedArray(inverted,m_barQuarters[1]);
-//        copyLedArray(m_barQuarters[0],m_barQuarters[2]);
-//        copyLedArray(m_barQuarters[1],m_barQuarters[3]);
+        paintCylon(m_barQuarters[0],m_c0,m_c1,m_c2);
+        for(uint16_t i = 1 ; i < m_barQuarters.size() ; i++)
+        {
+            copyLeds(m_barQuarters[0],m_barQuarters[i]);
+        }
     }
 };
 

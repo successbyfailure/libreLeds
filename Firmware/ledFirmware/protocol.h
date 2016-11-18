@@ -38,7 +38,8 @@ enum ledGadgetAnimations
     animationEQCenter,
     animationEQHist,
     animationScrollText,
-    animationShowBPM
+    animationShowBPM,
+    animationSpeed2Light
 };
 
 

@@ -12,6 +12,7 @@ public:
     {
         m_gyro.on();
         m_gyro.firstRead();
+        m_animations.push_back(animationSpeed2Light);
     }
 
     virtual void readSensors()
@@ -22,6 +23,7 @@ public:
     virtual void animateExtra()
     {
         ledCircle::animateExtra();
+        if(m_currentAnimation == animationSpeed2Light)
     }
 protected:
     MPU6050 m_gyro;
