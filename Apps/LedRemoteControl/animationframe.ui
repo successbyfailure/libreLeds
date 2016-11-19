@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>264</height>
+    <width>554</width>
+    <height>557</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>100</height>
+    <height>125</height>
    </size>
   </property>
   <property name="font">
@@ -124,13 +124,13 @@
          <property name="minimumSize">
           <size>
            <width>180</width>
-           <height>50</height>
+           <height>120</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>400</width>
-           <height>100</height>
+           <height>300</height>
           </size>
          </property>
          <property name="title">
@@ -189,13 +189,13 @@
          <property name="minimumSize">
           <size>
            <width>180</width>
-           <height>50</height>
+           <height>120</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>400</width>
-           <height>100</height>
+           <height>300</height>
           </size>
          </property>
          <property name="title">
@@ -254,13 +254,13 @@
          <property name="minimumSize">
           <size>
            <width>180</width>
-           <height>50</height>
+           <height>120</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>400</width>
-           <height>100</height>
+           <height>300</height>
           </size>
          </property>
          <property name="title">
@@ -319,13 +319,13 @@
          <property name="minimumSize">
           <size>
            <width>180</width>
-           <height>50</height>
+           <height>120</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>400</width>
-           <height>100</height>
+           <height>300</height>
           </size>
          </property>
          <property name="title">
@@ -379,19 +379,6 @@
          </layout>
         </widget>
        </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </item>
      <item>
@@ -401,13 +388,13 @@
          <property name="minimumSize">
           <size>
            <width>180</width>
-           <height>50</height>
+           <height>120</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>400</width>
-           <height>100</height>
+           <height>300</height>
           </size>
          </property>
          <property name="title">
@@ -444,13 +431,13 @@
          <property name="minimumSize">
           <size>
            <width>180</width>
-           <height>50</height>
+           <height>120</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>400</width>
-           <height>100</height>
+           <height>300</height>
           </size>
          </property>
          <property name="title">
@@ -487,13 +474,13 @@
          <property name="minimumSize">
           <size>
            <width>180</width>
-           <height>50</height>
+           <height>120</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>400</width>
-           <height>100</height>
+           <height>300</height>
           </size>
          </property>
          <property name="title">
@@ -530,13 +517,13 @@
          <property name="minimumSize">
           <size>
            <width>180</width>
-           <height>50</height>
+           <height>120</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>400</width>
-           <height>100</height>
+           <height>300</height>
           </size>
          </property>
          <property name="title">
@@ -567,19 +554,6 @@
           </item>
          </layout>
         </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </item>
