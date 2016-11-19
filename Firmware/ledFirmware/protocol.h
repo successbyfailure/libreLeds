@@ -106,6 +106,7 @@ struct ledGadgetProtocolPacket
     float             floatVal1      = 0;
     float             floatVal2      = 0;
     float             floatVal3      = 0;
+    char              stringVal[30]  ={0};
 
     uint16_t          magicNumer     = 616;
 };

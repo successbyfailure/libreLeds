@@ -37,7 +37,6 @@ public:
 
     virtual void setColor(CRGB ncolor)
     {
-        resetAnimation();
         for(int i = 0 ; i < m_leds.size() ;i++)
       {
         *m_leds[i] = ncolor;
@@ -86,7 +85,20 @@ public:
 
     virtual void setAnimation(ledGadgetProtocolPacket& p)
     {
-        setAnimation((ledGadgetAnimations)p.intVal0);
+        resetAnimation();
+        m_currentAnimation =(ledGadgetAnimations) p.intVal0;
+        if(p.intVal0 == animationScrollText)
+        {
+            m_cStr = p.stringVal;
+            if(m_cStr.length() < 1)
+                m_cStr = "libreLeds";
+        }
+        else if(p.intVal0 == animationStrobe)
+        {
+            if(p.intVal1 == 0)
+                p.intVal1 = 5;
+            m_c0 = 1000/p.intVal1;
+        }
     }
 
     virtual void setAnimation(ledGadgetAnimations a)
@@ -214,6 +226,7 @@ protected:
 
     float         m_brightness;
     uint16_t      m_c0 = 0,m_c1 = 0,m_c2 = 0,m_c3 = 0,m_c4 = 0,m_c5 = 0,m_c6 = 0; // Contadores para los efectos
+    String        m_cStr;
 
     void (*m_peakCallBack)(float bpm);
 
@@ -245,7 +258,7 @@ protected:
 
     virtual void animateFlash()
     {
-        uint16_t val = 254 - m_c0;
+        uint16_t val = 250 - m_c0;
         setColor(CRGB(val,val,val));
         m_c0 += timeSinceLastFrameMS;
         if(m_c0 > 254)
@@ -330,11 +343,6 @@ public:
         m_animations.push_back(animationFlashOnPeak);
         m_eq.setup();
         m_peakHappend = false;
-    }
-
-    virtual void readSensors()
-    {
-
     }
 
     virtual MSGEQ7* eq() {return &m_eq;}
@@ -548,7 +556,7 @@ protected:
         else
             m_c0++;
 
-        m_matrix->drawText("LibreLeds V0.1",(60-m_c0),0);
+        m_matrix->drawText(m_cStr,(60-m_c0),0);
     }
 
     virtual void animateShowBPM()

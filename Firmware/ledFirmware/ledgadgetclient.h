@@ -81,7 +81,10 @@ protected:
         else if (p.cmd == cmdDimm)
             m_ledGadget->dimm(p.floatVal0);
         else if (p.cmd == cmdSetColor)
+        {
+            m_ledGadget->resetAnimation();
             m_ledGadget->setColor(p.intVal0,p.intVal1,p.intVal2);
+        }
     }
 
 };

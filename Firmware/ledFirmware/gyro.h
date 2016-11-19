@@ -29,7 +29,7 @@ public:
 
   void on()
   {
-
+    Serial.print("init I2C, sda:");Serial.print(m_settings->sdaPin);Serial.print(" scl:"); Serial.println(m_settings->sclPin);
     Wire.begin(m_settings->sdaPin,m_settings->sclPin);
 //    Wire.beginTransmission(MPU);
 //    Wire.write(0x6B);  // PWR_MGMT_1 register
@@ -42,6 +42,7 @@ public:
 //    MPU6050_SetDLPF(6); // Setting the DLPF to lowest Bandwidth
     m_activated = true;
   }
+
   void off()
   {
     Wire.begin(m_settings->sdaPin,m_settings->sclPin);

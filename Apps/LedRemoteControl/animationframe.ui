@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>559</width>
-    <height>284</height>
+    <width>600</width>
+    <height>264</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>100</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -25,6 +31,21 @@
    <enum>QFrame::Raised</enum>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <property name="spacing">
+    <number>4</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QLabel" name="labelName">
      <property name="font">
@@ -39,6 +60,9 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <property name="spacing">
+      <number>4</number>
+     </property>
      <item>
       <widget class="QToolButton" name="btnActivate">
        <property name="sizePolicy">
@@ -81,7 +105,20 @@
       </spacer>
      </item>
      <item>
+      <widget class="QLineEdit" name="editText">
+       <property name="maxLength">
+        <number>28</number>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>4</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMinimumSize</enum>
+       </property>
        <item>
         <widget class="QGroupBox" name="gbIntVal0">
          <property name="minimumSize">
@@ -120,6 +157,12 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
             <property name="maximum">
              <number>255</number>
             </property>
@@ -129,7 +172,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinInt0"/>
+           <widget class="QSpinBox" name="spinInt0">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -172,6 +222,12 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
             <property name="maximum">
              <number>255</number>
             </property>
@@ -181,7 +237,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinInt1"/>
+           <widget class="QSpinBox" name="spinInt1">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -224,6 +287,12 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
             <property name="maximum">
              <number>255</number>
             </property>
@@ -233,7 +302,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinInt2"/>
+           <widget class="QSpinBox" name="spinInt2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -276,6 +352,12 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
             <property name="maximum">
              <number>255</number>
             </property>
@@ -285,7 +367,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinInt3"/>
+           <widget class="QSpinBox" name="spinInt3">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -338,7 +427,14 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QDoubleSpinBox" name="spinFloatVal0"/>
+           <widget class="QDoubleSpinBox" name="spinFloatVal0">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -374,7 +470,14 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QDoubleSpinBox" name="spinFloatVal1"/>
+           <widget class="QDoubleSpinBox" name="spinFloatVal1">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -410,7 +513,14 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QDoubleSpinBox" name="spinFloatVal2"/>
+           <widget class="QDoubleSpinBox" name="spinFloatVal2">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -446,7 +556,14 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QDoubleSpinBox" name="spinFloatVal3"/>
+           <widget class="QDoubleSpinBox" name="spinFloatVal3">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>80</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -471,5 +588,70 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>sliderInt0</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>spinInt0</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>266</x>
+     <y>103</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>355</x>
+     <y>103</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sliderInt1</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>spinInt1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>266</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>355</x>
+     <y>191</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sliderInt2</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>spinInt2</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>266</x>
+     <y>279</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>355</x>
+     <y>279</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sliderInt3</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>spinInt3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>266</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>355</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

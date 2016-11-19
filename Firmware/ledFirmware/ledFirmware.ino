@@ -180,8 +180,8 @@ void manageTimers()
     delay(myEEPROM.getBasicSettings().delayTime);
     yield();
 
-    lastCycleMS     = thisCycleMS;
-    thisCycleMS     = 0;
+    lastCycleMS           = thisCycleMS;
+    thisCycleMS           = 0;
     timeSinceLastFrameMS += lastCycleMS;
     aliveTimer           += lastCycleMS;
     hfCounter            += lastCycleMS;
