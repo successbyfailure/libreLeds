@@ -79,5 +79,5 @@ RESOURCES += \
 
 DISTFILES += \
     TestForm.ui.qml \
-    Test.qml
+    Test.qml \
 

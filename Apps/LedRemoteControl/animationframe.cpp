@@ -40,7 +40,7 @@ void animationFrame::initUI()
         ui->spinInt0->setMaximum(100);
         ui->sliderInt0->setMinimum(1);
         ui->sliderInt0->setMaximum(100);
-        this->setMinimumHeight(120);
+        this->setMinimumHeight(160);
     } else if(m_animation == animationScrollText)
     {
         ui->editText->show();
