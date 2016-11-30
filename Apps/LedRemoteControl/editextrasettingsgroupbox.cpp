@@ -131,7 +131,7 @@ void editExtraSettingsGroupBox::populateComboBoxes()
     ui->comboButton2Pin->addItems(pinlist);
 
     QStringList hwtypes;
-    hwtypes << "hwWS2812Strip" << "hwWS2812Matrix" << "hwAPA102Strip" << "hwAPA102Matrix" ;
+    hwtypes << "hwWS2812Strip" << "hwWS2812Matrix" << "hwWS2801Strip" << "hwAPA102Strip" << "hwAPA102Matrix" ;
     ui->comboLedHWType->addItems(hwtypes);
 
     QStringList ledGadgetypes;

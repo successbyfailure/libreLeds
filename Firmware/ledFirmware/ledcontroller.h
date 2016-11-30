@@ -34,10 +34,16 @@ public:
 
         if      (es->ledhwType == hwWS2812Strip)
             m_ledHardware = new ws2812Strip(es);
+        
         else if (es->ledhwType == hwWS2812Matrix)
             m_ledHardware = new ws2812Matrix(es);
+        
+        else if (es->ledhwType == hwWS2801Strip)
+            m_ledHardware = new ws2801Strip(es);
+        
         else if (es->ledhwType == hwAPA102Strip)
             m_ledHardware = new apa102Strip(es);
+        
         else if (es->ledhwType == hwAPA102Matrix)
             m_ledHardware = new apa102Matrix(es);
 

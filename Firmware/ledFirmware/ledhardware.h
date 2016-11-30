@@ -352,6 +352,34 @@ protected:
     Adafruit_NeoMatrix m_matrix;
 };
 
+class ws2801Strip : public ledHardWare
+{
+public:
+    ws2801Strip(extraSettings* es) : ledHardWare(es)
+    {
+        m_leds = new CRGB[m_ledCount];
+        for(uint16_t i = 0 ; i < es->ledCount ; i++)
+        {
+            m_ledArray.push_back(&m_leds[i]);
+        }
+    }
+
+    virtual void     setBrightness(uint8_t b) {m_settings->ledMaxBright = b/255.0f;}
+
+    virtual void     refresh()
+    {
+        FastLED.setBrightness(m_settings->ledMaxBright*255);
+        FastLED.show();
+    }
+
+    virtual void     setup()
+    {
+
+        LEDS.addLeds<WS2801, LED_PIN,LED_CLOCK,BGR>(m_leds, m_ledCount);
+        setBrightnessF(m_settings->ledMaxBright);
+    }
+};
+
 class apa102Strip : public ledHardWare
 {
 public:
@@ -370,6 +398,12 @@ public:
     {
         FastLED.setBrightness(m_settings->ledMaxBright*255);
         FastLED.show();
+    }
+
+    virtual void     setup()
+    {
+        LEDS.addLeds<APA102, LED_PIN,LED_CLOCK,BGR>(m_leds, m_ledCount);
+        setBrightnessF(m_settings->ledMaxBright);
     }
 };
 

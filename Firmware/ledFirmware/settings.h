@@ -12,6 +12,7 @@ enum ledHardwareType
 {
     hwWS2812Strip,
     hwWS2812Matrix,
+    hwWS2801Strip,
     hwAPA102Strip,
     hwAPA102Matrix
 };
