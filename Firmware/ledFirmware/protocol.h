@@ -148,3 +148,4 @@ static void copyRawBytes(String& source, simpleProtocolMessage& dest)
 #endif
 #endif // PROTOCOL
 
+

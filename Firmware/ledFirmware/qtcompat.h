@@ -113,3 +113,4 @@ public:
 
 #endif // QTCOMPAT_H
 
+

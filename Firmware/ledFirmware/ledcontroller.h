@@ -7,19 +7,11 @@
 #include "ledhardware.h"
 #include "ledgadget.h"
 #include "ledwheel.h"
+#include "ledTree.h"
 #include "vector"
 #include "settings.h"
 #include "ledgadgetclient.h"
 
-
-//artnet
-// Artnet settings
-bool sendFrame = 1;
-int startUniverse = 0; // CHANGE FOR YOUR SETUP most software this is 1, some software send out artnet first universe as 0.
-int previousDataLength = 0;
-const int numberOfChannels = 100 * 3; // Total number of channels you want to receive (1 led = 3 channels)
-const int maxUniverses = numberOfChannels / 512 + ((numberOfChannels % 512) ? 1 : 0);
-bool universesReceived[maxUniverses];
 
 class ledController{
 public:
@@ -57,6 +49,8 @@ public:
             m_ledGadget = new ledWheel  (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
         else if (es->gadgetType == gadgetledMatrix)
             m_ledGadget = new ledMatrix (es,(ledMatrixHW*)m_ledHardware   ,0,es->ledCount,es->ledReversedOrder);
+        else if (es->gadgetType == gadgetledTree)
+            m_ledGadget = new ledTree (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
         else
             m_ledGadget = new ledBar    (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
 
@@ -69,6 +63,9 @@ public:
     {
         m_ledHardware->setup();
         m_ledHardware->test();
+        if(m_settingsStorage->getExtraSettings().artNetEnabled)
+            initArtNet();
+
         m_server.begin();
     }
 
@@ -195,6 +192,28 @@ protected:
     settingsStorage*        m_settingsStorage;
     ledGadGetServer         m_server;
 
+    //artnet
+    // Artnet settings
+    bool  sendFrame;
+    int   startUniverse;
+    int   previousDataLength;
+    int   numberOfChannels;
+    int   maxUniverses;
+    bool* universesReceived;
+
+
+    void initArtNet()
+    {
+        //artnet
+        // Artnet settings
+        sendFrame           = 1;
+        startUniverse       = m_settingsStorage->getExtraSettings().startUniverse; // CHANGE FOR YOUR SETUP most software this is 1, some software send out artnet first universe as 0.
+        previousDataLength  = 0;
+        numberOfChannels    = m_settingsStorage->getExtraSettings().ledCount * 3; // Total number of channels you want to receive (1 led = 3 channels)
+        maxUniverses        = numberOfChannels / 512 + ((numberOfChannels % 512) ? 1 : 0);
+        universesReceived   = new bool[maxUniverses];
+    }
 };
 
 #endif // LEDCONTROLLER
+

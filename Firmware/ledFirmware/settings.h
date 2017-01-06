@@ -25,7 +25,8 @@ enum ledGadgetType
     gadgetLedBar,
     gadgetLedCircle,
     gadgetLedWheel,
-    gadgetledMatrix
+    gadgetledMatrix,
+    gadgetledTree
 };
 
 enum wMode
@@ -124,3 +125,4 @@ struct extraSettings
 };
 
 #endif // SETTINGS
+

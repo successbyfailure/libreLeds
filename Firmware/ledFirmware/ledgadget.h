@@ -445,7 +445,6 @@ protected:
     }
 };
 
-
 class ledMatrix : public ledBar
 {
 public:
@@ -581,3 +580,4 @@ protected:
 };
 
 #endif // LEDGADGET
+

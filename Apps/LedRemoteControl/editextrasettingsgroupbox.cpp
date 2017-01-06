@@ -135,7 +135,7 @@ void editExtraSettingsGroupBox::populateComboBoxes()
     ui->comboLedHWType->addItems(hwtypes);
 
     QStringList ledGadgetypes;
-    ledGadgetypes << "gadgetNone" << "gadgetDMX" << "gadgetSpotLed" << "gadgetLedBar" << "gadgetLedCircle" << "gadgetLedWheel" << "gadgetledMatrix";
+    ledGadgetypes << "gadgetNone" << "gadgetDMX" << "gadgetSpotLed" << "gadgetLedBar" << "gadgetLedCircle" << "gadgetLedWheel" << "gadgetledMatrix" << "gadgetledTree";
     ui->comboLedGadgetType->addItems(ledGadgetypes);
 
     QStringList Animations;

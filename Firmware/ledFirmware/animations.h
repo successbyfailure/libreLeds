@@ -432,3 +432,4 @@ static void paintSparks(std::vector<CRGB*>& array)
 }
 #endif // ANIMATIONS_H
 
+
