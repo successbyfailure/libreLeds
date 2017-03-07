@@ -112,6 +112,8 @@ public:
         m_ledHardware->refresh();
       }
 
+      if(universe < startUniverse)
+          return;
       // Store which universe has got in
       if ((universe - startUniverse) < maxUniverses)
         universesReceived[universe - startUniverse] = 1;
@@ -136,7 +138,7 @@ public:
 
       if (sendFrame)
       {
-        m_ledHardware->refresh();
+        //m_ledHardware->refresh();
         // Reset universeReceived to 0
         memset(universesReceived, 0, maxUniverses);
       }
