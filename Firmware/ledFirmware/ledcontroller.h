@@ -62,7 +62,7 @@ public:
     void setup()
     {
         m_ledHardware->setup();
-        m_ledHardware->test();
+        //m_ledHardware->test();
         if(m_settingsStorage->getExtraSettings().artNetEnabled)
             initArtNet();
 
@@ -95,16 +95,17 @@ public:
 
     void lfUpdate()
     {
-        if(m_ledGadget->eq())
-        {
-            sendVuLevels(m_ledGadget->eq()->vuLevel(),m_ledGadget->eq()->spectrum());
-        }
+        //if(m_ledGadget->eq())
+        //{
+        //    sendVuLevels(m_ledGadget->eq()->vuLevel(),m_ledGadget->eq()->spectrum());
+        //}
     }
 
     void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* data)
     {
+      //Serial.print("New DMX frame,Universe:");Serial.print(universe);Serial.print(" seq:");Serial.print(sequence); Serial.print(" Length:"); Serial.println(length);
       m_ledGadget->setAnimation(animationNone);
-      sendFrame = 1;
+
       // set brightness of the whole strip
       if (universe == 15)
       {
@@ -113,11 +114,18 @@ public:
       }
 
       if(universe < startUniverse)
+      {
+          //Serial.print("not for me, discarded.");
           return;
+      }
+
+
+      sendFrame = 1;
       // Store which universe has got in
       if ((universe - startUniverse) < maxUniverses)
         universesReceived[universe - startUniverse] = 1;
 
+//Esto no se que hace, creo que no es necesario
       for (int i = 0 ; i < maxUniverses ; i++)
       {
         if (universesReceived[i] == 0)
@@ -132,6 +140,8 @@ public:
       for (uint16_t i = 0; i < length / 3; i++)
       {
         uint16_t led = i + (universe - startUniverse) * (previousDataLength / 3);
+        //Serial.print("l:");Serial.println(i);
+        yield();
         m_ledHardware->setLedColor(led,CRGB(data[i * 3], data[i * 3 + 1], data[i * 3 + 2]));
       }
       previousDataLength = length;

@@ -1,8 +1,8 @@
 #include "qtcompat.h"
 
 //FASTLED
-#define LED_PIN   D4
-#define LED_CLOCK D3
+#define LED_PIN   D8
+#define LED_CLOCK D7
 #define FASTLED_ESP8266_RAW_PIN_ORDER
 
 
@@ -233,13 +233,21 @@ void setup()
 
     if      (WiFi.status() == 3)
     {
-        myLedController.server().connectMaster();
+        if((currentWifiMode == wifiClient  ) && (settingsBasic->autoConnectRemote))
+        {
+            myLedController.server().connectMaster();
+        }else if((currentWifiMode == wifiOverride) && (settingsBasic->overrideAutoConnectRemote))
+        {
+            myLedController.server().connectMaster();
+        }
+
         myLedController.getledGadget()->green(100);
     }
     else if (WiFi.status() == 0)
         myLedController.getledGadget()->blue(100);
     else
         myLedController.getledGadget()->red(100);
+
     myLedController.getledGadget()->setNextAnimation(settingsExtra->defaultAnimation);
     myLedController.getledGadget()->fadeToNext();
 
