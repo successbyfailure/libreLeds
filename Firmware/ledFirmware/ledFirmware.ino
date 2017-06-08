@@ -1,8 +1,8 @@
 #include "qtcompat.h"
 
 //FASTLED
-#define LED_PIN   D4
-#define LED_CLOCK D3
+#define LED_PIN   D8
+#define LED_CLOCK D7
 #define FASTLED_ESP8266_RAW_PIN_ORDER
 
 
@@ -59,7 +59,6 @@ uint16_t mfLoops = 0;
 uint16_t lfLoops = 0;
 
 uint16_t tcpPackets     = 0;
-uint16_t artnetPackets  = 0;
 
 EEPROMStorage myEEPROM;
 basicSettings* settingsBasic;
@@ -87,7 +86,6 @@ ArtnetWifi artnet;
 void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* data)
 {
     myLedController.onDmxFrame(universe,  length,  sequence, data);
-    artnetPackets++;
     yield();
 }
 
@@ -164,7 +162,8 @@ void imAlive()
     Serial.print("\tlf:");Serial.println(lfLoops*factor);
 
     Serial.print("tcp packets/s:");Serial.print(tcpPackets*factor);
-    Serial.print("\t artnet Packets/s:");Serial.println(artnetPackets*factor);
+    Serial.print("\t artnet Packets/s:");Serial.println(myLedController.getDmxFrames()*factor);
+    Serial.print("\t BAD artnet Packets/s:");Serial.println(myLedController.getDmxFrames()*factor);
 
     Serial.println("....");
     hfLoops = 0;
@@ -172,7 +171,7 @@ void imAlive()
     lfLoops = 0;
 
     tcpPackets    = 0;
-    artnetPackets = 0;
+    myLedController.resetDmxcounter();
     yield();
 }
 
@@ -233,13 +232,21 @@ void setup()
 
     if      (WiFi.status() == 3)
     {
-        myLedController.server().connectMaster();
+        if((currentWifiMode == wifiClient  ) && (settingsBasic->autoConnectRemote))
+        {
+            myLedController.server().connectMaster();
+        }else if((currentWifiMode == wifiOverride) && (settingsBasic->overrideAutoConnectRemote))
+        {
+            myLedController.server().connectMaster();
+        }
+
         myLedController.getledGadget()->green(100);
     }
     else if (WiFi.status() == 0)
         myLedController.getledGadget()->blue(100);
     else
         myLedController.getledGadget()->red(100);
+
     myLedController.getledGadget()->setNextAnimation(settingsExtra->defaultAnimation);
     myLedController.getledGadget()->fadeToNext();
 

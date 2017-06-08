@@ -93,6 +93,8 @@ public:
 
     virtual void  setLedColor(uint16_t index, uint8_t r,uint8_t g,uint8_t b)
     {
+        if(index >= ledCount())
+            return;
         CRGB c;
         c.r = r;
         c.g = g;
@@ -114,8 +116,8 @@ public:
       for( uint16_t i = 0 ; i < ledCount() ; i++)
       {
         m_leds[i] = CRGB(255,255,255);
-        if(i>=5)
-            m_leds[i-5] = CRGB(0,0,0);
+        if(i>=3)
+            m_leds[i-3] = CRGB(0,0,0);
         if(i%2 == 0)refresh();
         if(i%25 == 0)yield();
       }
@@ -296,9 +298,9 @@ public:
         for(uint16_t l = 0 ; l < col.size() ; l++)
             *col[l] = CRGB(255,255,255);
 
-        if(i>=3)
+        if(i>=2)
         {
-            std::vector<CRGB*> col = getCol(i-3);
+            std::vector<CRGB*> col = getCol(i-2);
             for(uint16_t l = 0 ; l < col.size() ; l++)
                 *col[l] = CRGB(0,0,0);
         }

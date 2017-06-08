@@ -62,7 +62,7 @@ public:
     void setup()
     {
         m_ledHardware->setup();
-        m_ledHardware->test();
+        //m_ledHardware->test();
         if(m_settingsStorage->getExtraSettings().artNetEnabled)
             initArtNet();
 
@@ -95,16 +95,17 @@ public:
 
     void lfUpdate()
     {
-        if(m_ledGadget->eq())
-        {
-            sendVuLevels(m_ledGadget->eq()->vuLevel(),m_ledGadget->eq()->spectrum());
-        }
+        //if(m_ledGadget->eq())
+        //{
+        //    sendVuLevels(m_ledGadget->eq()->vuLevel(),m_ledGadget->eq()->spectrum());
+        //}
     }
 
     void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* data)
     {
 
       sendFrame = 1;
+
       // set brightness of the whole strip
       if (universe == 15)
       {
@@ -120,10 +121,12 @@ public:
       }
 
       m_ledGadget->setAnimation(animationNone);
+
       // Store which universe has got in
       if ((universe - startUniverse) < maxUniverses)
         universesReceived[universe - startUniverse] = 1;
 
+//Esto no se que hace, creo que no es necesario
       for (int i = 0 ; i < maxUniverses ; i++)
       {
         if (universesReceived[i] == 0)
@@ -244,6 +247,7 @@ protected:
         numberOfChannels    = m_settingsStorage->getExtraSettings().ledCount * 3; // Total number of channels you want to receive (1 led = 3 channels)
         maxUniverses        = numberOfChannels / 512 + ((numberOfChannels % 512) ? 1 : 0);
         universesReceived   = new bool[maxUniverses];
+        resetDmxcounter();
     }
 };
 
