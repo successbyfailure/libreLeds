@@ -10,7 +10,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LedRemoteControl
 TEMPLATE = app
-#INCLUDEPATH += ../depend/qtzeroconf/
+INCLUDEPATH += ../common/
+
+include(../common/common.pri)
 
 SOURCES += main.cpp\
         mainviewwindow.cpp \
@@ -18,8 +20,6 @@ SOURCES += main.cpp\
     connectwidget.cpp \
     gsimplegraph.cpp \
     gwidgettxrx.cpp \
-    protocolclient.cpp \
-    ledcontroller.cpp \
     editbasicsettingsgroupbox.cpp \
     simpleprotocolcommandsgroupbox.cpp \
     editextrasettingsgroupbox.cpp \
@@ -31,7 +31,6 @@ SOURCES += main.cpp\
     lampwidget.cpp \
     ledgadgetservergb.cpp \
     ledgadgetclientwidget.cpp \
-    ledcontrolerserver.cpp
 
 
 HEADERS  += mainviewwindow.h \
@@ -39,11 +38,6 @@ HEADERS  += mainviewwindow.h \
     connectwidget.h \
     gsimplegraph.h \
     gwidgettxrx.h \
-    ../../Firmware/ledFirmware/protocol.h \
-    ../../Firmware/ledFirmware/settings.h \
-    protocolclient.h \
-    ledcontroller.h \
-    ../../Firmware/ledFirmware/qtcompat.h \
     editbasicsettingsgroupbox.h \
     simpleprotocolcommandsgroupbox.h \
     editextrasettingsgroupbox.h \
@@ -55,7 +49,6 @@ HEADERS  += mainviewwindow.h \
     lampwidget.h \
     ledgadgetservergb.h \
     ledgadgetclientwidget.h \
-    ledcontrolerserver.h
 
 
 FORMS    += mainviewwindow.ui \
