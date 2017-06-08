@@ -103,17 +103,23 @@ public:
 
     void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* data)
     {
-      m_ledGadget->setAnimation(animationNone);
+
       sendFrame = 1;
       // set brightness of the whole strip
       if (universe == 15)
       {
         m_ledHardware->setBrightness(data[0]/255.0f);
-        m_ledHardware->refresh();
+        dmxFrames++;
+        return;
       }
 
       if(universe < startUniverse)
+      {
+          dmxBadFrames++;
           return;
+      }
+
+      m_ledGadget->setAnimation(animationNone);
       // Store which universe has got in
       if ((universe - startUniverse) < maxUniverses)
         universesReceived[universe - startUniverse] = 1;
@@ -132,6 +138,11 @@ public:
       for (uint16_t i = 0; i < length / 3; i++)
       {
         uint16_t led = i + (universe - startUniverse) * (previousDataLength / 3);
+        if(led > m_ledHardware->ledCount())
+        {
+          dmxBadFrames++;
+          return;
+        }
         m_ledHardware->setLedColor(led,CRGB(data[i * 3], data[i * 3 + 1], data[i * 3 + 2]));
       }
       previousDataLength = length;
@@ -142,6 +153,7 @@ public:
         // Reset universeReceived to 0
         memset(universesReceived, 0, maxUniverses);
       }
+      dmxFrames++;
     }
 
     ledGadGetServer& server()    {return m_server;}
@@ -187,7 +199,23 @@ public:
     }
 
 
+    uint16_t getDmxFrames()
+    {
+        return dmxFrames;
+    }
 
+    
+    uint16_t getbadDmxFrames()
+    {
+        return dmxBadFrames;
+    }
+    
+    void resetDmxcounter()
+    {
+      dmxFrames = 0;
+      dmxBadFrames = 0;
+    }
+    
 protected:
     ledHardWare*            m_ledHardware;
     ledGadget*              m_ledGadget;
@@ -202,6 +230,8 @@ protected:
     int   numberOfChannels;
     int   maxUniverses;
     bool* universesReceived;
+    uint16_t dmxFrames;
+    uint16_t dmxBadFrames;
 
 
     void initArtNet()
