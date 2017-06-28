@@ -14,7 +14,9 @@ enum ledHardwareType
     hwWS2812Matrix,
     hwWS2801Strip,
     hwAPA102Strip,
-    hwAPA102Matrix
+    hwAPA102Matrix,
+
+    _lastHW
 };
 
 enum ledGadgetType
@@ -26,7 +28,10 @@ enum ledGadgetType
     gadgetLedCircle,
     gadgetLedWheel,
     gadgetledMatrix,
-    gadgetledTree
+    gadgetledTree,
+    gadgetLibreSaber,
+
+    _lastGadget
 };
 
 enum wMode
@@ -34,7 +39,9 @@ enum wMode
     wifiAP,
     wifiClient,
     wifiMesh,
-    wifiOverride
+    wifiOverride,
+
+    _lastWmode
 };
 
 struct basicSettings
