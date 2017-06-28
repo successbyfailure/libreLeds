@@ -162,8 +162,9 @@ void imAlive()
     Serial.print("\tlf:");Serial.println(lfLoops*factor);
 
     Serial.print("tcp packets/s:");Serial.print(tcpPackets*factor);
-    Serial.print("\t artnet Packets/s:");Serial.println(myLedController.getDmxFrames()*factor);
-    Serial.print("\t BAD artnet Packets/s:");Serial.println(myLedController.getDmxFrames()*factor);
+    Serial.print("\t artnet Packets/s:");Serial.println(myLedController.getDmxFrames());
+    Serial.print("OK artnet:");Serial.println(myLedController.getDmxOK());
+    Serial.print("BAD artnet Packets/s:");Serial.println(myLedController.getBadDmxFrames());
 
     Serial.println("....");
     hfLoops = 0;

@@ -103,7 +103,6 @@ public:
 
     void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* data)
     {
-
       sendFrame = 1;
 
       // set brightness of the whole strip
@@ -111,7 +110,6 @@ public:
       {
         m_ledHardware->setBrightness(data[0]/255.0f);
         dmxFrames++;
-        return;
       }
 
       if(universe < startUniverse)
@@ -126,7 +124,7 @@ public:
       if ((universe - startUniverse) < maxUniverses)
         universesReceived[universe - startUniverse] = 1;
 
-//Esto no se que hace, creo que no es necesario
+//Esto no se que hace,
       for (int i = 0 ; i < maxUniverses ; i++)
       {
         if (universesReceived[i] == 0)
@@ -142,11 +140,12 @@ public:
       {
         uint16_t led = i + (universe - startUniverse) * (previousDataLength / 3);
         if(led > m_ledHardware->ledCount())
+            dmxErrors++;
+        else
         {
-          dmxBadFrames++;
-          return;
+            m_ledHardware->setLedColor(led,CRGB(data[i * 3], data[i * 3 + 1], data[i * 3 + 2]));
+            dmxOK++;
         }
-        m_ledHardware->setLedColor(led,CRGB(data[i * 3], data[i * 3 + 1], data[i * 3 + 2]));
       }
       previousDataLength = length;
 
@@ -208,15 +207,27 @@ public:
     }
 
     
-    uint16_t getbadDmxFrames()
+    uint16_t getBadDmxFrames()
     {
         return dmxBadFrames;
+    }
+
+    uint16_t getDmxErrors()
+    {
+        return dmxErrors;
+    }
+
+    uint16_t getDmxOK()
+    {
+        return dmxOK;
     }
     
     void resetDmxcounter()
     {
       dmxFrames = 0;
       dmxBadFrames = 0;
+      dmxErrors = 0;
+      dmxOK = 0;
     }
     
 protected:
@@ -235,6 +246,8 @@ protected:
     bool* universesReceived;
     uint16_t dmxFrames;
     uint16_t dmxBadFrames;
+    uint16_t dmxErrors;
+    uint16_t dmxOK;
 
 
     void initArtNet()
