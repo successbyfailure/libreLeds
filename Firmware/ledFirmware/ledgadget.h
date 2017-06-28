@@ -7,10 +7,12 @@
 #include "msgeq7.h"
 #include "qtcompat.h"
 #include "protocol.h"
+#include "pushbutton.h"
 
 class ledGadget{
 public:
-    ledGadget(extraSettings* s,std::vector<CRGB*>& leds, uint16_t first = 0,uint16_t count = 0 , bool reversed = false)
+    ledGadget(extraSettings* s,std::vector<CRGB*>& leds, uint16_t first = 0,uint16_t count = 0 , bool reversed = false) :
+        m_button0(s->btn1Pin), m_button1(s->btn2Pin)
     {
         if(count == 0)
             count = leds.size();
@@ -26,8 +28,16 @@ public:
         m_animations.push_back(animationSparks);
         m_animations.push_back(animationCylon);
         m_animations.push_back(animationChaoticLight)   ;m_animations.push_back(animationRainbow);
+
+
+        m_playList.push_back(animationSparks);
+        m_playList.push_back(animationCylon);
+        m_playList.push_back(animationChaoticLight)   ;m_animations.push_back(animationRainbow);
+
+
         m_settings = s;
         m_peakCallBack = 0;
+        m_playlistIndex = 0;
     }
 
     std::vector<ledGadgetAnimations> getAnimations()
@@ -122,7 +132,55 @@ public:
         resetCounters();
     }
 
-    virtual void readSensors() {;}
+    void nextPlaylist()
+    {
+        m_playlistIndex++;
+        if(m_playlistIndex >= m_playList.size())
+            m_playlistIndex = 0;
+        resetAnimation();
+        setAnimation(m_playList.at(m_playlistIndex));
+    }
+
+    void previousPlaylist()
+    {
+        if(m_playlistIndex == 0)
+            m_playlistIndex = m_playList.size()-1;
+        resetAnimation();
+        setAnimation(m_playList.at(m_playlistIndex));
+        m_playlistIndex--;
+    }
+
+    void readSensors()
+    {
+        m_button0.update();
+        m_button1.update();
+        readExtraSensors();
+
+        if(m_button0.isPressed())
+            onButton0Press();
+        else if(m_button0.isLongPressed())
+            onButton0LongPress();
+        else if(m_button1.isPressed())
+            onButton0Press();
+        else if(m_button1.isLongPressed())
+            onButton0LongPress();
+    }
+
+
+    virtual void readExtraSensors(){;}
+
+    virtual void onButton0Press()
+    {
+        nextPlaylist();
+    }
+
+    virtual void onButton1Press()
+    {
+        previousPlaylist();
+    }
+
+    virtual void onButton0LongPress(){;}
+    virtual void onButton1LongPress(){;}
 
     void animate()
     {
@@ -220,10 +278,15 @@ protected:
     extraSettings*                    m_settings;
     std::vector<CRGB*>                m_leds;
     std::vector<ledGadgetAnimations>  m_animations;
+    std::vector<ledGadgetAnimations>  m_playList;
     ledGadgetAnimations               m_lastAnimation       = animationNone;
     ledGadgetAnimations               m_currentAnimation    = animationNone;
     ledGadgetAnimations               m_nextAnimation       = animationNone;
 
+    pushButton                       m_button0;
+    pushButton                       m_button1;
+
+    int16_t                          m_playlistIndex;
     float         m_brightness;
     uint16_t      m_c0 = 0,m_c1 = 0,m_c2 = 0,m_c3 = 0,m_c4 = 0,m_c5 = 0,m_c6 = 0; // Contadores para los efectos
     String        m_cStr;

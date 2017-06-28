@@ -14,7 +14,7 @@ public:
         m_animations.push_back(animationSpeed2Light);
     }
 
-    virtual void readSensors()
+    virtual void readExtraSensors()
     {
         m_gyro.fullRead();
     }

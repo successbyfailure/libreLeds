@@ -14,7 +14,7 @@ public:
         m_animations.push_back(animationSpeed2Light);
     }
 
-    virtual void readSensors()
+    virtual void readExtraSensors()
     {
         m_gyro.fullRead();
     }
@@ -28,6 +28,24 @@ public:
 
 protected:
     MPU6050 m_gyro;
+
+
+    void onButton0Press()
+    {
+        nextPlaylist();
+    }
+
+    void onButton1Press()
+    {
+        previousPlaylist();
+    }
+
+    void onButton0LongPress()
+    {;}
+
+    void onButton1LongPress()
+    {;}
+
 
     void animateSpeed2Light()
     {
