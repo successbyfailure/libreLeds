@@ -8,6 +8,7 @@
 #include "ledgadget.h"
 #include "ledwheel.h"
 #include "ledTree.h"
+#include "libresaber.h"
 #include "vector"
 #include "settings.h"
 #include "ledgadgetclient.h"
@@ -39,6 +40,7 @@ public:
         else if (es->ledhwType == hwAPA102Matrix)
             m_ledHardware = new apa102Matrix(es);
 
+        //Setting ledgadget type
         if      (es->gadgetType == gadgetSpotLed)
             m_ledGadget = new spotLed   (es,m_ledHardware->getColorArray(),0,es->ledCount);
         else if (es->gadgetType == gadgetLedBar)
@@ -51,6 +53,9 @@ public:
             m_ledGadget = new ledMatrix (es,(ledMatrixHW*)m_ledHardware   ,0,es->ledCount,es->ledReversedOrder);
         else if (es->gadgetType == gadgetledTree)
             m_ledGadget = new ledTree (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
+        else if (es->gadgetType == gadgetLibreSaber)
+            m_ledGadget = new libreSaber(es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
+
         else
             m_ledGadget = new ledBar    (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
 

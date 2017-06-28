@@ -12,11 +12,13 @@ void setup() {
       for ( int i = 0 ; i < 512 ; i++ )
         EEPROM.write(i, 0);
       EEPROM.end();
+      Serial.println("OK!");
+      yield();
 
       Serial.print("Reset SPIFS...");
       SPIFFS.format();
 
-      Serial.println("Done!!");
+      Serial.println("OK!!");
 }
 
 void loop() {
