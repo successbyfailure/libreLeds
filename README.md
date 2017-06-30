@@ -8,7 +8,8 @@ libreLeds is a combination of firmware, control app and pcbs that allows you to 
 
  -Flash firmware on the esp8266 via arduino ide.
 
- -Flash extra data.
+ -Flash extra data via:
+ https://github.com/esp8266/arduino-esp8266fs-plugin
 
  -Install app on your phone, set it to host a wifi AP named "ledMaster" with pass "clubmate", also make sure it will be 192.168.43.1 (default on android).
 
@@ -16,7 +17,7 @@ libreLeds is a combination of firmware, control app and pcbs that allows you to 
  
  -Configure Wifi and led Settings
  
- -Profit!
+ -Enjoy!
  
  
 ### Hardware compatible:
@@ -24,10 +25,12 @@ libreLeds is a combination of firmware, control app and pcbs that allows you to 
  -WS2812 (aka Neopixel) Strip & matrix(single & chained) through NeoPixel & NeoMatrix Library.
 
  -APA102 (aka DotStar)  Strip & matrix(single & chained) through FastLed Library
+ 
+ -WS2801
 
 
 ### LedGadget
- ...Explain here...
+....
 
 ### Features:
 
@@ -48,10 +51,11 @@ libreLeds is a combination of firmware, control app and pcbs that allows you to 
 
 ### Known things:
  -Stop the animations before changing the led config, shit can happen otherwise.
+ -In AP mode there is a memory leak and in some minutes you loose remote control.
 
 
 ### Setup environment:
-You will need latest arduino with esp8266 support, latest QT, and some weird shit I'll explain someday.
+You will need latest arduino with esp8266 support from:, latest QT, FastLed library, and the libraries included in the dependencies folder.
 
 
 ### Wifi Modes:
