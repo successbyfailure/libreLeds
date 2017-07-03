@@ -113,6 +113,7 @@ struct extraSettings
     ledGadgetType   gadgetType  = gadgetLedBar;
     ledGadgetAnimations
                defaultAnimation = animationCylon;
+    uint8_t  defaultColor[3]    = {0,0,128};
     uint16_t ledCount           = 84;
     float    ledMaxBright       = 0.15;
     bool     ledReversedOrder   = false;

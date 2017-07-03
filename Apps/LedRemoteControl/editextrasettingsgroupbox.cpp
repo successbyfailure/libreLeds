@@ -62,6 +62,9 @@ void editExtraSettingsGroupBox::loadSettings(extraSettings s)
 
     ui->comboLedGadgetType->setCurrentIndex    (s.gadgetType);
     ui->comboDefaultAnimation->setCurrentIndex (s.defaultAnimation);
+    ui->spinR->setValue                        (s.defaultColor[0]);
+    ui->spinG->setValue                        (s.defaultColor[1]);
+    ui->spinB->setValue                        (s.defaultColor[2]);
     ui->spinLedCount->setValue                 (s.ledCount);
     ui->spinBrightness->setValue               (s.ledMaxBright);
     ui->checkLedReverseOrder->setChecked       (s.ledReversedOrder);
@@ -95,6 +98,9 @@ void editExtraSettingsGroupBox::sendSettings()
     s.ledhwType          = (ledHardwareType)ui->comboLedHWType->currentIndex();
     s.gadgetType         = (ledGadgetType)ui->comboLedGadgetType->currentIndex();
     s.defaultAnimation   = (ledGadgetAnimations)ui->comboDefaultAnimation->currentIndex();
+    s.defaultColor[0]    = ui->spinR->value();
+    s.defaultColor[1]    = ui->spinG->value();
+    s.defaultColor[2]    = ui->spinB->value();
     s.ledCount           = ui->spinLedCount->value();
     s.ledMaxBright       = ui->spinBrightness->value();
     s.ledReversedOrder   = ui->checkLedReverseOrder->isChecked();
