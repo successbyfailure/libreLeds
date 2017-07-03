@@ -40,6 +40,9 @@ enum ledGadgetAnimations
     animationScrollText,
     animationShowBPM,
     animationSpeed2Light,
+    animationSaberOn,
+    animationSaber,
+    animationSaberOff,
 
     _lastAnimation
 };

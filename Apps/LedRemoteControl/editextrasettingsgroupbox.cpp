@@ -142,7 +142,8 @@ void editExtraSettingsGroupBox::populateComboBoxes()
     Animations    << "animationNone" << "animationDMX" << "animationFade" << "animationGlow" << "animationFlash" << "animationStrobe"
                   << "animationFlashOnPeak" << "animationSparks" << "animationCylon" << "animationChaoticLight"  << "animationRainbow"
                   << "animationVUMeter" << "animationVUMeterCentral" << "animationVUMeterHist" << "animationEQ"  << "animationEQCenter"
-                  << "animationEQHist" << "animationScrollText" << "animationShowBPM" << "animationSpeed2Light";
+                  << "animationEQHist" << "animationScrollText" << "animationShowBPM" << "animationSpeed2Light"
+                  << "animationSaberOn" "animationSaber" << "animationSaberOff";
     ui->comboDefaultAnimation->addItems(Animations);
 }
 

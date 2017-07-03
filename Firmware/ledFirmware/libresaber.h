@@ -12,11 +12,15 @@ public:
     {
         m_gyro.init();
         m_animations.push_back(animationSpeed2Light);
+        m_animations.push_back(animationSaberOn);
+        m_animations.push_back(animationSaber);
+        m_animations.push_back(animationSaberOff);
     }
 
     virtual void readExtraSensors()
     {
         m_gyro.fullRead();
+        m_gyro.outputSerialData();
     }
 
     virtual void animateExtra()
@@ -24,6 +28,25 @@ public:
         ledBar::animateExtra();
         if(m_currentAnimation == animationSpeed2Light)
             animateSpeed2Light();
+        else if(m_currentAnimation == animationSaberOn)
+            animateSaberOn();
+        else if(m_currentAnimation == animationSaber)
+            animateSaber();
+        else if(m_currentAnimation == animationSaberOff)
+            animateSaberOff();
+    }
+
+    void saberOn()
+    {
+        resetAnimation();
+        m_currentAnimation = animationSaberOn;
+        m_nextAnimation    = animationSaber;
+    }
+
+    void saberOff()
+    {
+        m_currentAnimation = animationSaberOff;
+        m_nextAnimation    = animationNone;
     }
 
 protected:
@@ -32,12 +55,12 @@ protected:
 
     void onButton0Press()
     {
-        nextPlaylist();
+        saberOn();
     }
 
     void onButton1Press()
     {
-        previousPlaylist();
+        saberOff();
     }
 
     void onButton0LongPress()
@@ -71,6 +94,22 @@ protected:
         }
         setColor(r,g,b);
     }
+
+    void animateSaberOn()
+    {
+
+    }
+
+    void animateSaber()
+    {
+
+    }
+
+    void animateSaberOff()
+    {
+
+    }
+
 };
 
 #endif // LIBRESABER_H

@@ -143,6 +143,18 @@ public:
     calcAngles();
   }
 
+
+  void outputSerialData()
+  {
+      Serial.print("AcX:\t");Serial.print(lastAcX);
+      Serial.print("\tGyX:\t");Serial.print(lastGyX);
+      Serial.print("\tAcY:\t");Serial.print(lastAcY);
+      Serial.print("\tGyY:\t");Serial.print(lastGyY);
+      Serial.print("\tAcZ:\t");Serial.print(lastAcZ);
+      Serial.print("\tGyZ:\t");Serial.print(lastGyZ);
+      Serial.print("\tTemp:");Serial.println(lastAcX);
+  }
+
 void calcAngles(bool filter = true)
 {
     float angle = abs(AcY*90/15500);
