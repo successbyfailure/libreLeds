@@ -55,7 +55,18 @@ libreLeds is a combination of firmware, control app and pcbs that allows you to 
 
 
 ### Setup environment:
-You will need latest arduino with esp8266 support from:, latest QT, FastLed library, and the libraries included in the dependencies folder.
+-Compile firmware:
+You will need latest arduino with esp8266 support from:
+https://github.com/esp8266/Arduino
+Fastled Library from:
+https://github.com/FastLED/FastLED/releases
+Neopixel, matrix and gfx from adafruit.
+https://learn.adafruit.com/adafruit-arduino-ide-setup/arduino-1-dot-6-x-ide
+
+the libraries included in the dependencies folder.
+
+-Compile app
+latest QT for the desktop app, also android sdk for compiling android app.
 
 
 ### Wifi Modes:
