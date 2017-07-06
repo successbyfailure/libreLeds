@@ -27,7 +27,10 @@ public:
 
         if      (es->ledhwType == hwWS2812Strip)
             m_ledHardware = new ws2812Strip(es);
-        
+
+        else if(es->ledhwType == hwWS2812Strip)
+            m_ledHardware = new ws2812RGBWStrip(es);
+
         else if (es->ledhwType == hwWS2812Matrix)
             m_ledHardware = new ws2812Matrix(es);
         

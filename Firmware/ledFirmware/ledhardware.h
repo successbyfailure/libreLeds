@@ -178,6 +178,36 @@ protected:
 
 };
 
+class ws2812RGBWStrip : public ledHardWare{
+public:
+    ws2812RGBWStrip(extraSettings* es) : ledHardWare(es),
+        m_strip(es->ledCount, es->ledPin, NEO_RGBW + NEO_KHZ800)
+    {
+        m_leds = (CRGB*) m_strip.getDataArray();
+        for(uint16_t i = 0 ; i < es->ledCount ; i++)
+        {
+            m_ledArray.push_back(&m_leds[i]);
+        }
+    }
+
+    virtual void     setBrightness(uint8_t b) {m_settings->ledMaxBright = b/255.0f;}
+    virtual void     setup()
+    {
+        m_strip.begin();
+        setBrightnessF(m_settings->ledMaxBright);
+    }
+
+    virtual void     refresh()
+    {
+        m_strip.setBrightness(m_settings->ledMaxBright*255.0f);
+        m_strip.show();
+    }
+
+protected:
+    Adafruit_NeoPixel m_strip;
+
+};
+
 class ledMatrixHW : public ledHardWare
 {
 public:

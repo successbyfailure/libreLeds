@@ -84,7 +84,7 @@ protected:
         {
             m_ledGadget->resetAnimation();
             m_ledGadget->setColor(p.intVal0,p.intVal1,p.intVal2);
-            extraSettings* s = m_settingsStorage->getExtraSettings();
+            extraSettings* s = &m_settingsStorage->getExtraSettings();
             s->defaultColor[0] = p.intVal0;
             s->defaultColor[1] = p.intVal1;
             s->defaultColor[2] = p.intVal2;

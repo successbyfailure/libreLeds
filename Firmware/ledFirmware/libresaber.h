@@ -55,11 +55,13 @@ protected:
 
     void onButton0Press()
     {
+        resetAnimation();
         saberOn();
     }
 
     void onButton1Press()
     {
+        resetAnimation();
         saberOff();
     }
 
@@ -97,7 +99,14 @@ protected:
 
     void animateSaberOn()
     {
-
+        uint16_t max = m_leds.size()*m_c0/100;
+        for(int i = 0 ; i < max ; i++)
+        {
+            //m_leds[i]->r = m_settings->extraSettings.defaultColor[0];
+            //m_leds[i]->g = m_settings->extraSettings.defaultColor[1];
+            //m_leds[i]->b = m_settings->extraSettings.defaultColor[2];
+        }
+        m_c0++;
     }
 
     void animateSaber()
