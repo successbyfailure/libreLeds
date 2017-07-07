@@ -184,6 +184,12 @@ public:
         m_strip(es->ledCount, es->ledPin, NEO_RGBW + NEO_KHZ800)
     {
         m_leds = (CRGB*) m_strip.getDataArray();
+        Serial.println("Creando array para la tira");
+        Serial.println("MANDARLE A JAVI UNA CAPTURA DE ESTO:");
+        Serial.println("-----------------------------------------");
+        Serial.print("ledcount:");Serial.println(ledCount());
+        Serial.print("Bytes:"); sizeof(m_leds) ; Serial.print("  ");Serial.println(sizeof(*m_leds));
+        Serial.println("-----------------------------------------");
         for(uint16_t i = 0 ; i < es->ledCount ; i++)
         {
             m_ledArray.push_back(&m_leds[i]);
