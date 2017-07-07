@@ -152,8 +152,8 @@ public:
 
     void readSensors()
     {
-        m_button0.update();
-        m_button1.update();
+        //m_button0.update();//Debugear cuando haya botones instalados
+        //m_button1.update();
         readExtraSensors();
 
         if(m_button0.isPressed())
@@ -171,16 +171,24 @@ public:
 
     virtual void onButton0Press()
     {
-        nextPlaylist();
+        Serial.println("Botton0Press");
+        //nextPlaylist();
     }
 
     virtual void onButton1Press()
     {
-        previousPlaylist();
+        Serial.println("Botton1Press");
+        //previousPlaylist();
     }
 
-    virtual void onButton0LongPress(){;}
-    virtual void onButton1LongPress(){;}
+    virtual void onButton0LongPress()
+    {
+        Serial.println("Botton0LONGPress");
+    }
+    virtual void onButton1LongPress()
+    {
+        Serial.println("Botton1LONGPress");
+    }
 
     void animate()
     {
@@ -220,11 +228,12 @@ public:
         m_nextAnimation     = animationNone;
     }
 
-    virtual void fadeToNext()
+    virtual void fadeTo(ledGadgetAnimations a)
     {
         resetCounters();
         m_lastAnimation     = m_currentAnimation;
         m_currentAnimation  = animationFade;
+        m_nextAnimation = a;
     }
 
     virtual void Glow()

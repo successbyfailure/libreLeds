@@ -248,8 +248,10 @@ void setup()
     else
         myLedController.getledGadget()->red(100);
 
-    myLedController.getledGadget()->setNextAnimation(settingsExtra->defaultAnimation);
-    myLedController.getledGadget()->fadeToNext();
+    myLedController.update();
+    delay(10);
+    myLedController.getledGadget()->setAnimation(settingsExtra->defaultAnimation);
+    //myLedController.getledGadget()->fadeToNext();
 
     myLedController.update();
     imAlive();

@@ -64,7 +64,7 @@ struct basicSettings
     char     remoteHost        [ML] = "ledmaster.local";
     uint16_t remotePort             =  31416;
 
-    char     wifiOverrideESSID [ML] = "AndroidAP"; //Si este ssid esta presente en el arranque se conectara con el.
+    char     wifiOverrideESSID [ML] = "ledMaster"; //Si este ssid esta presente en el arranque se conectara con el.
     char     wifiOverridePasswd[ML] = "clubmate";
     char     overrideRemoteHost[ML] = "192.168.43.1";
     uint16_t overrideRemotePort     =  31416;
