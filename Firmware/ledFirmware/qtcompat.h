@@ -2,6 +2,7 @@
 #define QTCOMPAT_H
 
 #ifndef ESP8266
+#ifndef ESP32
 #ifndef __AVR_ATmega2560__
 //QT creator compatibilidad
 #include <QObject>
@@ -107,6 +108,7 @@ public:
 //uint16_t timeSinceLastFrameMS = 20;
 //uint16_t thisCycleMS = 0;
 
+#endif
 #endif
 #endif
 

@@ -145,7 +145,7 @@ void startHttpFileServer(uint16_t port)
     Serial.printf("\n");
   }
 
-  fileServer = ESP8266WebServer(port);
+//  fileServer = ESP8266WebServer(port);
 
   //SERVER INIT
   //list directory
@@ -188,7 +188,7 @@ void startHttpFileServer(uint16_t port)
 
 void startHttpUpdater(uint16_t port)
 {
-    updateServer = ESP8266WebServer(port);
+//    updateServer = ESP8266WebServer(port);
     updateServer.on("/", HTTP_GET, [](){
       updateServer.sendHeader("Connection", "close");
       updateServer.sendHeader("Access-Control-Allow-Origin", "*");
@@ -291,8 +291,9 @@ void wifi_init(settingsStorage* e)
       {
           IPAddress ip     (s.IP[0]    ,s.IP[1]    ,s.IP[2]    ,s.IP[3]);
           IPAddress gateway(0          ,0          ,0          , 0);
+          IPAddress dns    (0          ,0          ,0          , 0);
           IPAddress subnet (s.subnet[0],s.subnet[1],s.subnet[2],s.subnet[3]);
-          WiFi.config      (ip, gateway, subnet);
+          WiFi.config      (ip, gateway,dns, subnet);
       }
       WiFi.mode(WIFI_STA);
       WiFi.begin(s.wifiESSID, s.wifiPasswd);

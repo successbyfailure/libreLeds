@@ -5,6 +5,7 @@
 #define LED_CLOCK D7
 #define FASTLED_ESP8266_RAW_PIN_ORDER
 
+#define ESP8266
 
 #include <gamma.h>
 #include "FastLED.h"
