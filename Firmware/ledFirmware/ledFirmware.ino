@@ -10,7 +10,6 @@
 #include <gamma.h>
 #include "FastLED.h"
 #include <EEPROM.h>
-#include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
@@ -28,6 +27,10 @@ extern "C" {
 #endif
 
 #include "vector"
+
+#define GYRO // Hack para anular la compilacion del gyro
+#define LIBRESABER_H
+#define LEDWHEEL
 
 
 #include <ArtnetWifi.h>
@@ -62,6 +65,10 @@ uint16_t lfLoops = 0;
 uint16_t tcpPackets     = 0;
 uint16_t artnetPackets  = 0;
 
+uint8_t  ledPin   = -1;
+int      ledTimer =  0;
+
+
 EEPROMStorage myEEPROM;
 basicSettings* settingsBasic;
 extraSettings* settingsExtra;
@@ -87,6 +94,8 @@ ArtnetWifi artnet;
 
 void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* data)
 {
+    digitalWrite(ledPin,LOW);
+    ledTimer = 5;
     myLedController.onDmxFrame(universe,  length,  sequence, data);
     artnetPackets++;
     yield();
@@ -141,7 +150,8 @@ void imAlive()
 {
     if(aliveTimer < myEEPROM.getBasicSettings().watchdogTime) return;
 
-    digitalWrite(myEEPROM.getExtraSettings().alivePin, !digitalRead(myEEPROM.getExtraSettings().alivePin));
+    digitalWrite(ledPin,LOW);
+    ledTimer = 500;
 
     Serial.print("ImAlive! - ");Serial.print(aliveTimer); Serial.print("ms");
     aliveTimer = 0;
@@ -194,14 +204,14 @@ void manageTimers()
 void setup()
 {
     Serial.println("\n\ninit...");
-
+    
     if(myEEPROM.hasBasicSettings())
         Serial.println("Using EEPROM settings");
     else
         Serial.println("Using hardcoded settings");
     settingsBasic = &myEEPROM.getBasicSettings();
     settingsExtra = &myEEPROM.getExtraSettings();
-
+    ledPin = settingsExtra->alivePin;
     Serial.println("Setting up hardware");
     pinMode(settingsExtra->alivePin,OUTPUT);
     digitalWrite(settingsExtra->alivePin,LOW);
@@ -287,8 +297,16 @@ void loop()
         hfLoops++;
         hfCounter = 0;
     }
-
+    
     manageTimers();
-    imAlive();
+    if(ledTimer>1)
+    {
+      ledTimer -= lastCycleMS;
+      if(!(ledTimer>1))
+      {
+        digitalWrite(ledPin,HIGH); 
+      }
+    }
+    imAlive();    
 }
 

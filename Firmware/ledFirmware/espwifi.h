@@ -234,6 +234,7 @@ void wifi_init(settingsStorage* e)
 //    WiFi.disconnect();
     bool overmindFound = false;
     currentWifiMode = s.wifiMode;
+    //WiFi.hostname(s.id);      // DHCP Hostname (useful for finding device for static lease)
     if(s.allowWifiOverride)
     {
         Serial.print("Searching override network... ");
@@ -285,17 +286,36 @@ void wifi_init(settingsStorage* e)
       Serial.print(s.wifiESSID);
       Serial.print(" - ");
       Serial.println(s.wifiPasswd);
-      WiFi.softAPdisconnect(true);
-      yield();
       if(s.staticIP)
       {
+          Serial.println( "Manual IP:" + String(s.IP[0]) + "." +  String(s.IP[1]) + "." + String(s.IP[2]) + "." + String(s.IP[3]) );
           IPAddress ip     (s.IP[0]    ,s.IP[1]    ,s.IP[2]    ,s.IP[3]);
-          IPAddress gateway(0          ,0          ,0          , 0);
-          IPAddress dns    (0          ,0          ,0          , 0);
+          IPAddress gateway(192        ,168        ,10          ,1);
+          IPAddress dns    (255        ,255        ,0          , 0);
           IPAddress subnet (s.subnet[0],s.subnet[1],s.subnet[2],s.subnet[3]);
-          WiFi.config      (ip, gateway,dns, subnet);
+
+          WiFi.softAPdisconnect(true);
+          yield();
+          WiFi.mode(WIFI_STA);
+              
+
+          if(!WiFi.config(ip,gateway,subnet,dns,dns))
+            Serial.println("No se ha podido asignar la ip antes de lanzar el begin()");
+
+          WiFi.begin(s.wifiESSID, s.wifiPasswd);
+          uint8_t i = 0;
+          while ( (WiFi.status() != WL_CONNECTED) && (i < 20) )
+          {
+            delay(500);
+            Serial.print(".");
+            i++;
+          }
       }
-      WiFi.mode(WIFI_STA);
+      else
+      {
+      WiFi.softAPdisconnect(true);
+      yield();
+      WiFi.mode(WIFI_STA);                
       WiFi.begin(s.wifiESSID, s.wifiPasswd);
       yield();
       uint8_t i = 0;
@@ -305,10 +325,13 @@ void wifi_init(settingsStorage* e)
         Serial.print(".");
         i++;
       }
+      }
+      
       if(WiFi.status() != WL_CONNECTED)
           Serial.println("Not Connected!");
       else
           Serial.println("Connected!");
+
   } else if(s.wifiMode == wifiMesh) {
 
   }

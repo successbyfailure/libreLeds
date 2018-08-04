@@ -168,14 +168,14 @@ public:
             {
                 char* d;
                 d = &result[i*128];
-                Serial.write(d,128);
+                //Serial.write(d,128);
                 yield();
             }
             if(left > 0)
             {
                 char* d;
                 d = &result[ships*128];
-                Serial.write(d,left);
+                //Serial.write(d,left);
                 yield();
             }
         }

@@ -31,6 +31,7 @@ enum ledGadgetType
     gadgetledMatrix,
     gadgetledTree,
     gadgetLibreSaber,
+    gadgetKineticWheels,
 
     _lastGadget
 };
@@ -50,7 +51,7 @@ struct basicSettings
     char id[20]                     = "LedGadget";
 
     //Watchdog
-    uint16_t watchdogTime           = 2500;
+    uint16_t watchdogTime           = 5000;
     uint16_t delayTime              = 5;
     uint16_t highFreqCycleMs        = 1;
     uint16_t medFreqCycleMs         = 30;
@@ -58,8 +59,8 @@ struct basicSettings
 
 
     //Wireless
-    wMode    wifiMode               =  wifiAP;
-    char     wifiESSID         [ML] = "LedGadget";
+    wMode    wifiMode               =  wifiClient;
+    char     wifiESSID         [ML] = "libreLeds";
     char     wifiPasswd        [ML] = "clubmate";
     char     remoteHost        [ML] = "ledmaster.local";
     uint16_t remotePort             =  31416;
@@ -91,10 +92,10 @@ struct basicSettings
 struct extraSettings
 {
     //Pinconfig
-    int8_t  alivePin           = D0;
+    int8_t  alivePin           = D4;
     //ledPins
-    int8_t  ledPin             = D4;
-    int8_t  ledClock           = D3;
+    int8_t  ledPin             = D8;
+    int8_t  ledClock           = D7;
 
     //i2c
     int8_t sdaPin              = D2;
@@ -102,21 +103,21 @@ struct extraSettings
 
     //MSGEQ7
     int8_t eqOut               = A0;
-    int8_t eqReset             = D5;
-    int8_t eqStrobe            = D6;
+    int8_t eqReset             = -1;//D5;
+    int8_t eqStrobe            = -1;//D6;
 
     //Buttons
-    int8_t btn1Pin             = D7;
-    int8_t btn2Pin             = D8;
+    int8_t btn1Pin             = -1;//D7;
+    int8_t btn2Pin             = -1;//D8;
 
     //LedConfig
-    ledHardwareType ledhwType   = hwWS2812Strip;
+    ledHardwareType ledhwType   = hwAPA102Strip;
     ledGadgetType   gadgetType  = gadgetLedBar;
     ledGadgetAnimations
                defaultAnimation = animationCylon;
     uint8_t  defaultColor[3]    = {0,0,128};
-    uint16_t ledCount           = 84;
-    float    ledMaxBright       = 0.15;
+    uint16_t ledCount           = 512;
+    float    ledMaxBright       = 0.2;
     bool     ledReversedOrder   = false;
     bool     ledMatrixZigZag    = true;
     uint16_t ledMatrixXSize     = 16;
@@ -125,7 +126,7 @@ struct extraSettings
     uint16_t ledMatrixYTiles    = 1;
 
     //Watchdog
-    uint16_t watchdogTime       = 2500;
+    uint16_t watchdogTime       = 5000;
 
     //ArtNet
     bool     artNetEnabled      = true;

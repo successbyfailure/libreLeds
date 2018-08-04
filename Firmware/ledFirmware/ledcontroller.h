@@ -9,6 +9,7 @@
 #include "ledwheel.h"
 #include "ledTree.h"
 #include "libresaber.h"
+#include "kineticWheels.h"
 #include "vector"
 #include "settings.h"
 #include "ledgadgetclient.h"
@@ -42,7 +43,6 @@ public:
         
         else if (es->ledhwType == hwAPA102Matrix)
             m_ledHardware = new apa102Matrix(es);
-
         //Setting ledgadget type
         if      (es->gadgetType == gadgetSpotLed)
             m_ledGadget = new spotLed   (es,m_ledHardware->getColorArray(),0,es->ledCount);
@@ -50,15 +50,16 @@ public:
             m_ledGadget = new ledBar    (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
         else if (es->gadgetType == gadgetLedCircle)
             m_ledGadget = new ledCircle (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
-        else if (es->gadgetType == gadgetLedWheel)
-            m_ledGadget = new ledWheel  (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
+//        else if (es->gadgetType == gadgetLedWheel)
+//            m_ledGadget = new ledWheel  (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
         else if (es->gadgetType == gadgetledMatrix)
             m_ledGadget = new ledMatrix (es,(ledMatrixHW*)m_ledHardware   ,0,es->ledCount,es->ledReversedOrder);
         else if (es->gadgetType == gadgetledTree)
             m_ledGadget = new ledTree (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
-        else if (es->gadgetType == gadgetLibreSaber)
-            m_ledGadget = new libreSaber(es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
-
+//        else if (es->gadgetType == gadgetLibreSaber)
+//            m_ledGadget = new libreSaber(es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
+        else if (es->gadgetType == gadgetKineticWheels)
+            m_ledGadget = new kineticWheels(es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
         else
             m_ledGadget = new ledBar    (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
 
@@ -115,11 +116,11 @@ public:
       m_ledGadget->setAnimation(animationNone);
 
       // set brightness of the whole strip
-      if (universe == 15)
-      {
-        m_ledHardware->setBrightness(data[0]/255.0f);
-        m_ledHardware->refresh();
-      }
+      //if (universe == 15)
+      //{
+      //  m_ledHardware->setBrightness(data[0]/255.0f);
+      //  m_ledHardware->refresh();
+      //}
 
       if(universe < startUniverse)
       {
