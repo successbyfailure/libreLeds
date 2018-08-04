@@ -63,7 +63,6 @@ uint16_t mfLoops = 0;
 uint16_t lfLoops = 0;
 
 uint16_t tcpPackets     = 0;
-uint16_t artnetPackets  = 0;
 
 uint8_t  ledPin   = -1;
 int      ledTimer =  0;
@@ -97,7 +96,6 @@ void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* d
     digitalWrite(ledPin,LOW);
     ledTimer = 5;
     myLedController.onDmxFrame(universe,  length,  sequence, data);
-    artnetPackets++;
     yield();
 }
 
@@ -175,7 +173,9 @@ void imAlive()
     Serial.print("\tlf:");Serial.println(lfLoops*factor);
 
     Serial.print("tcp packets/s:");Serial.print(tcpPackets*factor);
-    Serial.print("\t artnet Packets/s:");Serial.println(artnetPackets*factor);
+    Serial.print("\t artnet Packets/s:");Serial.println(myLedController.getDmxFrames());
+    Serial.print("OK artnet:");Serial.println(myLedController.getDmxOK());
+    Serial.print("BAD artnet Packets/s:");Serial.println(myLedController.getBadDmxFrames());
 
     Serial.println("....");
     hfLoops = 0;
@@ -183,7 +183,7 @@ void imAlive()
     lfLoops = 0;
 
     tcpPackets    = 0;
-    artnetPackets = 0;
+    myLedController.resetDmxcounter();
     yield();
 }
 
