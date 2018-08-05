@@ -113,6 +113,7 @@ public:
 
     virtual void test()
     {
+      off();
       for( uint16_t i = 0 ; i < ledCount() ; i++)
       {
         m_leds[i] = CRGB(255,255,255);
@@ -127,6 +128,7 @@ public:
 
     virtual void initAnimation()
     {
+	    off();
         uint16_t index = rand() % m_ledArray.size();
         for(uint i = 0 ; i < m_ledArray.size() ; i++)
         {

@@ -50,14 +50,14 @@ public:
             m_ledGadget = new ledBar    (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
         else if (es->gadgetType == gadgetLedCircle)
             m_ledGadget = new ledCircle (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
-//        else if (es->gadgetType == gadgetLedWheel)
-//            m_ledGadget = new ledWheel  (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
+        else if (es->gadgetType == gadgetLedWheel)
+            m_ledGadget = new ledWheel  (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
         else if (es->gadgetType == gadgetledMatrix)
             m_ledGadget = new ledMatrix (es,(ledMatrixHW*)m_ledHardware   ,0,es->ledCount,es->ledReversedOrder);
         else if (es->gadgetType == gadgetledTree)
             m_ledGadget = new ledTree (es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
-//        else if (es->gadgetType == gadgetLibreSaber)
-//            m_ledGadget = new libreSaber(es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
+        else if (es->gadgetType == gadgetLibreSaber)
+            m_ledGadget = new libreSaber(es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
         else if (es->gadgetType == gadgetKineticWheels)
             m_ledGadget = new kineticWheels(es,m_ledHardware->getColorArray(),0,es->ledCount,es->ledReversedOrder);
         else
@@ -113,7 +113,7 @@ public:
     void onDmxFrame(uint16_t universe, uint16_t length, uint8_t sequence, uint8_t* data)
     {
       sendFrame = 1;
-
+	  //Serial.println("DMX: u: "+String(universe)+" l: "+String(length)+" seq:"+String(sequence));
       // set brightness of the whole strip
       //if (universe == 15)
       //{
@@ -268,6 +268,7 @@ protected:
         previousDataLength  = 0;
         numberOfChannels    = m_settingsStorage->getExtraSettings().ledCount * 3; // Total number of channels you want to receive (1 led = 3 channels)
         maxUniverses        = numberOfChannels / 512 + ((numberOfChannels % 512) ? 1 : 0);
+		Serial.println("Init artnet, universe:"+String(startUniverse)+" Channels:"+String(numberOfChannels)+" Universes:"+String(maxUniverses));
         universesReceived   = new bool[maxUniverses];
         resetDmxcounter();
     }

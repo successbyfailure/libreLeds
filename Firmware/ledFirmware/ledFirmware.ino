@@ -13,7 +13,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
-
+#include <Wire.h>
 
 #ifdef ESP8266
 extern "C" {
@@ -27,11 +27,6 @@ extern "C" {
 #endif
 
 #include "vector"
-
-#define GYRO // Hack para anular la compilacion del gyro
-#define LIBRESABER_H
-#define LEDWHEEL
-
 
 #include <ArtnetWifi.h>
 
@@ -171,11 +166,13 @@ void imAlive()
     Serial.print("Cycles per second: hf:");Serial.print(hfLoops*factor);
     Serial.print("\tmf:");Serial.print(mfLoops*factor);
     Serial.print("\tlf:");Serial.println(lfLoops*factor);
+    
+    Serial.println("VCC: " + String(ESP.getVcc()));
 
     Serial.print("tcp packets/s:");Serial.print(tcpPackets*factor);
     Serial.print("\t artnet Packets/s:");Serial.println(myLedController.getDmxFrames());
-    Serial.print("OK artnet:");Serial.println(myLedController.getDmxOK());
-    Serial.print("BAD artnet Packets/s:");Serial.println(myLedController.getBadDmxFrames());
+    Serial.print("OK artnet:");Serial.print(myLedController.getDmxOK());
+    Serial.print("\tBAD artnet Packets/s:");Serial.println(myLedController.getBadDmxFrames());
 
     Serial.println("....");
     hfLoops = 0;
