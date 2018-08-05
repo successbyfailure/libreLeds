@@ -72,6 +72,33 @@ public:
         setBrightness(p);
     }
 
+	uint16_t underVoltHappend()
+	{
+		return m_underVoltHappened;
+	}
+
+	void underVoltDimmer(float factor)
+	{
+		if(factor < 1)
+			m_underVoltHappened++;
+			
+		m_underVoltDimmer += factor;
+		if(m_underVoltDimmer < 0.01)
+			m_underVoltDimmer = 0.01;
+		if(m_underVoltDimmer > 1)
+			m_underVoltDimmer = 1;
+	}
+
+	void setUnderVoltDimmer(float factor)
+	{
+		m_underVoltDimmer = factor;
+	}	
+	
+	float underVoltDimm()
+	{
+		return m_underVoltDimmer;
+	}
+
     virtual void     setBrightness(uint8_t b) {;}
 
     virtual uint16_t ledCount()               {return m_ledCount;}
@@ -116,7 +143,7 @@ public:
       off();
       for( uint16_t i = 0 ; i < ledCount() ; i++)
       {
-        m_leds[i] = CRGB(255,255,255);
+        m_leds[i] = CRGB(150,150,150);
         if(i>=3)
             m_leds[i-3] = CRGB(0,0,0);
         if(i%2 == 0)refresh();
@@ -133,7 +160,7 @@ public:
         for(uint i = 0 ; i < m_ledArray.size() ; i++)
         {
             if(i == index)
-                getLed(i).white();
+                getLed(i).setColor(100,100,100);
             else
                 getLed(i).dimm();
         }
@@ -147,6 +174,8 @@ protected:
     CRGB*               m_leds;
     uint16_t            m_ledCount;
     std::vector<CRGB*>  m_ledArray;
+    float               m_underVoltDimmer = 0.7;
+    uint16_t			m_underVoltHappened = 0;
 
 };
 
@@ -171,7 +200,7 @@ public:
 
     virtual void     refresh()
     {
-        m_strip.setBrightness(m_settings->ledMaxBright*255.0f);
+        m_strip.setBrightness(m_settings->ledMaxBright*m_underVoltDimmer*255.0f);
         m_strip.show();
     }
 
@@ -186,12 +215,13 @@ public:
         m_strip(es->ledCount, es->ledPin, NEO_RGBW + NEO_KHZ800)
     {
         m_leds = (CRGB*) m_strip.getDataArray();
-        Serial.println("Creando array para la tira");
-        Serial.println("MANDARLE A JAVI UNA CAPTURA DE ESTO:");
-        Serial.println("-----------------------------------------");
-        Serial.print("ledcount:");Serial.println(ledCount());
-        Serial.print("Bytes:"); sizeof(m_leds) ; Serial.print("  ");Serial.println(sizeof(*m_leds));
-        Serial.println("-----------------------------------------");
+
+//        Serial.println("Creando array para la tira");
+//        Serial.println("MANDARLE A JAVI UNA CAPTURA DE ESTO:");
+//        Serial.println("-----------------------------------------");
+//        Serial.print("ledcount:");Serial.println(ledCount());
+//        Serial.print("Bytes:"); sizeof(m_leds) ; Serial.print("  ");Serial.println(sizeof(*m_leds));
+//        Serial.println("-----------------------------------------");
 
         for(uint16_t i = 0 ; i < es->ledCount ; i++)
         {
@@ -208,7 +238,7 @@ public:
 
     virtual void     refresh()
     {
-        m_strip.setBrightness(m_settings->ledMaxBright*255.0f);
+        m_strip.setBrightness(m_settings->ledMaxBright*m_underVoltDimmer*255.0f);
         m_strip.show();
     }
 
@@ -377,7 +407,7 @@ public:
 
     virtual void     refresh()
     {
-        m_matrix.setBrightness(m_settings->ledMaxBright*255.0f);
+        m_matrix.setBrightness(m_settings->ledMaxBright*m_underVoltDimmer*255.0f);
         m_matrix.show();
     }
 
@@ -409,7 +439,7 @@ public:
 
     virtual void     refresh()
     {
-        FastLED.setBrightness(m_settings->ledMaxBright*255);
+        FastLED.setBrightness(m_settings->ledMaxBright*m_underVoltDimmer*255);
         FastLED.show();
     }
 
@@ -437,7 +467,7 @@ public:
 
     virtual void     refresh()
     {
-        FastLED.setBrightness(m_settings->ledMaxBright*255);
+        FastLED.setBrightness(m_settings->ledMaxBright*m_underVoltDimmer*255);
         FastLED.show();
     }
 
@@ -461,7 +491,7 @@ public:
 
     virtual void     refresh()
     {
-        FastLED.setBrightness(m_settings->ledMaxBright*255);
+        FastLED.setBrightness(m_settings->ledMaxBright*m_underVoltDimmer*255);
         FastLED.show();
     }
 

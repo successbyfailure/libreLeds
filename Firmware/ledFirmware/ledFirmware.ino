@@ -1,5 +1,7 @@
 #include "qtcompat.h"
 
+ADC_MODE(ADC_VCC)
+
 //FASTLED
 #define LED_PIN   D8
 #define LED_CLOCK D7
@@ -167,10 +169,10 @@ void imAlive()
     Serial.print("\tmf:");Serial.print(mfLoops*factor);
     Serial.print("\tlf:");Serial.println(lfLoops*factor);
     
-    Serial.println("VCC: " + String(ESP.getVcc()));
+    Serial.print("VCC: " + String(ESP.getVcc()/1000.0));Serial.println(" UnderVolt factor:"+String(myLedController.ledHW()->underVoltDimm())+" UndervoltHappened: "+myLedController.ledHW()->underVoltHappend());
 
     Serial.print("tcp packets/s:");Serial.print(tcpPackets*factor);
-    Serial.print("\t artnet Packets/s:");Serial.println(myLedController.getDmxFrames());
+    Serial.print("\t artnet Packets/s:");Serial.println(myLedController.getDmxFrames()*factor);
     Serial.print("OK artnet:");Serial.print(myLedController.getDmxOK());
     Serial.print("\tBAD artnet Packets/s:");Serial.println(myLedController.getBadDmxFrames());
 

@@ -71,7 +71,7 @@ public:
     void setup()
     {
         m_ledHardware->setup();
-        //m_ledHardware->test();
+        m_ledHardware->test();
         if(m_settingsStorage->getExtraSettings().artNetEnabled)
             initArtNet();
 
@@ -83,6 +83,44 @@ public:
         m_ledHardware->setBrightness(b);
     }
 
+	void checkEnergy()
+	{
+
+		float currentVolts = ESP.getVcc()/1000.0;
+		if(currentVolts >3.03 && (m_ledHardware->underVoltDimm() != 1.0))
+		{
+			m_ledHardware->underVoltDimmer(0.0001);
+			m_ledHardware->refresh();
+			//Serial.println("Voltage is good, rising factor: "+String(m_ledHardware->underVoltDimm())+" Result: "+ String(currentVolts));
+		}
+		
+		if(currentVolts < 2.7)
+		{
+			//Serial.println("UnderVoltage: " + String(currentVolts) + " . Emegency undervolt!!!");
+			m_ledHardware->underVoltDimmer(-0.99);
+			m_ledHardware->refresh();
+			//currentVolts = ESP.getVcc()/1000.0;
+			//Serial.println("Factor: "+String(m_ledHardware->underVoltDimm())+" Result: "+ String(currentVolts));
+		}
+		else if(currentVolts < 2.9)
+		{
+			//Serial.println("UnderVoltage: " + String(currentVolts) + " . Reducing bright...");
+			m_ledHardware->underVoltDimmer((currentVolts-3)*1.5);
+			m_ledHardware->refresh();
+			//currentVolts = ESP.getVcc()/1000.0;
+			//Serial.println("Factor: "+String(m_ledHardware->underVoltDimm())+" Result: "+ String(currentVolts));
+		}
+		else if(currentVolts < 3)
+		{
+			//Serial.println("UnderVoltage: " + String(currentVolts) + " . Reducing bright...");
+			m_ledHardware->underVoltDimmer((currentVolts-3)*0.1);
+			m_ledHardware->refresh();
+			//currentVolts = ESP.getVcc()/1000.0;
+			//Serial.println("Factor: "+String(m_ledHardware->underVoltDimm())+" Result: "+ String(currentVolts));
+		}
+	}    
+	
+	
     void update()
     {
         hfUpdate();
@@ -93,6 +131,7 @@ public:
     void hfUpdate()
     {
         m_ledGadget->readSensors();
+        checkEnergy();
     }
 
     void mfUpdate()
@@ -100,6 +139,7 @@ public:
         m_server.update();
         m_ledGadget->animate();
         m_ledHardware->refresh();
+
     }
 
     void lfUpdate()
@@ -167,7 +207,8 @@ public:
       dmxFrames++;
     }
 
-    ledGadGetServer& server()    {return m_server;}
+    ledGadGetServer& server()    	{return m_server;}
+	ledHardWare*     ledHW()        {return m_ledHardware;}
 
     void initAnimation()
     {
@@ -186,6 +227,7 @@ public:
             lgc->sendLedGadgetProtocolPacket(p);
         }
     }
+
 
     void sendVuLevels(uint8_t vuLevel, uint8_t* spectrum)
     {
