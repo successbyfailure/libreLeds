@@ -44,7 +44,7 @@ void setup()
   WiFi.setAutoReconnect (true);
   WiFi.hostname         (_id);
 
-  WiFi.begin("localhost", "aceptolosterminos");
+  WiFi.begin();
 
   ArduinoOTA.setHostname(_id.c_str());
   //ArduinoOTA.setPassword("clubmate");

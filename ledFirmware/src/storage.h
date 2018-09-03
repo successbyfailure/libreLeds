@@ -34,6 +34,7 @@
 #define LED_BRIGHT        F("lb")
 #define LED_MAXBRIGHT     F("lm")
 #define UNDERVOLT_PROTECT F("up")
+#define POWER_CALIBRATION F("pc")
 
 #define LOOP_DELAY     F("ld")
 #define SENSOR_REFRESH F("sr")
@@ -61,8 +62,8 @@ String stockConfig()
   root[NODE_TYPE]        = F("unknown");
 
   root[WIFI_MODE]        = F("client");
-  root[WIFI_ESSID]       = F("localhost");
-  root[WIFI_PWD]         = F("aceptolosterminos");
+  root[WIFI_ESSID]       = F("-----------------");
+  root[WIFI_PWD]         = F("-----------------");
 
   root[STATIC_IP_EN]     = F("false");
   root[STATIC_IP]        = F("192.168.10.100");
@@ -86,6 +87,7 @@ String stockConfig()
   root[LED_BRIGHT]       = F("1");
   root[LED_MAXBRIGHT]    = F("50");
   root[UNDERVOLT_PROTECT]= F("true");
+  root[POWER_CALIBRATION]= F("true");
 
   root[LOOP_DELAY]       = F("1");
   root[SENSOR_REFRESH]   = F("10");
@@ -94,7 +96,7 @@ String stockConfig()
   root[OTHER_REFRESH]    = F("250");
   root[WD_REFRESH]       = F("5000");
 
-  root[CONFIG_VERSION]   = F("2");
+  root[CONFIG_VERSION]   = F("3");
 
   String result;
   root.printTo(result);
