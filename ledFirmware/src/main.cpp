@@ -59,7 +59,7 @@ void setup()
   //s->initConfig();
   //s->setKeyValue("lm","100");
   //s->setKeyValue("lr","5");
-  s->setKeyValue("ld","0");
+  //s->setKeyValue("ld","0");
   node = new baseNode(s);
   node->setup();
 }

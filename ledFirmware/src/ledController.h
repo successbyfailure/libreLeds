@@ -55,6 +55,12 @@ public:
       FastLED.setBrightness(_maxBright*_brightness);
       _pixelsPerUniverse = 512 / _bytesPerPixel;
       _maxDMXData        = (_ledCount*_bytesPerPixel)+(_ledCount/_pixelsPerUniverse);
+
+      if(true)
+      {
+        calibratePower();
+      }
+
       off();
       update();
       delay(10);
@@ -292,6 +298,9 @@ public:
 
     void checkVCC()
   	{
+      if(_maxBright < 3)
+        return;
+
   		float currentVolts = ESP.getVcc()/1000.0;
 
       if(currentVolts > _vccRef)
@@ -320,6 +329,7 @@ public:
   			//Serial.println("Voltage is good, rising factor: "+String(m_ledHardware->underVoltDimm())+" Result: "+ String(currentVolts));
   		}
   	}
+
     void calibratePower()
     {
       #ifdef ADC_UNDERVOLT
@@ -329,18 +339,25 @@ public:
       float vccRef = ESP.getVcc()/1000.0;
       for(int i = 0 ; i < 200 ; i++)
       {
+        _maxBright = 200;
         setColor(255,255,255);
         FastLED.setBrightness(i);
         FastLED.show();
-        delay(1);
+        delay(5);
         float volts = ESP.getVcc()/1000.0;
         if((vccRef - volts) > 0.1)
         {
-          _maxBright = i-5;
-          FastLED.setBrightness(_maxBright);
-          FastLED.show();
+          if(i < 3)
+          _maxBright = 1;
+        else
+          _maxBright = i-2;
+        break;
         }
       }
+      FastLED.setBrightness(_maxBright);
+      off();
+      FastLED.show();
+      delay(200);
       #endif
     }
 
