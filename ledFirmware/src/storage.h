@@ -4,8 +4,8 @@
 #include "aux.h"
 #define JSONCONFIGSIZE  1000
 
-#define NODE_ID      F("i")
-#define NODE_TYPE    F("t")
+#define NODE_ID      "i"
+#define NODE_TYPE    "t"
 
 #define WIFI_MODE    F("wm")
 #define WIFI_ESSID   F("we")
@@ -66,10 +66,10 @@ String stockConfig()
   root[WIFI_PWD]         = F("-----------------");
 
   root[STATIC_IP_EN]     = F("false");
-  root[STATIC_IP]        = F("192.168.10.100");
+  root[STATIC_IP]        = F("10.0.1.4");
 
   root[MQTT_ENABLED]     = F("true");
-  root[MQTT_SERVER]      = F("192.168.10.10");
+  root[MQTT_SERVER]      = F("10.0.1.254");
   root[MQTT_PORT]        = F("1883");
 
   root[ARTNET_ENABLED]   = F("true");
@@ -82,16 +82,16 @@ String stockConfig()
   root[SACN_CHANNEL]     = F("1");
 
   root[STATUS_PIN]       = D4;
-  root[LED_HW]           = F("ws2812Strip");
+  root[LED_HW]           = F("apa102strip");
   root[LED_COUNT]        = F("50");
   root[LED_BRIGHT]       = F("1");
   root[LED_MAXBRIGHT]    = F("50");
   root[UNDERVOLT_PROTECT]= F("true");
   root[POWER_CALIBRATION]= F("true");
 
-  root[LOOP_DELAY]       = F("1");
-  root[SENSOR_REFRESH]   = F("10");
-  root[LED_REFRESH]      = F("15");
+  root[LOOP_DELAY]       = F("0");
+  root[SENSOR_REFRESH]   = F("1");
+  root[LED_REFRESH]      = F("2");
   root[NODE_REFRESH]     = F("100");
   root[OTHER_REFRESH]    = F("250");
   root[WD_REFRESH]       = F("5000");

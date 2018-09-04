@@ -9,7 +9,7 @@
 
 //
 
-
+extern void ledsOff();
 
 class baseNode
 {
@@ -33,7 +33,6 @@ void setup()
   _ntpUdp.begin (123);
   pinMode       (_statusLedPin, OUTPUT);
   digitalWrite  (_statusLedPin,HIGH);
-  _ledController.setup();
   setupNode();
 
   WiFi.persistent       (true);
@@ -44,10 +43,13 @@ void setup()
   WiFi.setAutoReconnect (true);
   WiFi.hostname         (_id);
 
-  WiFi.begin();
+  WiFi.begin("localhost","aceptolosterminos");
 
   ArduinoOTA.setHostname(_id.c_str());
   //ArduinoOTA.setPassword("clubmate");
+  ArduinoOTA.onStart([]() {
+    ledsOff();
+  });
   ArduinoOTA.begin();
 
   yield();
@@ -317,7 +319,7 @@ protected:
       _ledController.initDMX();
       if(MDNS.begin(_id.c_str()))
       {
-          Serial.print(String(F("MDNS started, name:"))+_id);
+          Serial.println(String(F("MDNS started, name:"))+_id);
           MDNS.addService("http", "tcp", 80);
       }
       else

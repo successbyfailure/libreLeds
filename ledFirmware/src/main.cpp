@@ -33,9 +33,16 @@
 //
 #include "baseNode.h"
 
+#include "nLedBar.h"
+
 
 baseNode*     node;
 spifsStorage* s;
+
+void ledsOff()
+{
+  node->lController()->off();
+}
 
 void artAddressReceived() {
 
@@ -60,7 +67,18 @@ void setup()
   //s->setKeyValue("lm","100");
   //s->setKeyValue("lr","5");
   //s->setKeyValue("ld","0");
-  node = new baseNode(s);
+  //s->setKeyValue("t","ledBar");
+  //s->setKeyValue("lc","150");
+  String nodeT = s->getKeyValue(NODE_TYPE);
+
+  if(nodeT == "ledBar")
+  {
+    node = new ledBarNode(s);
+  }
+  else
+  {
+    node = new baseNode(s);
+  }
   node->setup();
 }
 

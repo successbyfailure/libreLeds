@@ -17,6 +17,8 @@ public:
       _bytesPerPixel  = 3;
       _frames         = 0;
       _idleFrames     = 0;
+      _dmxLastTime    = 0;
+      setup();
     }
 
     void setup()
@@ -60,7 +62,7 @@ public:
       {
         calibratePower();
       }
-
+      yield();
       off();
       update();
       delay(50);
@@ -95,6 +97,13 @@ public:
           setPixelColor(i,r,g,b);
     }
 
+    CRGB* pixel(uint16_t index)
+    {
+      if(index < _ledCount)
+        return &_ledArray[0];
+      return   &_ledArray[index];
+    }
+
     void setPixelColor(uint16_t index, uint8_t r, uint8_t g, uint8_t b,uint8_t w = 0)
     {
         if(index > _ledCount)
@@ -107,10 +116,17 @@ public:
         _ledArray[index].b=b;
     }
 
+    void showAsync()
+    {
+      _updated = true;
+    }
+
     void off()
     {
       for(uint16_t i = 0 ; i < _ledCount ; i++)
         setPixelColor(i,0,0,0);
+      FastLED.show();
+      _updated = false;
     }
 
     void update()
@@ -124,20 +140,13 @@ public:
         {
           readsACN();
         }
-        if(_artnetEnabled)
-        {
-          while (readArtnet()) {
-            yield();
-          }
+        while (_artnetEnabled && readArtnet()) {;}
         }
-      }
 
       if(_updated)
       {
         show();
         _updated = false;
-        if(_underVoltProtect)
-          checkVCC();
       }
       else
       {
@@ -146,8 +155,6 @@ public:
           {
             _idleFrames = 0;
             show();
-            if(_underVoltProtect)
-              checkVCC();
           }
       }
 
@@ -166,6 +173,8 @@ public:
       _frames++;
       FastLED.setBrightness(_maxBright*_brightness*_underVoltDimmer);
       FastLED.show();
+      if(_underVoltProtect)
+        checkVCC();
     }
 
     uint16_t getsACNrx()
@@ -192,6 +201,14 @@ public:
     LXWiFiArtNet* artnetInterface()
     {
       return _artNet0;
+    }
+
+    bool dmxInUse()
+    {
+      if(_dmxLastTime == 0)
+        return false;
+      uint32_t now = millis();
+      return (now - _dmxLastTime) < 60000;
     }
 
     void initDMX()
@@ -335,18 +352,19 @@ public:
       off();
       FastLED.show();
       delay(50);
+      uint8_t maxPower = _storage->getKeyValue(LED_MAXBRIGHT).toInt();
       float vccRef = ESP.getVcc()/1000.0;
-      _maxBright = 200;
-      for(int i = 0 ; i < 200 ; i++)
+      _maxBright = maxPower;
+      for(int i = 0 ; i < maxPower ; i++)
       {
         setColor(255,255,255);
         FastLED.setBrightness(i);
         FastLED.show();
-        delay(5);
+        delay(1);
         float volts = ESP.getVcc()/1000.0;
-        if((vccRef - volts) > 0.025)
+        if((vccRef - volts) > 0.01)
         {
-          if(i < 5)
+          if(i < 10)
           _maxBright = 1;
         else
           _maxBright = i-5;
@@ -382,6 +400,7 @@ protected:
 
 //Artnet & sacn
   bool          _dmxSetup;
+  uint32_t      _dmxLastTime;
   uint8_t       _bytesPerPixel;
   uint8_t       _pixelsPerUniverse;
   bool          _sacnEnabled;
@@ -422,6 +441,7 @@ protected:
           setPixelColor(i/_bytesPerPixel, _sACN0->getSlot(i), _sACN0->getSlot(i+1), _sACN0->getSlot(i+2));
       }
       updated = true;
+      _dmxLastTime = millis();
     }
     return updated;
   }
@@ -487,8 +507,11 @@ protected:
        }
        updated = true;
     }
+    yield();
     packetSize = _aUDP.parsePacket();
   }
+  if(updated)
+    _dmxLastTime = millis();
   return updated;
  }
 };
