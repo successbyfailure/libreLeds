@@ -16,7 +16,6 @@ public:
       _dmxSetup       = false;
       _bytesPerPixel  = 3;
       _frames         = 0;
-      _idleFrames     = 0;
       _dmxLastTime    = 0;
       setup();
     }
@@ -149,12 +148,8 @@ public:
       }
       else
       {
-          _idleFrames++;
-          if(_idleFrames > 100)
-          {
-            _idleFrames = 0;
-            show();
-          }
+        if((_lastLedRefresh-millis()) > 2000)
+          show();
       }
 
       uint32_t now = millis();
@@ -174,6 +169,7 @@ public:
       FastLED.show();
       if(_underVoltProtect)
         checkVCC();
+      _lastLedRefresh = millis();
     }
 
     uint16_t getsACNrx()
@@ -391,8 +387,8 @@ protected:
 
   int       _statusLedDecay;
   uint32_t  _lastUpdated;
+  uint32_t  _lastLedRefresh;
   uint16_t  _frames;
-  uint16_t  _idleFrames;
   bool      _updated;
 
 

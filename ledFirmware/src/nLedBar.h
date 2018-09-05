@@ -10,19 +10,20 @@ public:
   ledBarNode(storage* s) : baseNode(s),
   _leds(&_ledController)
   {
-    _leds.setEffect("sparks");
-  }
-
-  virtual void updateNode()
-  {
 
   }
+
+  virtual void setupNode()  {;}
+  virtual void sensorLoop() {;}
+
+  virtual void nodeLoop()   {;}
 
   virtual void ledLoop()
   {
     _leds.update();
     baseNode::ledLoop();
   }
+
 private:
   ledBar _leds;
 protected:

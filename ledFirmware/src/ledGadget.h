@@ -23,8 +23,6 @@ public:
             if((i<lc->ledCount()) && (i>= 0)) _leds.push_back(lc->pixel(i));
 
     _brightness = 1.0;
-    _lastTimeRendered =  millis();
-    _lastStrobe       = _lastTimeRendered;
   }
 
   void update()
@@ -98,6 +96,7 @@ public:
     _currentEffect = e;
   }
 
+  String effect()             {return _currentEffect;}
 //efectos
 
   virtual void fade()         {resetCounters(); _currentEffect = "fade";   }
@@ -129,6 +128,7 @@ public:
       _currentEffect = "strobe";
       _counters.c0   = 1000/Hz;
       _color         = c;
+      _lastStrobe = millis();
   }
 
   virtual void instantFade()
@@ -148,6 +148,7 @@ public:
     for(uint t = 0 ; t<times ; t++)
     {
       setColor(color);
+      show();
       delay(length);
       instantFade();
     }
@@ -197,18 +198,25 @@ protected:
   {
     uint32_t now = millis();
     uint16_t steps = now - _lastTimeRendered;
-    if(steps < 5)
-      return false;
+
 
     if      ( _currentEffect == "fade")   animateFade();
     else if ( _currentEffect == "fadeC")  animateFadeToColor();
-    else if ( _currentEffect == "glow")   animateGlow();
+    else if ( _currentEffect == "glow")   animateGlow       ( steps);
     else if ( _currentEffect == "cylon")  paintCylon        (_leds,_counters,steps);
     else if ( _currentEffect == "rainbow")paintRainbow      (_leds,_counters,steps);
     else if ( _currentEffect == "sparks") paintSparks       (_leds,steps);
     else if ( _currentEffect == "clight") paintChaoticLight (_leds);
-    else if ( _currentEffect == "strobe") animateStrobe();
-    else if ( _currentEffect == "color")  setColor(_color);
+    else if ( _currentEffect == "color")
+    {
+      setColor(_color);
+      return false;
+    }
+    else if ( _currentEffect == "strobe")
+    {
+      animateStrobe();
+      return false;
+    }
     else
       return false;
 
@@ -217,24 +225,24 @@ protected:
 
 //efectos
 
-  virtual void animateGlow()
+  virtual void animateGlow(uint8_t steps = 1)
   {
-    float f;
+    float f = (200 - _counters.c0)/150.0;
     if(_counters.c1 == 0)
     {
-      f = (100 - _counters.c0)/100.0;
-      _counters.c0++;
-      if(_counters.c0 >100)
+      _counters.c0+=steps/4;
+      if(_counters.c0 >=200.0)
         _counters.c1 = 1;
     }
     else
     {
-      f = (100 - _counters.c0)/100.0;
-      _counters.c0--;
-      if(_counters.c0 == 0)
-        _counters.c1 = 1;
+      _counters.c0-=steps/4;
+      if(_counters.c0 <=50)
+        _counters.c1 = 0;
     }
     CRGB c;
+    if(f >  1.0) f = 1.0;
+    if(f <  0.05) f = 0.05;
     c.r = _color.r*f;
     c.g = _color.g*f;
     c.b = _color.b*f;
@@ -252,6 +260,7 @@ protected:
       if(*_leds[i] != CRGB(0,0,0))
         allOff = false;
     }
+
     if(allOff)
     {
       _currentEffect = "";
@@ -259,21 +268,27 @@ protected:
   }
 
   virtual void animateFadeToColor()
-  {
+  {//TODO...
+    CRGB c = *_leds[0];
+
+    c.r += (_color.r - c.r)/3;
+    c.g += (_color.g - c.g)/3;
+    c.b += (_color.b - c.b)/3;
+    setColor(c);
+    if(*_leds[0] == _color)
+      _currentEffect = "color";
 
   }
 
   virtual void animateStrobe()
   {
     uint32_t now = millis();
+    //Serial.println("Now:" + String(now) + " t: " + String(now - _lastStrobe) + " c: " + String(_leds[0]->r)+ " cs: " + String(_color.r));
     if( (now - _lastStrobe) > _counters.c0)
     {
-      if(*_leds[0] != _color)
-      {
-        setColor(_color);
-        _lastStrobe = now - (now - _lastStrobe - _counters.c0);
-        show();
-      }
+      setColor(_color);
+      _lastStrobe = now - ((now - _lastStrobe - _counters.c0)%_counters.c0);
+      show();
     }
     else if( (now - _lastStrobe) > (_counters.c0/2))
     {
