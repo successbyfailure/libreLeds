@@ -10,7 +10,7 @@ public:
   ledBarNode(storage* s) : baseNode(s),
   _leds(&_ledController)
   {
-    _leds.setEffect("rainbow");
+    _leds.setEffect("sparks");
   }
 
   virtual void updateNode()

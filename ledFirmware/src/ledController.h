@@ -100,20 +100,22 @@ public:
     CRGB* pixel(uint16_t index)
     {
       if(index < _ledCount)
+        return &_ledArray[index];
+      else
         return &_ledArray[0];
-      return   &_ledArray[index];
+
+
     }
 
     void setPixelColor(uint16_t index, uint8_t r, uint8_t g, uint8_t b,uint8_t w = 0)
     {
-        if(index > _ledCount)
+        if(index < _ledCount)
         {
-          return;
+          _updated = true;
+          _ledArray[index].r=r;
+          _ledArray[index].g=g;
+          _ledArray[index].b=b;
         }
-        _updated = true;
-        _ledArray[index].r=r;
-        _ledArray[index].g=g;
-        _ledArray[index].b=b;
     }
 
     void showAsync()
@@ -136,12 +138,9 @@ public:
 
       if(_dmxSetup)
       {
-        if(_sacnEnabled)
-        {
-          readsACN();
-        }
+        while (_sacnEnabled   && readsACN  ()) {;}
         while (_artnetEnabled && readArtnet()) {;}
-        }
+      }
 
       if(_updated)
       {

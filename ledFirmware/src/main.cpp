@@ -68,7 +68,7 @@ void setup()
   //s->setKeyValue("lr","5");
   //s->setKeyValue("ld","0");
   //s->setKeyValue("t","ledBar");
-  //s->setKeyValue("lc","150");
+  //s->setKeyValue("lc","768");
   String nodeT = s->getKeyValue(NODE_TYPE);
 
   if(nodeT == "ledBar")
