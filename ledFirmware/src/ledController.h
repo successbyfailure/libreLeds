@@ -22,27 +22,27 @@ public:
 
     void setup()
     {
-      String ledhwType   = _storage->getKeyValue(LED_HW);
-      _ledCount          = _storage->getKeyValue(LED_COUNT    ).toInt();
-      _maxBright         = _storage->getKeyValue(LED_MAXBRIGHT).toInt();
-      _brightness        = _storage->getKeyValue(LED_BRIGHT   ).toFloat();
-      _statusLedPin      = _storage->getKeyValue(STATUS_PIN   ).toInt();
-      _underVoltProtect  = _storage->getKeyValue(UNDERVOLT_PROTECT) == "true";
+      String ledhwType   = _storage->getLedConfig(LED_HW);
+      _ledCount          = _storage->getLedConfig(LED_COUNT    ).toInt();
+      _maxBright         = _storage->getLedConfig(LED_MAXBRIGHT).toInt();
+      _brightness        = _storage->getLedConfig(LED_BRIGHT   ).toFloat();
+      _statusLedPin      = _storage->getLedConfig(STATUS_PIN   ).toInt();
+      _underVoltProtect  = _storage->getLedConfig(UNDERVOLT_PROTECT) == ENABLED;
       _ledArray          =  new CRGB[_ledCount];
 
 
       Serial.println(String(F("Setting up led hardware... "))+ledhwType);
-      if      (ledhwType == "ws2812Strip")
+      if      (ledhwType == "ws2812")
       {
         Serial.print(String(F("Neopixel")));
         LEDS.addLeds<NEOPIXEL,LED_PIN>(_ledArray, _ledCount);
       }
-      else if (ledhwType == "ws2801strip")
+      else if (ledhwType == "ws2801")
       {
         Serial.print(String(F("WS2801")));
         LEDS.addLeds<WS2801,LED_PIN,LED_CLOCK,BGR>(_ledArray, _ledCount);
       }
-      else if (ledhwType == "apa102strip")
+      else if (ledhwType == "apa102")
       {
         Serial.print(String(F("APA102")));
         LEDS.addLeds<APA102, LED_PIN,LED_CLOCK,BGR>(_ledArray, _ledCount);
@@ -57,19 +57,19 @@ public:
       _pixelsPerUniverse = 512 / _bytesPerPixel;
       _maxDMXData        = (_ledCount*_bytesPerPixel)+(_ledCount/_pixelsPerUniverse);
 
-      if(_storage->getKeyValue(POWER_CALIBRATION) == "true")
+      #ifdef ADC_UNDERVOLT
+      _vccRef = ESP.getVcc()/1000.0;
+      if(_storage->getLedConfig(POWER_CALIBRATION) == ENABLED)
       {
         calibratePower();
       }
-      yield();
-      off();
-      update();
-      delay(50);
-      _underVoltDimmer = 1.0;
-      #ifdef ADC_UNDERVOLT
-      _vccRef = ESP.getVcc()/1000.0;
       #endif
 
+      off();
+      delay(50);
+      _underVoltDimmer = 1.0;
+      Serial.println(F("...Leds ok!"));
+      yield();
       //setColor(200, 200, 0);
     }
 
@@ -148,7 +148,7 @@ public:
       }
       else
       {
-        if((_lastLedRefresh-millis()) > 2000)
+        if( (millis() - _lastLedRefresh) > 2000)
           show();
       }
 
@@ -209,11 +209,11 @@ public:
     void initDMX()
     {
       _dmxSetup = true;
-      if(_storage->getKeyValue(SACN_ENABLED) == "true")
+      if(_storage->getLedConfig(SACN_ENABLED) == ENABLED)
       { //SACN
         _sacnEnabled    = true;
-        _sacnUniverse   = _storage->getKeyValue(SACN_UNIVERSE).toInt();
-        _sacnChannel    = _storage->getKeyValue(SACN_CHANNEL).toInt();
+        _sacnUniverse   = _storage->getLedConfig(SACN_UNIVERSE).toInt();
+        _sacnChannel    = _storage->getLedConfig(SACN_CHANNEL).toInt();
         _sACN0 = new LXWiFiSACN();
         _sACN0->setUniverse(_sacnUniverse);
         _sUDP.beginMulticast(WiFi.localIP(), IPAddress(239,255,0,_sacnUniverse), _sACN0->dmxPort());
@@ -222,11 +222,11 @@ public:
       else
         _sacnEnabled = false;
 
-      if(_storage->getKeyValue(ARTNET_ENABLED) == "true")
+      if(_storage->getLedConfig(ARTNET_ENABLED) == ENABLED)
       { //ARTNET
         _artnetEnabled  = true;
-        _artnetUniverse = _storage->getKeyValue(ARTNET_UNIVERSE).toInt();
-        _artnetChannel  = _storage->getKeyValue(ARTNET_CHANNEL).toInt();
+        _artnetUniverse = _storage->getLedConfig(ARTNET_UNIVERSE).toInt();
+        _artnetChannel  = _storage->getLedConfig(ARTNET_CHANNEL).toInt();
         Serial.println("Artnet enabled,channel:"+ String(_artnetChannel) + " universes: ");
 
         _artNet0 = new LXWiFiArtNet(WiFi.localIP(), WiFi.subnetMask(),&_dmxBuffer[0]);
@@ -262,11 +262,11 @@ public:
         }
 
 
-        if( _storage->getKeyValue(ARTNET_ANNOUNCE) == "true")
+        if( _storage->getLedConfig(ARTNET_ANNOUNCE) == ENABLED)
         {
           Serial.println(F("Artnet poll enabled"));
           _aUDP.begin(_artNet0->dmxPort());
-          String id = _storage->getKeyValue(NODE_ID);
+          String id = _storage->getLedConfig(NODE_ID);
           String id0 = id+"-0";
           strcpy(_artNet0->longName(), id0.c_str());
           _artNet0->send_art_poll_reply(&_aUDP);
@@ -344,10 +344,11 @@ public:
     void calibratePower()
     {
       #ifdef ADC_UNDERVOLT
+      Serial.println(F("Calibrate power.."));
+      yield();
       off();
-      FastLED.show();
       delay(50);
-      uint8_t maxPower = _storage->getKeyValue(LED_MAXBRIGHT).toInt();
+      uint8_t maxPower = _storage->getLedConfig(LED_MAXBRIGHT).toInt();
       float vccRef = ESP.getVcc()/1000.0;
       _maxBright = maxPower;
       for(int i = 0 ; i < maxPower ; i++)
@@ -368,7 +369,7 @@ public:
       }
       FastLED.setBrightness(_maxBright);
       off();
-      FastLED.show();
+      Serial.println(String(F("Done, MaxPower:"))+String(_maxBright));
       delay(200);
       #endif
     }

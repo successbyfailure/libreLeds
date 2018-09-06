@@ -24,53 +24,66 @@ baseNode(storage* s) :_storage(s),_ledController(s),
 void setup()
 {
   uint16_t now        = millis();
+  Serial.println("Setup node, start: "+String(millis()));
+  yield();
+
+  loadConfig();
+
+  pinMode       (_statusLedPin, OUTPUT);
+  digitalWrite  (_statusLedPin, HIGH);
+
+  WiFi.hostname         (_id);
+  if(_storage->getNodeConfig(WIFI_MODE) == WIFI_MASTER)
+  {
+    WiFi.softAP(_id.c_str(), String(WIFI_PWD).c_str());
+  }
+  else
+  {
+    WiFi.setAutoConnect   (true);
+    WiFi.setAutoReconnect (true);
+    //WiFi.persistent       (true);
+    //WiFi.mode             (WIFI_STA);
+    //WiFi.setOutputPower   (0);
+    //WiFi.setSleepMode     (WIFI_NONE_SLEEP);
+    //WiFi.begin();
+
+  }
+
+  yield();
+
   _lastSensorLoopTime = now;
   _lastNodeLoopTime   = now;
   _lastLedLoopTime    = now;
   _lastOtherLoopTime  = now;
 
-  reloadConfig  ();
   _ntpUdp.begin (123);
-  pinMode       (_statusLedPin, OUTPUT);
-  digitalWrite  (_statusLedPin,HIGH);
+
   setupNode();
 
-  WiFi.persistent       (true);
-  WiFi.mode             (WIFI_STA);
-  WiFi.setOutputPower   (0);
-  WiFi.setSleepMode     (WIFI_NONE_SLEEP);
-  WiFi.setAutoConnect   (true);
-  WiFi.setAutoReconnect (true);
-  WiFi.hostname         (_id);
-
-  WiFi.begin("localhost","aceptolosterminos");
-
   ArduinoOTA.setHostname(_id.c_str());
-  //ArduinoOTA.setPassword("clubmate");
-  ArduinoOTA.onStart([]() {
-    ledsOff();
-  });
+  //ArduinoOTA.setPassword("");
+  ArduinoOTA.onStart([](){ledsOff();});
   ArduinoOTA.begin();
 
-  yield();
   Serial.println(String(F("\n\n\n ...OK! Setup took "))+String(millis())+String(F("ms")));
-  imAlive();
+  delay(100);
+  _storage->setNodeConfig(BERROR,String(0));
 }
 
-void reloadConfig()
+void loadConfig()
 {
-  _id               = _storage->getKeyValue(NODE_ID);
-  _nodeType         = _storage->getKeyValue(NODE_TYPE);
-  _statusLedPin     = _storage->getKeyValue(STATUS_PIN    ).toInt();
-  _sensorLoopTimer  = _storage->getKeyValue(SENSOR_REFRESH).toInt();
-  _nodeLoopTimer    = _storage->getKeyValue(NODE_REFRESH  ).toInt();
-  _ledLoopTimer     = _storage->getKeyValue(LED_REFRESH   ).toInt();
-  _otherLoopTimer   = _storage->getKeyValue(OTHER_REFRESH ).toInt();
-  _loopDelay        = _storage->getKeyValue(LOOP_DELAY    ).toInt();
-  _aliveTimer       = _storage->getKeyValue(WD_REFRESH    ).toInt();
+  _id               = _storage->getNodeConfig(NODE_ID);
+  _nodeType         = _storage->getNodeConfig(NODE_TYPE);
+  _statusLedPin     = _storage->getNodeConfig(STATUS_PIN    ).toInt();
+  _sensorLoopTimer  = _storage->getNodeConfig(SENSOR_REFRESH).toInt();
+  _nodeLoopTimer    = _storage->getNodeConfig(NODE_REFRESH  ).toInt();
+  _ledLoopTimer     = _storage->getNodeConfig(LED_REFRESH   ).toInt();
+  _otherLoopTimer   = _storage->getNodeConfig(OTHER_REFRESH ).toInt();
+  _loopDelay        = _storage->getNodeConfig(LOOP_DELAY    ).toInt();
+  _aliveTimer       = _storage->getNodeConfig(WD_REFRESH    ).toInt();
 
-  Serial.println(String(F("\nConfig loaded - id:"))+_id+ String(F(" nodeType:"))+_nodeType);
-  Serial.println(String(F("Status pin:"))+String(_statusLedPin)+String(F(" delay:"))+String(_loopDelay)+String(F(" alive:"))+String(_aliveTimer));
+  Serial.println(String(F("\nID: "))+_id+ String(F(" nodeType: "))+_nodeType);
+  Serial.println(String(F("status_pin:"))+String(_statusLedPin)+String(F(" delay:"))+String(_loopDelay)+String(F(" alive:"))+String(_aliveTimer));
 }
 
 void update()
@@ -208,17 +221,15 @@ void imAlive()
   uint16_t sleptTime     = _sleptTime   / (_aliveTimer/1000.0);
   _sysTime = 0, _sleptTime = 0;
 
-  uint16_t mqttPackets   = _mqttPackets  / (_aliveTimer/1000.0);
+  float mqttPackets   = _mqttPackets  / (_aliveTimer/1000.0);
   _mqttPackets = 0;
 
-  uint16_t artnetPackets = _ledController.getArtnetrx() / (_aliveTimer/1000.0);
-  uint16_t sacnPackets   = _ledController.getsACNrx()   / (_aliveTimer/1000.0);
-  uint16_t fps           = _ledController.getFrames()   / (_aliveTimer/1000.0);
+  float artnetPackets = _ledController.getArtnetrx() / (_aliveTimer/1000.0);
+  float sacnPackets   = _ledController.getsACNrx()   / (_aliveTimer/1000.0);
+  float fps           = _ledController.getFrames()   / (_aliveTimer/1000.0);
 
-  Serial.println(String(F("\n*Im alive!")));
-  Serial.println(String(F("|-Uptime: ")) + String(millis()/1000.0)+"s");// - Epoch:" + String(_ntpClient.getUnixTime()));
-  Serial.println(String(F("|-Node ID: ")) + _id + String(F("  - NodeType: ")) + _nodeType);
-  Serial.println(String(F("|-Wifi ESSID: "))+String(WiFi.SSID())+String(F(" Status: ")) + String(WiFi.status()) + String(F(" Signal:")) + String(WiFi.RSSI()) + String(F("dbm  IP : ")) + localIP());
+  Serial.println(String(F("\n*Im alive!"))+F("|-Uptime: ")+String(millis()/1000.0)+"s");// - Epoch:" + String(_ntpClient.getUnixTime()));
+  Serial.println(String(F("|-Node ID: ")) + _id + String(F("  - NodeType: ")) + _nodeType + String(F("|-Wifi ESSID: "))+String(WiFi.SSID())+String(F(" Status: ")) + String(WiFi.status()) + String(F(" Signal:")) + String(WiFi.RSSI()) + String(F("dbm  IP : ")) + localIP());
   Serial.println(String(F("|-Leds:")) + String(_ledController.ledCount()) + String(F(" MaxPower:")) +String(_ledController.maxPower())+ String(F(" Bright::")) +String(_ledController.brightness())+ String(F(" UnderVoltDimmer:")) +String(_ledController.undervoltDimmer()));
   Serial.println(String(F("|-Led Frames/s: ")) + String(fps));
   Serial.println(String(F("|")));
@@ -231,7 +242,7 @@ void imAlive()
   Serial.println(String(F("| Sys:"))+String(sysTime) +String(F("ms \tslept: "))+String(sleptTime)+String(F("ms")));
   Serial.println(String(F("|")));
   Serial.println(String(F("|-RCV: mqtt/s: "))+String(mqttPackets)+String(F("\tartnet/s: "))+String(artnetPackets)+String(F("\tsacn/s: "))+String(sacnPackets));
-  Serial.println(String(F("|___\n")));
+  Serial.println(String(F("|___")));
   yield();
 }
 
@@ -298,20 +309,33 @@ protected:
 
   int16_t _statusLedDecay     = 0;
 
-
   uint16_t _mqttPackets       = 0;
 
+  void checkConnectivity()
+  {
+    uint8_t s = WiFi.status();
+    if(WiFi.status() != _lastWifiStatus)
+    {
+      _lastWifiStatus = s;
+      if(s == 3)
+        wifiConnected();
+      else
+        wifiDisconnected();
+    }
+  }
 
   void wifiDisconnected()
   {
     Serial.println(String(F("Wifi Disconnected!")));
   }
+
   void wifiConnected()
   {
     Serial.println(String(F("Wifi Connected!")));
     if(_firstTimeConnect)
       firstTimeConnect();
   }
+
   void firstTimeConnect()
   {
       _firstTimeConnect = false;
@@ -328,24 +352,6 @@ protected:
       }
 
   }
-
-  void checkConnectivity()
-  {
-    uint8_t s = WiFi.status();
-    if(WiFi.status() != _lastWifiStatus)
-    {
-      _lastWifiStatus = s;
-      if(s == 3)
-      {
-        wifiConnected();
-      }
-      else
-      {
-        wifiDisconnected();
-      }
-    }
-  }
 };
-
 
 #endif
